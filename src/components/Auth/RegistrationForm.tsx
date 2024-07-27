@@ -70,7 +70,7 @@ export default function RegistrationForm() {
           checked={accept}
           onCheckedChange={(e: boolean) => setAccept(e)}
         />
-        <div className="text-xs text-secondary font-light mb-1.5">
+        <div className="text-sm text-secondary font-light mb-1.5">
           I agree to Kwiz’s
           <Link className="underline " href="">
              Terms of Service 

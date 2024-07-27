@@ -58,7 +58,7 @@ export default function LoginForm() {
       </div>
 
       <Link
-        className="text-xs underline text-secondary font-light mb-1.5"
+        className="text-sm underline text-secondary font-light mb-1.5"
         href="/auth/password"
       >
         Forgot Password?
