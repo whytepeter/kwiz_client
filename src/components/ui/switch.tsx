@@ -3,7 +3,7 @@
 import * as React from "react"
 import * as SwitchPrimitives from "@radix-ui/react-switch"
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/export const copyText = async (text: string, message: string = "Copied") => {   await navigator.clipboard.writeText(text);   toast.success(message); };"
 
 const Switch = React.forwardRef<
   React.ElementRef<typeof SwitchPrimitives.Root>,

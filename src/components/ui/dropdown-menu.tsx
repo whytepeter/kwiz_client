@@ -4,7 +4,7 @@ import * as React from "react"
 import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu"
 import { Check, ChevronRight, Circle } from "lucide-react"
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/export const copyText = async (text: string, message: string = "Copied") => {   await navigator.clipboard.writeText(text);   toast.success(message); };"
 
 const DropdownMenu = DropdownMenuPrimitive.Root
 
