@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { cn } from "@/lib/export const copyText = async (text: string, message: string = "Copied") => {   await navigator.clipboard.writeText(text);   toast.success(message); };";
+import { cn } from "@/lib/utils";
 
 export type TextInputType = React.InputHTMLAttributes<HTMLInputElement> & {
   id?: string;
