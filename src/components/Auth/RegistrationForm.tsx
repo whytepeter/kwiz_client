@@ -27,10 +27,10 @@ export default function RegistrationForm() {
       </h2>
 
       <div className="flex flex-col gap-1">
-        <label htmlFor="fullName" className="text-sm font-light">
+        <label htmlFor="name" className="text-sm font-light">
           Full name
         </label>
-        <TextInput id="fullName" placeholder="John Doe" />
+        <TextInput id="name" name="name" placeholder="John Doe" />
       </div>
       <div className="flex flex-col gap-1">
         <label htmlFor="email" className="text-sm font-light">

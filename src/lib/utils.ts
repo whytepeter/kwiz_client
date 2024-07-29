@@ -1,6 +1,7 @@
 import moment from "moment";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { toast } from "sonner";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -75,7 +76,7 @@ export const validatePhone = (phone: string) => {
 
 export const copyText = async (text: string, message: string = "Copied") => {
   await navigator.clipboard.writeText(text);
-  // toast.success(message);
+  toast(message);
 };
 
 export const moveCenter = (
@@ -90,5 +91,18 @@ export const moveCenter = (
       block: "center",
       inline: "center",
     });
+  }
+};
+
+export const initials = (name: string) => {
+  if (name && name.length) {
+    const arr = name.split(" ");
+    const str1 = arr[0];
+    const str2 = arr[1];
+    return `${str1 ? str1.charAt(0).toUpperCase() : ""}${
+      str2 ? str2.charAt(0).toUpperCase() : ""
+    }`;
+  } else {
+    return "N/A";
   }
 };

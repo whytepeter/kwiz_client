@@ -45,6 +45,7 @@ const config = {
 
         accent: {
           DEFAULT: "#FEF5EE",
+          100: "#FEF5EE",
         },
 
         success: {

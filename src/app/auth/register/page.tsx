@@ -9,7 +9,7 @@ function page() {
       <div className="hidden md:flex items-center justify-center bg-primary text-accent">
         <div className="w-full max-w-xl  aspect-square">
           <img
-            src="/signup_bg.png"
+            src="/img/signup_bg.png"
             className="w-full h-full object-contain"
             alt=""
           />
@@ -17,7 +17,9 @@ function page() {
       </div>
       <div className="container flex-1 h-full flex flex-col">
         <nav className="flex  justify-end items-center gap-3 py-4 text-sm sm:text-base ">
-          <span className="text-primary">Already have an account? ?</span>
+          <span className="text-primary font-light">
+            Already have an account? ?
+          </span>
           <Link href="/auth/login">
             <Button
               color="secondary"

@@ -7,7 +7,7 @@ function page() {
   return (
     <main className="container  w-full  min-h-screen flex flex-col ">
       <nav className="flex  justify-end items-center gap-3 py-4 text-sm sm:text-base ">
-        <span className="text-primary">New to Kwiz?</span>
+        <span className="text-primary font-light">New to Kwiz?</span>
         <Link href="/auth/register">
           <Button
             color="secondary"

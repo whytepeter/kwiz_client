@@ -1,7 +1,7 @@
 import axios, { AxiosProgressEvent } from "axios";
 import apis from "./apis";
 
-axios.defaults.baseURL = "http://localhost:8000";
+axios.defaults.baseURL = "http://localhost:8000/api";
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
 const parseParams = async (

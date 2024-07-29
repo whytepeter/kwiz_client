@@ -13,7 +13,7 @@ function page() {
   return (
     <main className="container  w-full  min-h-screen flex flex-col ">
       <nav className="flex  justify-end items-center gap-3 py-4 text-sm sm:text-base ">
-        <span className="text-primary">Go back to?</span>
+        <span className="text-primary font-light">Go back to?</span>
         <Link href="/auth/login">
           <Button
             color="secondary"

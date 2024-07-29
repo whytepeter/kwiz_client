@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import "primeicons/primeicons.css";
+import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -29,7 +30,10 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="font-poppins">{children}</body>
+      <body className="font-poppins bg-background">
+        <main>{children}</main>
+        <Toaster />
+      </body>
     </html>
   );
 }

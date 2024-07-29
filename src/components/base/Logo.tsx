@@ -16,7 +16,7 @@ function Logo({ text = true, className, onClick }: PropsType) {
   return (
     <div onClick={onClick} className={logoStyles}>
       <img
-        src={text ? "/logo_text.svg" : "/logo.svg"}
+        src={text ? "/icons/logo_text.svg" : "/icons/logo.svg"}
         alt="Kwiz"
         className="w-full h-full object-cover"
       />

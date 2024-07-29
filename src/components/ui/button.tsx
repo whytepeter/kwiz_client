@@ -17,6 +17,7 @@ const colors = {
 const sizes = {
   default: "h-11 px-4 py-2 w-fit",
   small: "h-10 rounded-md px-3 w-fit",
+  xsmall: "h-9 !text-xs rounded-md px-2.5 w-fit",
   large: "h-12 rounded-md px-8 w-fit",
   icon: "h-10 w-10",
 };
@@ -26,7 +27,7 @@ export interface ButtonProps
   asChild?: boolean;
   color?: keyof typeof colors;
   variant?: "fill" | "text" | "outline";
-  size?: "small" | "icon" | "large" | "default";
+  size?: keyof typeof sizes;
   textColor?: string;
   loading?: boolean;
   disabled?: boolean;
@@ -78,7 +79,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       props.block ? "max-w-full min-w-full w-full" : "",
       loading ? "pointer-events-none" : "",
       props.disabled ? "opacity-60" : "hover:opacity-90",
-      "relative text-sm overflow-hidden active:opacity-90 text-center rounded-lg flex items-center justify-center ",
+      "relative text-sm overflow-hidden active:opacity-90 text-center rounded-lg flex items-center justify-center gap-2",
       props.fab ? "w-12 h-12 rounded-full" : "",
       className
     );
