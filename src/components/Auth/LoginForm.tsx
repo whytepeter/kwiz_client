@@ -63,10 +63,11 @@ export default function LoginForm() {
       >
         Forgot Password?
       </Link>
-
-      <Button loading={loading} block>
-        Login to Kwiz
-      </Button>
+      <Link href="/dashboard">
+        <Button loading={loading} block>
+          Login to Kwiz
+        </Button>
+      </Link>
     </form>
   );
 }

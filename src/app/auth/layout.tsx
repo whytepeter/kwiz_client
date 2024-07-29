@@ -3,9 +3,5 @@ export default function AuthLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en">
-      <body className="bg-accent">{children}</body>
-    </html>
-  );
+  return <main className="bg-accent">{children}</main>;
 }

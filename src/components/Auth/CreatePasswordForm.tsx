@@ -3,6 +3,7 @@ import React, { FormEvent, useState } from "react";
 import TextInput from "@/components/base/TextInput";
 import { Button } from "@/components/ui/button";
 import Logo from "../base/Logo";
+import Link from "next/link";
 
 export default function CreatePasswordForm() {
   const [loading, setLoading] = useState(false);
@@ -65,10 +66,11 @@ export default function CreatePasswordForm() {
           disabled={loading}
         />
       </div>
-
-      <Button loading={loading} block>
-        Submit
-      </Button>
+      <Link href="/dashboard">
+        <Button loading={loading} block>
+          Submit
+        </Button>
+      </Link>
     </form>
   );
 }

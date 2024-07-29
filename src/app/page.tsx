@@ -8,7 +8,7 @@ export default function Home() {
       <Link href="/auth/login">
         <Button>Login</Button>
       </Link>
-      <Link href="/admin">
+      <Link href="/dashboard">
         <Button>Dashboard</Button>
       </Link>
     </main>
