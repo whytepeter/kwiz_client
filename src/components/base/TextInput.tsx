@@ -1,11 +1,11 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { forwardRef, useMemo, useState } from "react";
 import { cn } from "@/lib/utils";
 
 export type TextInputType = React.InputHTMLAttributes<HTMLInputElement> & {
   id?: string;
-  error?: boolean | string;
+  error?: string;
   hint?: string;
   inputClasses?: string;
   format?: boolean;
@@ -15,7 +15,7 @@ export type TextInputType = React.InputHTMLAttributes<HTMLInputElement> & {
   rightIconClick?: () => void;
 };
 
-export default function TextInput(props: TextInputType) {
+const TextInput = forwardRef<HTMLInputElement, TextInputType>((props, ref) => {
   const [focus, setFocus] = useState(false);
   const {
     type = "text",
@@ -40,9 +40,10 @@ export default function TextInput(props: TextInputType) {
   } = props;
 
   const inputContainerStyles = cn(
-    focus ? "border-2 border-primary" : "border border-dark-100",
+    focus ? " border-primary" : "border border-dark-100",
     disabled ? "pointer-events-none opacity-60" : "",
-    "h-[44px] bg-white px-3 py-2 rounded-lg  text-sm flex gap-2 items-center",
+    error ? " border-error" : "",
+    "h-[44px] border bg-white px-3 py-2 rounded-lg  text-sm flex gap-2 items-center",
     className
   );
 
@@ -97,6 +98,7 @@ export default function TextInput(props: TextInputType) {
           )}
 
           <input
+            ref={ref}
             id={id}
             type={type}
             name={name}
@@ -132,4 +134,8 @@ export default function TextInput(props: TextInputType) {
       </div>
     </>
   );
-}
+});
+
+TextInput.displayName = "TextInput";
+
+export default TextInput;

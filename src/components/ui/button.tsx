@@ -46,6 +46,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       textColor = "black",
       loading = false,
       asChild = false,
+      block = false,
       ...props
     },
     ref
@@ -76,7 +77,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const buttonStyles = cn(
       sizes[size],
       props.bold ? "font-medium" : "",
-      props.block ? "max-w-full min-w-full w-full" : "",
+      block ? "max-w-full min-w-full w-full" : "",
       loading ? "pointer-events-none" : "",
       props.disabled ? "opacity-60" : "hover:opacity-90",
       "relative text-sm overflow-hidden active:opacity-90 text-center rounded-lg flex items-center justify-center gap-2",

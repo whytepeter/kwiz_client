@@ -61,7 +61,7 @@ const config = {
         },
 
         error: {
-          DEFAULT: "#EB3428",
+          DEFAULT: "#D9453B",
           dark: "#9D231B",
           light: "#FDEBEA",
         },

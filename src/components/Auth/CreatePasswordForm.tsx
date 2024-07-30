@@ -3,74 +3,116 @@ import React, { FormEvent, useState } from "react";
 import TextInput from "@/components/base/TextInput";
 import { Button } from "@/components/ui/button";
 import Logo from "../base/Logo";
-import Link from "next/link";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { CreatePasswordFormSchema } from "@/types/schemas";
+
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from "@/components/ui/form";
+import { useRouter } from "next/navigation";
 
 export default function CreatePasswordForm() {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  const submit = (e: FormEvent<HTMLFormElement>): void => {
-    e.preventDefault();
-  };
+  const form = useForm<z.infer<typeof CreatePasswordFormSchema>>({
+    resolver: zodResolver(CreatePasswordFormSchema),
+    defaultValues: {
+      password: "",
+      confirm_password: "",
+    },
+  });
+
+  function onSubmit(values: z.infer<typeof CreatePasswordFormSchema>) {
+    //Create new password
+    console.log(values);
+    router.push("/login");
+  }
 
   return (
-    <form
-      onSubmit={submit}
-      className="w-full  max-w-sm mx-auto   text-dark-300 flex flex-col gap-4"
-    >
-      <Logo className="mx-auto" />
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="w-full  max-w-sm mx-auto   text-dark-300 flex flex-col gap-3.5"
+      >
+        <Logo className="mx-auto" />
 
-      <h2 className="text-secondary-dark text-center text-[1.25rem] font-light">
-        Create Password
-      </h2>
+        <h2 className="text-secondary-dark text-center text-[1.25rem] font-light">
+          Create Password
+        </h2>
 
-      <div className="flex flex-col gap-1">
-        <label htmlFor="password" className="text-base font-light">
-          Password
-        </label>
-        <TextInput
-          id="password"
-          placeholder="At least 8 characters"
-          type={showPassword ? "text" : "password"}
-          righIcon={
-            showPassword ? (
-              <i className="pi pi-eye-slash text-dark-200 text-lg" />
-            ) : (
-              <i className="pi pi-eye text-dark-200 text-lg" />
-            )
-          }
-          rightIconClick={() => {
-            setShowPassword((prev) => !prev);
-          }}
-          disabled={loading}
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field, fieldState: { error } }) => (
+            <FormItem>
+              <FormLabel>Password</FormLabel>
+              <FormControl>
+                <TextInput
+                  id="password"
+                  placeholder="At least 8 characters"
+                  type={showPassword ? "text" : "password"}
+                  righIcon={
+                    showPassword ? (
+                      <i className="pi pi-eye-slash text-dark-200 text-lg" />
+                    ) : (
+                      <i className="pi pi-eye text-dark-200 text-lg" />
+                    )
+                  }
+                  rightIconClick={() => {
+                    setShowPassword((prev) => !prev);
+                  }}
+                  disabled={loading}
+                  error={error ? String(error.message) : ""}
+                  {...field}
+                />
+              </FormControl>
+            </FormItem>
+          )}
         />
-      </div>
-      <div className="flex flex-col gap-1">
-        <label htmlFor="confirm_password" className="text-base font-light">
-          Confirm Password
-        </label>
-        <TextInput
-          id="confirm_password"
-          placeholder="At least 8 characters"
-          type={showPassword ? "text" : "password"}
-          righIcon={
-            showPassword ? (
-              <i className="pi pi-eye-slash text-dark-200 text-lg" />
-            ) : (
-              <i className="pi pi-eye text-dark-200 text-lg" />
-            )
-          }
-          rightIconClick={() => {
-            setShowPassword((prev) => !prev);
-          }}
-          disabled={loading}
+
+        <FormField
+          control={form.control}
+          name="confirm_password"
+          render={({ field, fieldState: { error } }) => (
+            <FormItem>
+              <FormLabel>Confirm Password</FormLabel>
+              <FormControl>
+                <TextInput
+                  id="confirm_password"
+                  placeholder="At least 8 characters"
+                  type={showPassword ? "text" : "password"}
+                  righIcon={
+                    showPassword ? (
+                      <i className="pi pi-eye-slash text-dark-200 text-lg" />
+                    ) : (
+                      <i className="pi pi-eye text-dark-200 text-lg" />
+                    )
+                  }
+                  rightIconClick={() => {
+                    setShowPassword((prev) => !prev);
+                  }}
+                  disabled={loading}
+                  error={error ? String(error.message) : ""}
+                  {...field}
+                />
+              </FormControl>
+            </FormItem>
+          )}
         />
-      </div>
-      <Link href="/dashboard">
-        <Button loading={loading} block>
+
+        <Button className="mt-1.5" type="submit" loading={loading} block>
           Submit
         </Button>
-      </Link>
-    </form>
+      </form>
+    </Form>
   );
 }
