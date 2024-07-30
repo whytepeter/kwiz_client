@@ -1,15 +1,10 @@
-"use client";
-import ForgotPasswordForm from "@/components/Auth/ForgotPasswordForm";
-import CreatePasswordForm from "@/components/Auth/CreatePasswordForm";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import React from "react";
-import { useSearchParams } from "next/navigation";
+import React, { Suspense } from "react";
+
+import PasswordPage from "@/components/Auth/PasswordPage";
 
 function page() {
-  const searchParams = useSearchParams();
-  const showCreatePassword = searchParams.get("page") == "create_password";
-
   return (
     <main className="container  w-full  min-h-screen flex flex-col ">
       <nav className="flex  justify-end items-center gap-3 py-4 text-sm sm:text-base ">
@@ -26,9 +21,9 @@ function page() {
         </Link>
       </nav>
 
-      <div className="h-full flex-1 w-full flex items-center justify-center">
-        {showCreatePassword ? <CreatePasswordForm /> : <ForgotPasswordForm />}
-      </div>
+      <Suspense fallback={<div>Loading...</div>}>
+        <PasswordPage />
+      </Suspense>
     </main>
   );
 }
