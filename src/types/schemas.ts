@@ -29,6 +29,12 @@ export const RegisterFormSchema = z.object({
   password: z.string().describe("Password").min(8, {
     message: "Password must be at least 8 characters.",
   }),
+  accept: z
+    .boolean()
+    .refine((val) => val === true, {
+      message: "You must accept the terms and conditions.",
+    })
+    .describe("Terms and Conditions"),
 });
 
 export const ForgotPasswordFormSchema = z.object({

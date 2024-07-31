@@ -39,6 +39,7 @@ export default function LoginForm() {
     try {
       setLoading(true);
       await signIn(values);
+      toast.success("Login successful");
     } catch (error: any) {
       toast.error(error.message);
     } finally {

@@ -23,7 +23,15 @@ export default function useAuth() {
   };
 
   const signUp = async (user: SignUpRequest) => {
-    return await signUpAction(user);
+    try {
+      await signUpAction(user);
+      await getWorkspace();
+
+      router.push("/dashboard");
+    } catch (error) {
+      console.log("signin: ", error);
+      throw error;
+    }
   };
 
   const logout = () => {

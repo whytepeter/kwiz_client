@@ -8,33 +8,26 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Workspace } from "@/types";
-
-const workspaces: Workspace[] = [
-  {
-    _id: "1",
-    title: "My workspace",
-    createdBy: "",
-    collaborators: [""],
-  },
-  {
-    _id: "2",
-    title: "NDU Space",
-    createdBy: "",
-    collaborators: [""],
-  },
-];
+import { useDataStore } from "@/store/store";
 
 export default function WorkspaceList() {
   const [open, setOpen] = useState(false);
 
-  const [selected, setSelected] = useState<Workspace>(workspaces[0]);
+  const { selectedWorkspace, workspaces } = useDataStore();
+
+  const setSelected = (workspace: Workspace) => {
+    if (workspace._id === selectedWorkspace?._id) return;
+    useDataStore.setState({
+      selectedWorkspace: workspace,
+    });
+  };
 
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger asChild>
         <div className="flex items-center gap-2 cursor-pointer">
           <img src="/icons/workspace_active.svg" alt="" />
-          {selected?.title}
+          {selectedWorkspace?.title}
 
           <span
             className={`${
@@ -51,13 +44,13 @@ export default function WorkspaceList() {
             <DropdownMenuItem
               onClick={() => setSelected(item)}
               className={`${
-                item._id === selected._id ? "text-secondary" : ""
+                item._id === selectedWorkspace?._id ? "text-secondary" : ""
               } font-light gap-2 py-2`}
               key={item.title}
             >
               <img
                 src={
-                  item._id === selected._id
+                  item._id === selectedWorkspace?._id
                     ? "/icons/workspace_active.svg"
                     : "/icons/workspace.svg"
                 }

@@ -14,17 +14,21 @@ import { RegisterFormSchema } from "@/types/schemas";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
-import { useRouter } from "next/navigation";
+import useAuth from "@/hooks/useAuth";
+import toast from "react-hot-toast";
 
 export default function RegistrationForm() {
-  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [accept, setAccept] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+
+  const { signUp } = useAuth();
 
   const form = useForm<z.infer<typeof RegisterFormSchema>>({
     resolver: zodResolver(RegisterFormSchema),
@@ -32,13 +36,23 @@ export default function RegistrationForm() {
       name: "",
       email: "",
       password: "",
+      accept: false,
     },
   });
 
-  function onSubmit(values: z.infer<typeof RegisterFormSchema>) {
-    //Login user
-    console.log(values);
-    router.push("/dashboard");
+  async function onSubmit(values: z.infer<typeof RegisterFormSchema>) {
+    try {
+      setLoading(true);
+
+      const { accept, ...payload } = values;
+
+      await signUp(payload);
+      toast.success("Resigration successful");
+    } catch (error: any) {
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -118,22 +132,34 @@ export default function RegistrationForm() {
           )}
         />
 
-        <div className="flex  gap-2">
-          <Checkbox
-            checked={accept}
-            onCheckedChange={(e: boolean) => setAccept(e)}
-          />
-          <div className="text-sm text-secondary font-light mb-1.5">
-            I agree to Kwiz’s
-            <Link className="underline " href="">
-               Terms of Service 
-            </Link>
-            , and{" "}
-            <Link className="underline " href="">
-              Privacy Policy
-            </Link>
-          </div>
-        </div>
+        <FormField
+          control={form.control}
+          name="accept"
+          render={({ field }) => (
+            <FormItem className="flex flex-row  space-x-2 space-y-0 my-1">
+              <FormControl>
+                <Checkbox
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              </FormControl>
+
+              <div className="flex flex-col">
+                <FormDescription className=" text-sm text-secondary font-light ">
+                  I agree to Kwiz’s
+                  <Link className="underline " href="">
+                     Terms of Service 
+                  </Link>
+                  , and{" "}
+                  <Link className="underline " href="">
+                    Privacy Policy
+                  </Link>
+                </FormDescription>
+                <FormMessage />
+              </div>
+            </FormItem>
+          )}
+        />
 
         <Button type="submit" loading={loading} block>
           Create my free account
