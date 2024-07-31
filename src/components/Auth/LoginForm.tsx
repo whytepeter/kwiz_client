@@ -1,5 +1,5 @@
 "use client";
-import React, { FormEvent, useState } from "react";
+import React, { useState } from "react";
 import TextInput from "@/components/base/TextInput";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -17,12 +17,15 @@ import {
   FormItem,
   FormLabel,
 } from "@/components/ui/form";
-import { useRouter } from "next/navigation";
+
+import useAuth from "@/hooks/useAuth";
+import toast from "react-hot-toast";
 
 export default function LoginForm() {
-  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+
+  const { signIn } = useAuth();
 
   const form = useForm<z.infer<typeof LoginFormSchema>>({
     resolver: zodResolver(LoginFormSchema),
@@ -32,10 +35,15 @@ export default function LoginForm() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof LoginFormSchema>) {
-    //Login user
-    console.log(values);
-    router.push("/dashboard");
+  async function onSubmit(values: z.infer<typeof LoginFormSchema>) {
+    try {
+      setLoading(true);
+      await signIn(values);
+    } catch (error: any) {
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (

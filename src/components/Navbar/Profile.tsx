@@ -8,6 +8,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useDataStore } from "@/store/store";
+import useAuth from "@/hooks/useAuth";
 
 export type DropDownType = {
   title: string;
@@ -39,17 +41,15 @@ const dropdownItems: DropDownType[] = [
 ];
 
 export default function Profile() {
-  const user = {
-    name: "John Doe",
-    email: "johndoe@gmail.com",
-  };
+  const { user } = useDataStore();
+  const { logout } = useAuth();
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <div className="flex items-center gap-3 cursor-pointer">
           <div className="w-11 h-11 rounded-full overflow-hidden text-secondary-dark font-semibold bg-accent-100 flex items-center justify-center">
-            {initials(user.name)}
+            {initials(user?.name!)}
           </div>
 
           <div className="flex flex-col ">
@@ -72,7 +72,7 @@ export default function Profile() {
         </DropdownMenuGroup>
 
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="gap-2 text-secondary">
+        <DropdownMenuItem onClick={logout} className="gap-2 text-secondary">
           <img src="/icons/logout.svg" />
           Log out
         </DropdownMenuItem>

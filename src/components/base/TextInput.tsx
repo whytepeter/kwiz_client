@@ -127,7 +127,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputType>((props, ref) => {
         </div>
         <div className="text-xs font-light mt-1 ml-1">
           {error && <span className=" text-error  ">{error} </span>}
-          {hint && (
+          {hint && !error && (
             <span className=" text-secondary-dark font-light">{hint} </span>
           )}
         </div>

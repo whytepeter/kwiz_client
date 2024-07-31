@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import "primeicons/primeicons.css";
 import { Toaster } from "@/components/ui/sonner";
+import { Toaster as Toast } from "react-hot-toast";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -33,6 +34,14 @@ export default function RootLayout({
       <body className="font-poppins bg-background">
         <main>{children}</main>
         <Toaster />
+        <Toast
+          toastOptions={{
+            className: "",
+            style: {
+              fontSize: 14,
+            },
+          }}
+        />
       </body>
     </html>
   );

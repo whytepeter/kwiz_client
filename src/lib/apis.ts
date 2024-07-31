@@ -1,16 +1,16 @@
 export default {
-  login: "/auth/login",
-  register: "/auth/register",
-  forgotPassword: "/auth/forgot-password-change",
-  me: "/auth/me",
-  user: "",
+  Login: "/auth/login",
+  Register: "/auth/register",
+  ForgotPassword: "/auth/forgot-password-change",
+  Me: "/auth/me",
+  User: "",
 
-  workspace: "/workspace",
-  inviteMember: "/workspace/invite",
-  myWorkspace: "/workspace/user",
+  Workspace: "/workspace",
+  InviteMember: "/workspace/invite",
+  MyWorkspace: "/workspace/user",
 
-  quiz: "/quiz",
-  workspaceQuiz: "/quiz/workspace", //:id = worspaceId
-  question: "",
-  settings: "",
+  Quiz: "/quiz",
+  WorkspaceQuiz: "/quiz/workspace", //:id = worspaceId
+  Question: "",
+  Settings: "",
 };

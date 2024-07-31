@@ -94,15 +94,15 @@ export const moveCenter = (
   }
 };
 
-export const initials = (name: string) => {
-  if (name && name.length) {
-    const arr = name.split(" ");
-    const str1 = arr[0];
-    const str2 = arr[1];
-    return `${str1 ? str1.charAt(0).toUpperCase() : ""}${
-      str2 ? str2.charAt(0).toUpperCase() : ""
-    }`;
-  } else {
-    return "N/A";
-  }
+export const initials = (name: string): string => {
+  if (!name) return "N/A";
+
+  // Split the name into parts
+  const parts = name.trim().split(/\s+/);
+
+  // Get the first letter of the first and second parts
+  const firstInitial = parts[0]?.charAt(0).toUpperCase() || "";
+  const secondInitial = parts[1]?.charAt(0).toUpperCase() || "";
+
+  return `${firstInitial}${secondInitial}`;
 };

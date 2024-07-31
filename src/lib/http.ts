@@ -1,14 +1,16 @@
-import axios, { AxiosProgressEvent } from "axios";
+import axios from "axios";
 import apis from "./apis";
+import Cookies from "js-cookie";
 
-axios.defaults.baseURL = "http://localhost:8000/api";
+axios.defaults.baseURL =
+  process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api";
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
 const parseParams = async (
   params: Record<string, any>,
   extraHeaders: Record<string, any>
 ) => {
-  const token = localStorage.getItem("token");
+  const token = Cookies.get("authToken");
   const AUTH_TOKEN = `Bearer ${token}`;
 
   return {
@@ -62,24 +64,36 @@ const apiCall = function (
 
 const http = async <T>(
   endpoint: keyof typeof apis,
-  suffix: string,
   httpMethod: "post" | "put" | "get" | "patch" | "delete",
   body: any = null,
-  additionalParams: Record<string, any> = {},
-  extraHeaders: Record<string, any> = {}
-): Promise<T> => {
+  options?: {
+    suffix?: string;
+    additionalParams?: Record<string, any>;
+    extraHeaders?: Record<string, any>;
+  }
+): Promise<any> => {
+  const defaultOptions = {
+    suffix: "",
+    additionalParams: {},
+    extraHeaders: {},
+    ...options,
+  };
+
   try {
     let url = apis[endpoint];
 
-    if (suffix) {
-      url = `${url}/${suffix}`;
+    if (defaultOptions?.suffix) {
+      url = `${url}/${defaultOptions?.suffix}`;
     }
 
     const { data } = await apiCall(
       url,
       httpMethod,
       body,
-      await parseParams(additionalParams, extraHeaders)
+      await parseParams(
+        defaultOptions?.additionalParams,
+        defaultOptions?.extraHeaders
+      )
     );
     return data;
   } catch (error: any) {
@@ -88,8 +102,7 @@ const http = async <T>(
     } else {
       processError(error.response);
     }
-
-    throw error;
+    throw error?.response?.data || error?.response;
   }
 };
 
