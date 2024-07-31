@@ -3,6 +3,7 @@ import {
   signUpAction,
   signOutAction,
 } from "@/store/actions/auth";
+import { getWorkspace } from "@/store/actions/workspace";
 import { SignInRequest, SignUpRequest } from "@/types/user";
 import { useRouter } from "next/navigation";
 
@@ -12,6 +13,7 @@ export default function useAuth() {
   const signIn = async (user: SignInRequest) => {
     try {
       await signInAction(user);
+      await getWorkspace();
 
       router.push("/dashboard");
     } catch (error) {
