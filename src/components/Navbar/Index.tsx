@@ -13,7 +13,7 @@ export default function Navbar() {
 
   return (
     <nav className="fixed left-0 top-0  w-full text-sm bg-white/30 backdrop-blur-md">
-      <div className="container  flex items-center justify-between gap-4 p-3">
+      <div className="container flex items-center justify-between gap-4 px-3 py-2.5">
         <WorkspaceList />
 
         {showTabs && (
@@ -23,7 +23,7 @@ export default function Navbar() {
         )}
 
         <div className="flex items-center gap-4">
-          <Button size="xsmall" className="hidden md:flex px-4">
+          <Button size="xsmall" className=" px-4">
             View Plans
           </Button>
 

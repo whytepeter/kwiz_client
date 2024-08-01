@@ -1,10 +1,12 @@
-import { Workspace } from "@/types";
+import { QuizDisplay, Workspace } from "@/types";
 import { User } from "@/types/user";
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 
 type State = {
   isLogin: boolean;
+  quizDisplay: QuizDisplay;
+
   user: User | null;
 
   selectedWorkspace: Workspace | null;
@@ -20,6 +22,7 @@ type Actions = {
 // define the initial state
 const initialState: State = {
   isLogin: false,
+  quizDisplay: "LIST",
   user: null,
   workspaces: [],
   selectedWorkspace: null,

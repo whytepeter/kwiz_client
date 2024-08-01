@@ -10,3 +10,11 @@ export type createWorkspaceType = Pick<
   Workspace,
   "title" | "createdBy" | "collaborators"
 >;
+
+export type QuizDisplay = "GRID" | "LIST";
+
+export type ListType = {
+  label: string;
+  value: string;
+  icon?: string;
+};

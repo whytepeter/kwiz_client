@@ -28,7 +28,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="font-poppins bg-background">
+      <body className="font-poppins bg-white">
         <main>{children}</main>
         <Toaster />
         <Toast

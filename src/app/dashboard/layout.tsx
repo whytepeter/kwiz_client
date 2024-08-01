@@ -8,7 +8,7 @@ export default function AdminLayout({
   return (
     <main className=" min-h-screen relative">
       <Navbar />
-      <div className="mt-[4.5rem]">{children}</div>
+      <div className="mt-[4rem]">{children}</div>
     </main>
   );
 }

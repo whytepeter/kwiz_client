@@ -27,8 +27,7 @@ export default function WorkspaceList() {
       <DropdownMenuTrigger asChild>
         <div className="flex items-center gap-2 cursor-pointer">
           <img src="/icons/workspace_active.svg" alt="" />
-          {selectedWorkspace?.title}
-
+          <span className="hidden sm:flex">{selectedWorkspace?.title}</span>
           <span
             className={`${
               !open ? "-rotate-90" : ""

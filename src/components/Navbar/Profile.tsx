@@ -52,7 +52,7 @@ export default function Profile() {
             {initials(user?.name!)}
           </div>
 
-          <div className="flex flex-col ">
+          <div className="hidden md:flex flex-col ">
             <h4 className="text-sm">{user?.name}</h4>
             <span className="text-xs text-dark-300">{user?.email}</span>
           </div>
