@@ -54,7 +54,7 @@ const displayOptions: DisplayItem[] = [
 
 export default function WorkspaceNav() {
   const { selectedWorkspace, quizDisplay } = useDataStore();
-
+  const [loading, setLoading] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [open, setOpen] = useState(false);
   const [sortBy, setSortBy] = useState<ListType>(sortOptions[0]);
@@ -65,9 +65,38 @@ export default function WorkspaceNav() {
     });
   };
 
+  const handleLeaveWorkspace = async () => {
+    try {
+      setLoading(true);
+      //handle leave logic
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDeleteWorkspace = async () => {
+    try {
+      setLoading(true);
+      //handle delete logic
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleClick = (val: (typeof workspaceOptions)[number]): void => {
-    if (val == "Rename") {
-      setEditModal(true);
+    switch (val) {
+      case "Rename":
+        setEditModal(true);
+
+      case "Leave":
+        handleLeaveWorkspace();
+
+      case "Delete":
+        handleDeleteWorkspace();
     }
   };
 

@@ -6,13 +6,18 @@ export type Workspace = {
   collaborators: string[];
 };
 
-export type createWorkspaceType = Pick<
+export type CreateWorkspace = Pick<
   Workspace,
   "title" | "createdBy" | "collaborators"
 >;
 
-export type updateWorkspaceType = Pick<Workspace, "title"> & {
+export type UpdateWorkspace = Pick<Workspace, "title"> & {
   workspaceId: string;
+};
+
+export type LeaveWorkspace = {
+  workspaceId: string;
+  userId: string;
 };
 
 export type QuizDisplay = "GRID" | "LIST";

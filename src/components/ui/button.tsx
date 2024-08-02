@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cn } from "@/lib/utils";
+import Spinner from "../base/Spinner";
 
 const colors = {
   primary: "#310A31",
@@ -55,6 +56,12 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     const mainColor = colors[color];
     const lightShade = ["white", "accent"];
+    const loaderColor =
+      variant == "fill" && !lightShade.includes(color)
+        ? "white"
+        : lightShade.includes(color)
+        ? textColor
+        : mainColor;
 
     const variants = {
       outline: {
@@ -92,9 +99,9 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ) : (
           <div>
             <span className="opacity-0">{props.children}</span>
-            <span className="absolute mt-[1px] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-              <i className=" pi pi-spinner text-lg animate-spin "></i>
-            </span>
+            <div className="absolute  top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ">
+              <Spinner color={loaderColor} />
+            </div>
           </div>
         )}
       </Comp>

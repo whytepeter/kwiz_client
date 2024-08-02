@@ -6,6 +6,7 @@ export default {
   User: "",
 
   Workspace: "/workspace",
+  LeaveWorkspace: "/workspace/leave",
   InviteMember: "/workspace/invite",
   MyWorkspace: "/workspace/user",
 
