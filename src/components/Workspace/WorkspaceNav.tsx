@@ -145,14 +145,14 @@ export default function WorkspaceNav() {
                     ? "text-secondary-dark bg-accent"
                     : "text-dark-300"
                 } flex items-center gap-2 p-1.5 text-sm cursor-pointer`}
-                key={item.title}
+                key={item.label}
               >
                 <img
                   className="w-4.5"
                   src={item.value == quizDisplay ? item.active : item.icon}
                   alt=""
                 />
-                <span className="hidden md:flex">{item.title}</span>
+                <span className="hidden md:flex">{item.label}</span>
               </div>
             ))}
           </div>

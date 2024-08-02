@@ -11,6 +11,10 @@ export type createWorkspaceType = Pick<
   "title" | "createdBy" | "collaborators"
 >;
 
+export type updateWorkspaceType = Partial<createWorkspaceType> & {
+  _id: string;
+};
+
 export type QuizDisplay = "GRID" | "LIST";
 
 export type ListType = {

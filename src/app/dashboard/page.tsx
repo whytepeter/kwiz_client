@@ -1,5 +1,11 @@
-import React from "react";
+"use client";
+import { redirect } from "next/navigation";
+import React, { useEffect } from "react";
 
 export default function page() {
-  return <div className="h-screen w-full ">Dashboard</div>;
+  useEffect(() => {
+    redirect("/dashboard/workspace");
+  }, []);
+
+  return <div className="text-center w-full ">Redirecting..</div>;
 }

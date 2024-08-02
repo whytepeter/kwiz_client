@@ -1,6 +1,8 @@
 import axios from "axios";
 import apis from "./apis";
 import Cookies from "js-cookie";
+import { signOutAction } from "@/store/actions/auth";
+import { NextRouter } from "next/router";
 
 axios.defaults.baseURL =
   process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api";
@@ -32,8 +34,8 @@ const processError = async function (e: any) {
     //
   }
   if (status === 401) {
-    //handle logout
     console.log(e);
+    signOutAction();
     //
   } else {
     //
@@ -99,6 +101,7 @@ const http = async <T>(
   } catch (error: any) {
     if (error.message === "Network Error") {
       console.log("error", error.message);
+      throw error;
     } else {
       processError(error.response);
     }

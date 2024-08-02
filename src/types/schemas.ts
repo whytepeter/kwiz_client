@@ -58,3 +58,9 @@ export const CreatePasswordFormSchema = z
     message: "Passwords must match.",
     path: ["confirm_password"],
   });
+
+export const workspaceSchema = z.object({
+  title: z.string().describe("Title").min(3, {
+    message: "Title must be at least 3 characters.",
+  }),
+});
