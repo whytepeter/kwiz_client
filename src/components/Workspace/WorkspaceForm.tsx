@@ -25,7 +25,7 @@ import TextInput from "../base/TextInput";
 import { Button } from "../ui/button";
 import { workspaceSchema } from "@/types/schemas";
 import { useDataStore } from "@/store/store";
-import { createWorkspace } from "@/store/actions/workspace";
+import { createWorkspace, editWorkspace } from "@/store/actions/workspace";
 
 type PropType = {
   open: boolean;
@@ -51,9 +51,19 @@ export default function WorkspaceForm({
   async function onSubmit(values: z.infer<typeof workspaceSchema>) {
     try {
       setLoading(true);
-      await createWorkspace(values.title);
+
+      if (edit) {
+        const payload = {
+          title: values.title,
+          workspaceId: selectedWorkspace?._id!,
+        };
+        await editWorkspace(payload);
+      } else {
+        await createWorkspace(values.title);
+      }
+
       handleClose();
-      toast.success("Workspace created successfully");
+      toast.success(`Workspace ${edit ? "updated" : "created"} successfully`);
     } catch (error: any) {
       toast.error(error?.message || "Error creating workspace");
     } finally {

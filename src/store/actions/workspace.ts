@@ -27,9 +27,7 @@ export const createWorkspace = async (title: string) => {
   try {
     const res = await http("Workspace", "post", payload);
     console.log(res);
-    if (res?.success) {
-      await getWorkspace();
-    }
+    await getWorkspace();
   } catch (error) {
     throw error;
   }
@@ -38,9 +36,8 @@ export const createWorkspace = async (title: string) => {
 export const editWorkspace = async (payload: updateWorkspaceType) => {
   try {
     const res = await http("Workspace", "patch", payload);
-    if (res?.success) {
-    } else {
-    }
+    console.log(res);
+    await getWorkspace();
   } catch (error) {
     throw error;
   }
