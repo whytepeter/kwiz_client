@@ -1,13 +1,22 @@
-import { createWorkspaceType, updateWorkspaceType } from "@/types";
+import { createWorkspaceType, updateWorkspaceType, Workspace } from "@/types";
 import { useDataStore } from "../store";
 import http from "@/lib/http";
 
 export const getWorkspace = async () => {
   try {
     const res = await http("MyWorkspace", "get");
+
     if (res?.length) {
+      let selected = useDataStore.getState().selectedWorkspace;
+      if (selected) {
+        selected =
+          res.find((el: Workspace) => el._id == selected?._id) ||
+          res[0] ||
+          null;
+      }
+
       useDataStore.setState({
-        selectedWorkspace: res[0] || null,
+        selectedWorkspace: selected,
         workspaces: res || [],
       });
     }

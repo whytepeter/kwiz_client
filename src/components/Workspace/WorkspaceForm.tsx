@@ -80,7 +80,7 @@ export default function WorkspaceForm({
     if (edit) {
       form.setValue("title", selectedWorkspace?.title || "");
     }
-  }, [edit]);
+  }, [open]);
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
