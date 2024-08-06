@@ -1,9 +1,4 @@
-import {
-  CreateWorkspace,
-  LeaveWorkspace,
-  UpdateWorkspace,
-  Workspace,
-} from "@/types";
+import { CreateWorkspace, UpdateWorkspace, Workspace } from "@/types";
 import { useDataStore } from "../store";
 import http from "@/lib/http";
 
@@ -11,19 +6,18 @@ export const getWorkspace = async () => {
   try {
     const res = await http("MyWorkspace", "get");
 
-    if (res?.length) {
-      let selected = useDataStore.getState().selectedWorkspace;
-      if (selected) {
-        selected = res.find((el: Workspace) => el._id == selected?._id);
-      }
+    let selectedWorkspace = res[0] || null;
+    let selectedId = useDataStore.getState().selectedWorkspace?._id;
 
-      console.log("SELECTED", selected);
-
-      useDataStore.setState({
-        selectedWorkspace: selected || res[0] || null,
-        workspaces: res || [],
-      });
+    if (selectedId) {
+      selectedWorkspace =
+        res.find((el: Workspace) => el._id == selectedId) || null;
     }
+
+    useDataStore.setState({
+      selectedWorkspace,
+      workspaces: res || [],
+    });
   } catch (error) {
     throw error;
   }
@@ -39,6 +33,14 @@ export const createWorkspace = async (title: string) => {
 
   try {
     const res = await http("Workspace", "post", payload);
+    const newWorkspace = res?.data;
+
+    if (newWorkspace) {
+      useDataStore.setState({
+        selectedWorkspace: newWorkspace,
+      });
+    }
+
     console.log(res);
     await getWorkspace();
   } catch (error) {
@@ -56,10 +58,28 @@ export const editWorkspace = async (payload: UpdateWorkspace) => {
   }
 };
 
-export const deleteWorkspace = async () => {};
+export const deleteWorkspace = async (workspaceId: string) => {
+  if (!workspaceId) return;
 
-export const leaveWorkspace = async (payload: LeaveWorkspace) => {
   try {
+    const res = await http("Workspace", "delete", null, {
+      suffix: workspaceId,
+    });
+    console.log(res);
+    await getWorkspace();
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const leaveWorkspace = async (workspaceId: string, userId: string) => {
+  if (!workspaceId || !userId) return;
+
+  try {
+    const payload = {
+      workspaceId,
+      userId,
+    };
     const res = await http("LeaveWorkspace", "post", payload);
     console.log(res);
     await getWorkspace();
@@ -67,4 +87,5 @@ export const leaveWorkspace = async (payload: LeaveWorkspace) => {
     throw error;
   }
 };
+
 export const addCollaborators = async () => {};

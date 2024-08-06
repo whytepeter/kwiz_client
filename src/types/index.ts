@@ -4,6 +4,8 @@ export type Workspace = {
   logo?: string;
   createdBy: string;
   collaborators: string[];
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 export type CreateWorkspace = Pick<
@@ -13,11 +15,6 @@ export type CreateWorkspace = Pick<
 
 export type UpdateWorkspace = Pick<Workspace, "title"> & {
   workspaceId: string;
-};
-
-export type LeaveWorkspace = {
-  workspaceId: string;
-  userId: string;
 };
 
 export type QuizDisplay = "GRID" | "LIST";

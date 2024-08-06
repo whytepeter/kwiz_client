@@ -8,20 +8,23 @@ interface PropType {
 }
 
 export default function Spinner({
-  color = "white",
+  color = "#310A31",
   size = 20,
   width = 2.5,
 }: PropType) {
-  const spinnerStyle = {
-    borderColor: color,
+  const sizeStyle = {
     height: size,
     width: size,
+  };
+  const spinnerStyle = {
+    borderColor: color,
+    ...sizeStyle,
     borderWidth: width,
   };
 
   //
   return (
-    <div className="relative ">
+    <div style={sizeStyle} className="relative ">
       <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
         <div
           style={{

@@ -24,4 +24,6 @@ export type User = {
   account_disabled: boolean;
   password_change_required: boolean;
   type: UserTypes;
+  createdAt: Date;
+  updatedAt: Date;
 };

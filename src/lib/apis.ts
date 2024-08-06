@@ -6,7 +6,7 @@ export default {
   User: "",
 
   Workspace: "/workspace",
-  LeaveWorkspace: "/workspace/leave",
+  LeaveWorkspace: "/workspace/leave", //:id = worspaceId
   InviteMember: "/workspace/invite",
   MyWorkspace: "/workspace/user",
 

@@ -11,6 +11,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ListType, QuizDisplay } from "@/types";
 import WorkspaceForm from "./WorkspaceForm";
+import useLoader from "@/hooks/useLoader";
+import { deleteWorkspace, leaveWorkspace } from "@/store/actions/workspace";
+import toast from "react-hot-toast";
 
 export type DisplayItem = ListType & {
   value: QuizDisplay;
@@ -53,8 +56,9 @@ const displayOptions: DisplayItem[] = [
 ];
 
 export default function WorkspaceNav() {
-  const { selectedWorkspace, quizDisplay } = useDataStore();
-  const [loading, setLoading] = useState(false);
+  const loader = useLoader();
+
+  const { user, selectedWorkspace, quizDisplay } = useDataStore();
   const [editModal, setEditModal] = useState(false);
   const [open, setOpen] = useState(false);
   const [sortBy, setSortBy] = useState<ListType>(sortOptions[0]);
@@ -65,38 +69,32 @@ export default function WorkspaceNav() {
     });
   };
 
-  const handleLeaveWorkspace = async () => {
-    try {
-      setLoading(true);
-      //handle leave logic
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const handleClick = async (val: (typeof workspaceOptions)[number]) => {
+    if (val === "Rename") {
+      setEditModal(true);
+      return;
+    } else if (val === "Delete" || val === "Leave") {
+      const isDelete = val === "Delete";
+      const loaderText = isDelete ? "Deleting" : "Leaving";
 
-  const handleDeleteWorkspace = async () => {
-    try {
-      setLoading(true);
-      //handle delete logic
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+      const workspaceId = selectedWorkspace?._id!;
+      const userId = user?._id!;
 
-  const handleClick = (val: (typeof workspaceOptions)[number]): void => {
-    switch (val) {
-      case "Rename":
-        setEditModal(true);
+      if (!workspaceId || !userId) return;
 
-      case "Leave":
-        handleLeaveWorkspace();
+      try {
+        loader.setLoader(true, `${loaderText} workspace...`);
+        isDelete
+          ? await deleteWorkspace(workspaceId)
+          : await leaveWorkspace(workspaceId, userId);
 
-      case "Delete":
-        handleDeleteWorkspace();
+        if (isDelete) toast.success("Workspace deleted successfully");
+      } catch (error: any) {
+        toast.error(error?.message || `error ${loaderText} workspace`);
+        console.log(error);
+      } finally {
+        loader.setLoader(false);
+      }
     }
   };
 
