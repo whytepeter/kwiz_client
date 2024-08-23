@@ -12,7 +12,7 @@ export default function Navbar() {
   const showTabs = pathname.includes("/quiz/editor");
 
   return (
-    <nav className="fixed left-0 top-0  w-full text-sm bg-white/30 backdrop-blur-md">
+    <nav className="fixed z-10 left-0 top-0  w-full text-sm bg-white/30 backdrop-blur-md">
       <div className="container flex items-center justify-between gap-4 px-3 py-2.5">
         <WorkspaceList />
 

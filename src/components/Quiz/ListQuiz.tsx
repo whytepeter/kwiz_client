@@ -4,13 +4,14 @@ import { Button } from "../ui/button";
 import { useDataStore } from "@/store/store";
 import { getQuizzes } from "@/store/actions/quiz";
 import toast from "react-hot-toast";
-import Spinner from "../base/Spinner";
 import QuizHeader from "./QuizHeader";
 import { Quiz } from "@/types/quiz";
+import QuizLoadingState from "./QuizLoadingState";
+import QuizCard from "./QuizCard";
 
 export default function ListQuiz() {
   const [loading, setLoading] = useState(false);
-  const { selectedWorkspace, quizzes } = useDataStore();
+  const { selectedWorkspace, quizzes, quizDisplay } = useDataStore();
 
   const fetchQuizzes = async () => {
     if (selectedWorkspace) {
@@ -31,20 +32,28 @@ export default function ListQuiz() {
 
   if (loading)
     return (
-      <div className="flex justify-center py-6">
-        <Spinner />
+      <div className="container px-3">
+        <QuizLoadingState />
       </div>
     );
 
   return (
     <>
       {!quizzes?.length ? (
-        <div className="container px-3">
+        <div className="container px-3 flex flex-col gap-4">
           <QuizHeader />
 
-          {quizzes.map((quiz: Quiz) => (
-            <div key={quiz._id}> Quiz</div>
-          ))}
+          {/* {quizzes.map((quiz: Quiz) => (
+            <QuizCard key={quiz._id} quiz={quiz} />
+          ))} */}
+
+          <div
+            className={`${quizDisplay === "LIST" ? "flex-col" : ""} flex gap-4`}
+          >
+            {Array.from({ length: 4 }).map((_, index) => (
+              <QuizCard key={index} />
+            ))}
+          </div>
         </div>
       ) : (
         <EmptyState title="There’s not a quiz in sight" description="">
