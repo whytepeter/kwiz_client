@@ -1,1 +1,4 @@
-{}
+{
+  "/dashboard/workspace/page": "app/dashboard/workspace/page.js",
+  "/auth/login/page": "app/auth/login/page.js"
+}

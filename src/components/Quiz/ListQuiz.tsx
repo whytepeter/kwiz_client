@@ -48,7 +48,11 @@ export default function ListQuiz() {
           ))} */}
 
           <div
-            className={`${quizDisplay === "LIST" ? "flex-col" : ""} flex gap-4`}
+            className={`${
+              quizDisplay === "LIST"
+                ? "flex-col flex"
+                : "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+            } gap-4 w-full`}
           >
             {Array.from({ length: 4 }).map((_, index) => (
               <QuizCard key={index} />
