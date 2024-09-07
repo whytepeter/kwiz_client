@@ -1,35 +1,46 @@
+import { ListType } from "@/types";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { useState } from "react";
 
 export default function EditorTabs() {
-  const [active, setActive] = useState("Create");
-  const tabItems = [
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const tab = searchParams.get("tab") || "create";
+  const tabItems: ListType[] = [
     {
-      title: "Create",
-      route: "",
+      label: "Create",
+      value: "create",
     },
     {
-      title: "Share",
-      route: "",
+      label: "Share",
+      value: "share",
     },
     {
-      title: "Result",
-      route: "",
+      label: "Result",
+      value: "result",
     },
   ];
 
+  const setTab = (item: ListType) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("tab", item.value);
+    router.push(`?${params.toString()}`);
+  };
+
   return (
     <div className="flex justify-center items-center gap-4 w-full">
-      {tabItems.map((tab) => (
+      {tabItems.map((item) => (
         <div
-          onClick={() => setActive(tab.title)}
+          onClick={() => setTab(item)}
           className={`${
-            active == tab.title
+            tab == item.value
               ? "text-secondary"
               : "font-light text-secondary-dark"
           } cursor-pointer p-2`}
-          key={tab.title}
+          key={item.label}
         >
-          {tab.title}
+          {item.label}
         </div>
       ))}
     </div>

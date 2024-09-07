@@ -26,6 +26,7 @@ import { Button } from "../ui/button";
 import { workspaceSchema } from "@/types/schemas";
 import { useDataStore } from "@/store/store";
 import { createWorkspace, editWorkspace } from "@/store/actions/workspace";
+import useWorkspace from "@/hooks/useWorkspace";
 
 type PropType = {
   open: boolean;
@@ -39,7 +40,7 @@ export default function WorkspaceForm({
   edit = false,
 }: PropType) {
   const [loading, setLoading] = useState(false);
-  const { selectedWorkspace } = useDataStore();
+  const { selectedWorkspace, setSelectedWorkspace } = useWorkspace();
 
   const form = useForm<z.infer<typeof workspaceSchema>>({
     resolver: zodResolver(workspaceSchema),
@@ -59,7 +60,8 @@ export default function WorkspaceForm({
         };
         await editWorkspace(payload);
       } else {
-        await createWorkspace(values.title);
+        const res = await createWorkspace(values.title);
+        setSelectedWorkspace(res);
       }
 
       handleClose();

@@ -2,6 +2,7 @@ import { formatDate } from "@/lib/utils";
 import { useDataStore } from "@/store/store";
 import { Quiz } from "@/types/quiz";
 import React from "react";
+import QuizDropdown from "./QuizDropdown";
 
 type PropType = {
   quiz?: Quiz;
@@ -28,9 +29,11 @@ export default function QuizCard({ quiz }: PropType) {
               <div className="">{formatDate(new Date())}</div>
             </div>
             <div className="flex items-center justify-end ">
-              <span className="hover:bg-accent flex-shrink-0 w-8 h-8 cursor-pointer flex items-center justify-center rounded-full">
-                <img className="" src="/icons/ellipsis.svg" alt="" />
-              </span>
+              <QuizDropdown>
+                <span className="hover:bg-accent flex-shrink-0 w-8 h-8 cursor-pointer flex items-center justify-center rounded-full">
+                  <img className="" src="/icons/ellipsis.svg" alt="" />
+                </span>
+              </QuizDropdown>
             </div>
           </div>
         </div>
@@ -50,9 +53,11 @@ export default function QuizCard({ quiz }: PropType) {
                   36 no. of takes
                 </span>
               </div>
-              <span className="flex-shrink-0 hover:bg-accent w-8 h-8 cursor-pointer flex items-center justify-center rounded-full">
-                <img className="" src="/icons/ellipsis.svg" alt="" />
-              </span>
+              <QuizDropdown>
+                <span className="flex-shrink-0 hover:bg-accent w-8 h-8 cursor-pointer flex items-center justify-center rounded-full">
+                  <img className="" src="/icons/ellipsis.svg" alt="" />
+                </span>
+              </QuizDropdown>
             </div>
           </div>
         </div>

@@ -9,7 +9,7 @@ import WorkspaceList from "./WorkspaceList";
 
 export default function Navbar() {
   const pathname = usePathname();
-  const showTabs = pathname.includes("/quiz/editor");
+  const showTabs = pathname.includes("/quiz/");
 
   return (
     <nav className="fixed z-10 left-0 top-0  w-full text-sm bg-white/30 backdrop-blur-md">

@@ -9,11 +9,14 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+
 import { ListType, QuizDisplay } from "@/types";
 import WorkspaceForm from "./WorkspaceForm";
 import useLoader from "@/hooks/useLoader";
 import { deleteWorkspace, leaveWorkspace } from "@/store/actions/workspace";
 import toast from "react-hot-toast";
+import useWorkspace from "@/hooks/useWorkspace";
+import { useRouter } from "next/navigation";
 
 export type DisplayItem = ListType & {
   value: QuizDisplay;
@@ -56,9 +59,12 @@ const displayOptions: DisplayItem[] = [
 ];
 
 export default function WorkspaceNav() {
+  const router = useRouter();
   const loader = useLoader();
 
-  const { user, selectedWorkspace, quizDisplay } = useDataStore();
+  const { user, quizDisplay } = useDataStore();
+  const { selectedWorkspace } = useWorkspace();
+
   const [editModal, setEditModal] = useState(false);
   const [open, setOpen] = useState(false);
   const [sortBy, setSortBy] = useState<ListType>(sortOptions[0]);
@@ -87,6 +93,8 @@ export default function WorkspaceNav() {
         isDelete
           ? await deleteWorkspace(workspaceId)
           : await leaveWorkspace(workspaceId, userId);
+
+        router.replace("/dashboard/workspace");
 
         if (isDelete) toast.success("Workspace deleted successfully");
       } catch (error: any) {

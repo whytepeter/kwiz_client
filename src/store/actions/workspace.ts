@@ -6,16 +6,7 @@ export const getWorkspace = async () => {
   try {
     const res = await http("MyWorkspace", "get");
 
-    let selectedWorkspace = res[0] || null;
-    let selectedId = useDataStore.getState().selectedWorkspace?._id;
-
-    if (selectedId) {
-      selectedWorkspace =
-        res.find((el: Workspace) => el._id == selectedId) || null;
-    }
-
     useDataStore.setState({
-      selectedWorkspace,
       workspaces: res || [],
     });
   } catch (error) {
@@ -23,7 +14,7 @@ export const getWorkspace = async () => {
   }
 };
 
-export const createWorkspace = async (title: string) => {
+export const createWorkspace = async (title: string): Promise<Workspace> => {
   const createdBy = useDataStore.getState().user?._id!;
   const payload: CreateWorkspace = {
     title,
@@ -32,17 +23,10 @@ export const createWorkspace = async (title: string) => {
   };
 
   try {
-    const res = await http("Workspace", "post", payload);
-    const newWorkspace = res?.data;
+    const { data } = await http("Workspace", "post", payload);
 
-    if (newWorkspace) {
-      useDataStore.setState({
-        selectedWorkspace: newWorkspace,
-      });
-    }
-
-    console.log(res);
     await getWorkspace();
+    return data as Workspace;
   } catch (error) {
     throw error;
   }

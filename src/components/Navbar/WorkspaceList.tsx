@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,19 +10,14 @@ import {
 import { Workspace } from "@/types";
 import { useDataStore } from "@/store/store";
 import WorkspaceForm from "../Workspace/WorkspaceForm";
+import useWorkspace from "@/hooks/useWorkspace";
 
 export default function WorkspaceList() {
   const [open, setOpen] = useState(false);
   const [createModal, setCreateModal] = useState(false);
 
-  const { selectedWorkspace, workspaces } = useDataStore();
-
-  const setSelected = (workspace: Workspace) => {
-    if (workspace._id === selectedWorkspace?._id) return;
-    useDataStore.setState({
-      selectedWorkspace: workspace,
-    });
-  };
+  const { workspaces, selectedWorkspace, setSelectedWorkspace } =
+    useWorkspace();
 
   return (
     <>
@@ -44,7 +39,7 @@ export default function WorkspaceList() {
           <DropdownMenuGroup className="max-h-44 overflow-auto">
             {workspaces.map((item) => (
               <DropdownMenuItem
-                onClick={() => setSelected(item)}
+                onClick={() => setSelectedWorkspace(item)}
                 className={`${
                   item._id === selectedWorkspace?._id ? "text-secondary" : ""
                 } font-light gap-2 py-2`}

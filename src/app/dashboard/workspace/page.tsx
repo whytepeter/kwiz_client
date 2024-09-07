@@ -1,25 +1,28 @@
 "use client";
-
 import EmptyState from "@/components/base/EmptyState";
-import ListQuiz from "@/components/Quiz/ListQuiz";
 import { Button } from "@/components/ui/button";
 import WorkspaceForm from "@/components/Workspace/WorkspaceForm";
-import WorkspaceNav from "@/components/Workspace/WorkspaceNav";
 import { useDataStore } from "@/store/store";
-import { useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
 export default function page() {
-  const { workspaces } = useDataStore();
+  const router = useRouter();
   const [open, setOpen] = useState(false);
+
+  const { workspace_id } = useParams<{ workspace_id: string }>();
+  const { workspaces } = useDataStore();
+
+  useEffect(() => {
+    if (workspaces?.length) {
+      const selectedWorkspace = workspace_id || workspaces[0]?._id;
+      router.replace(`/dashboard/workspace/${selectedWorkspace}`);
+    }
+  }, []);
 
   return (
     <>
-      {workspaces?.length ? (
-        <div className="flex flex-col gap-5">
-          <WorkspaceNav />
-          <ListQuiz />
-        </div>
-      ) : (
+      {!workspaces?.length && (
         <div className="py-14">
           <EmptyState title="There’s not a workspace in sight" description="">
             <Button onClick={() => setOpen(true)}>
