@@ -2,7 +2,7 @@ import React from "react";
 import LeftSidebar from "./Layout/LeftSidebar";
 import RightSidebar from "./Layout/RightSidebar";
 import TopNav from "./Layout/TopNav";
-import QuestionBox from "./QuestionBox";
+import QuestionBox from "./Question/QuestionBox";
 
 export default function Create() {
   return (
@@ -14,9 +14,11 @@ export default function Create() {
         <LeftSidebar />
       </div>
 
-      <div className="h-full min-w-[500px] flex-1 flex flex-col gap-6 ">
+      <div className="h-full w-full flex-1 flex flex-col md:gap-2 ">
         <TopNav />
-        <QuestionBox />
+        <div className="flex flex-col w-full h-full items-center justify-center ">
+          <QuestionBox />
+        </div>
       </div>
 
       <div className="h-full w-full max-w-[220px] hidden lg:flex">

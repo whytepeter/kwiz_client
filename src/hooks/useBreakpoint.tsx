@@ -1,62 +1,43 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 
-interface Breakpoints {
-  [key: number]: string;
-}
-
-const breakpoints: Breakpoints = {
-  0: "xs",
-  640: "sm",
-  768: "md",
-  1024: "lg",
-  1280: "xl",
+// Define the breakpoints with their corresponding pixel values
+const breakpoints: { [key: string]: number } = {
+  xs: 0,
+  sm: 640,
+  md: 768,
+  lg: 1024,
+  xl: 1280,
 };
 
-interface WindowSize {
-  width: number | undefined;
-  height: number | undefined;
-}
+// Define the return type for the hook
+type Breakpoint = {
+  xs: boolean;
+  sm: boolean;
+  md: boolean;
+  lg: boolean;
+  xl: boolean;
+};
 
-const useBreakpoint = (): string => {
-  const [breakpoint, setBreakPoint] = useState<string>("");
-  const [windowSize, setWindowSize] = useState<WindowSize>({
-    width: undefined,
-    height: undefined,
-  });
+export function useBreakpoint(): Breakpoint {
+  const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
 
-  const handleResize = () => {
-    setWindowSize({
-      width: window.innerWidth,
-      height: window.innerHeight,
-    });
-  };
+  // Function to handle resize
+  const handleResize = () => setWindowWidth(window.innerWidth);
 
   useEffect(() => {
+    // Listen to window resize events
     window.addEventListener("resize", handleResize);
-    handleResize();
 
-    const determineBreakpoint = () => {
-      if (windowSize.width !== undefined) {
-        if (windowSize.width < 640) {
-          setBreakPoint(breakpoints[0]);
-        } else if (windowSize.width < 768) {
-          setBreakPoint(breakpoints[640]);
-        } else if (windowSize.width < 1024) {
-          setBreakPoint(breakpoints[768]);
-        } else if (windowSize.width < 1280) {
-          setBreakPoint(breakpoints[1024]);
-        } else {
-          setBreakPoint(breakpoints[1280]);
-        }
-      }
-    };
-
-    determineBreakpoint();
-
+    // Cleanup event listener on unmount
     return () => window.removeEventListener("resize", handleResize);
-  }, [windowSize.width]);
+  }, []);
 
-  return breakpoint;
-};
-
-export default useBreakpoint;
+  // Return the object with booleans for each breakpoint
+  return {
+    xs: windowWidth <= breakpoints.sm,
+    sm: windowWidth <= breakpoints.sm,
+    md: windowWidth <= breakpoints.md,
+    lg: windowWidth <= breakpoints.lg,
+    xl: windowWidth <= breakpoints.xl,
+  };
+}

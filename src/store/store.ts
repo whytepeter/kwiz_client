@@ -1,4 +1,6 @@
+import { QUESTIONS } from "@/constant";
 import { QuizDisplay, Workspace } from "@/types";
+import { Question } from "@/types/question";
 import { Quiz } from "@/types/quiz";
 import { User } from "@/types/user";
 import { create } from "zustand";
@@ -16,6 +18,10 @@ type State = {
   workspaces: Workspace[];
 
   quizzes: Quiz[];
+
+  quiz: Quiz | null;
+  questions: Question[];
+  selectedQuestionId: string;
 };
 
 type Actions = {
@@ -28,10 +34,17 @@ const initialState: State = {
   loading: false,
   loadingText: "Loading...",
   quizDisplay: "LIST",
+
   user: null,
+
   workspaces: [],
   selectedWorkspace: null,
+
   quizzes: [],
+
+  quiz: null,
+  questions: [...QUESTIONS],
+  selectedQuestionId: "",
 };
 
 export const useDataStore = create<State & Actions>()(
