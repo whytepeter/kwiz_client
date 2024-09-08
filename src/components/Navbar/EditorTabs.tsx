@@ -1,12 +1,12 @@
 import { ListType } from "@/types";
 import { useRouter, useSearchParams } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export default function EditorTabs() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const tab = searchParams.get("tab") || "create";
+  const tab = searchParams.get("tab");
   const tabItems: ListType[] = [
     {
       label: "Create",
@@ -27,6 +27,12 @@ export default function EditorTabs() {
     params.set("tab", item.value);
     router.push(`?${params.toString()}`);
   };
+
+  useEffect(() => {
+    if (!tab) {
+      setTab(tabItems[0]);
+    }
+  }, [tab]);
 
   return (
     <div className="flex justify-center items-center gap-4 w-full">

@@ -1,6 +1,7 @@
 {
   "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/dashboard/workspace/page": "app/dashboard/workspace/page.js",
   "/dashboard/workspace/[workspace_id]/page": "app/dashboard/workspace/[workspace_id]/page.js",
-  "/dashboard/workspace/[workspace_id]/quiz/[slug]/page": "app/dashboard/workspace/[workspace_id]/quiz/[slug]/page.js"
+  "/dashboard/workspace/page": "app/dashboard/workspace/page.js",
+  "/dashboard/workspace/[workspace_id]/quiz/[quiz_id]/page": "app/dashboard/workspace/[workspace_id]/quiz/[quiz_id]/page.js",
+  "/dashboard/workspace/[workspace_id]/quiz/page": "app/dashboard/workspace/[workspace_id]/quiz/page.js"
 }

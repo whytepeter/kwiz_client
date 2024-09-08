@@ -1,12 +1,12 @@
 // File: /Users/apple/Documents/code/kwiz/kwiz_client/src/app/dashboard/workspace/[id]/quiz/[quizId]/page.tsx
-import * as entry from "../../../../../../../../src/app/dashboard/workspace/[workspace_id]/quiz/[slug]/page.jsx";
+import * as entry from "../../../../../../../../src/app/dashboard/workspace/[workspace_id]/quiz/[quiz_id]/page.jsx";
 import type {
   ResolvingMetadata,
   ResolvingViewport,
 } from "next/dist/lib/metadata/types/metadata-interface.js";
 
 type TEntry =
-  typeof import("../../../../../../../../src/app/dashboard/workspace/[workspace_id]/quiz/[slug]/page.jsx");
+  typeof import("../../../../../../../../src/app/dashboard/workspace/[workspace_id]/quiz/[quiz_id]/page.jsx");
 
 // Check that the entry is a valid entry
 checkFields<

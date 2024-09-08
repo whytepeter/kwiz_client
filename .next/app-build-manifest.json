@@ -41,10 +41,15 @@
       "static/chunks/main-app.js",
       "static/chunks/app/dashboard/workspace/[workspace_id]/page.js"
     ],
-    "/dashboard/workspace/[workspace_id]/quiz/[slug]/page": [
+    "/dashboard/workspace/[workspace_id]/quiz/[quiz_id]/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/dashboard/workspace/[workspace_id]/quiz/[slug]/page.js"
+      "static/chunks/app/dashboard/workspace/[workspace_id]/quiz/[quiz_id]/page.js"
+    ],
+    "/dashboard/workspace/[workspace_id]/quiz/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/dashboard/workspace/[workspace_id]/quiz/page.js"
     ]
   }
 }

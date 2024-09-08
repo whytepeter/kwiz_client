@@ -23,7 +23,7 @@ export default function AdminLayout({
   if (!isLogin) return null;
 
   return (
-    <main className=" min-h-screen relative">
+    <main className="relative">
       <Navbar />
       <div className="mt-[4rem]">{children}</div>
     </main>

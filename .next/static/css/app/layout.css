@@ -780,11 +780,17 @@ video {
 .w-full {
   width: 100%;
 }
+.w-\[250px\] {
+  width: 250px;
+}
 .min-w-\[8rem\] {
   min-width: 8rem;
 }
 .min-w-full {
   min-width: 100%;
+}
+.min-w-\[500px\] {
+  min-width: 500px;
 }
 .max-w-\[300px\] {
   max-width: 300px;
@@ -800,6 +806,15 @@ video {
 }
 .max-w-xl {
   max-width: 36rem;
+}
+.max-w-\[200px\] {
+  max-width: 200px;
+}
+.max-w-\[250px\] {
+  max-width: 250px;
+}
+.max-w-\[220px\] {
+  max-width: 220px;
 }
 .flex-1 {
   flex: 1 1 0%;
@@ -1132,6 +1147,10 @@ video {
   padding-top: 1rem;
   padding-bottom: 1rem;
 }
+.py-1 {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
 .pl-8 {
   padding-left: 2rem;
 }
@@ -1140,6 +1159,12 @@ video {
 }
 .pr-4 {
   padding-right: 1rem;
+}
+.pt-10 {
+  padding-top: 2.5rem;
+}
+.pt-12 {
+  padding-top: 3rem;
 }
 .text-center {
   text-align: center;
@@ -1821,9 +1846,22 @@ video {
   .md\:gap-6 {
     gap: 1.5rem;
   }
+
+  .md\:py-4 {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .md\:pt-4 {
+    padding-top: 1rem;
+  }
 }
   
   @media (min-width: 1024px) {
+
+  .lg\:flex {
+    display: flex;
+  }
 
   .lg\:grid-cols-4 {
     grid-template-columns: repeat(4, minmax(0, 1fr));
