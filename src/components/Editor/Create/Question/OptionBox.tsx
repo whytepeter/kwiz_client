@@ -55,9 +55,9 @@ export default function OptionBox() {
           {selectedQuestion?.options?.map((option, index) => (
             <div
               key={`option-${index}-${option?.id}`}
-              className="relative group py-1.5 capitalize px-2 rounded border border-secondary-dark flex items-center gap-2 w-[250px] text-secondary-dark"
+              className="relative group p-1.5 capitalize  rounded-md border border-secondary-dark flex items-center gap-2 w-[250px] text-secondary-dark"
             >
-              <span className="uppercase w-6 h-6 border flex items-center justify-center rounded bg-white ">
+              <span className="uppercase w-6 h-6 border border-secondary-dark flex items-center justify-center rounded bg-white ">
                 {optionIds[index]}
               </span>
               <input
@@ -88,6 +88,7 @@ export default function OptionBox() {
               onClick={handleAddOption}
               variant="text"
               size="small"
+              color="secondary"
               className="underline  underline-offset-2 !px-0"
             >
               Add Option
@@ -98,14 +99,14 @@ export default function OptionBox() {
 
       {selectedQuestion?.type === "YES/NO" && (
         <div className="flex flex-col gap-2">
-          <div className="py-1.5 px-2 rounded border border-secondary-dark flex items-center gap-2 w-[250px]">
-            <span className="w-6 h-6 border flex items-center justify-center rounded bg-secondary-dark text-white">
+          <div className="p-1.5 capitalize  rounded-md border border-secondary-dark flex items-center gap-2 w-[250px] text-secondary-dark">
+            <span className="uppercase w-6 h-6 border border-secondary-dark flex items-center justify-center rounded bg-white ">
               Y
             </span>
             <span>Yes</span>
           </div>
-          <div className="p-2 rounded border border-secondary-dark flex items-center gap-2 w-[250px]">
-            <span className="w-6 h-6 border flex items-center justify-center rounded bg-secondary-dark text-white">
+          <div className="p-1.5 capitalize  rounded-md border border-secondary-dark flex items-center gap-2 w-[250px] text-secondary-dark">
+            <span className="uppercase w-6 h-6 border border-secondary-dark flex items-center justify-center rounded bg-white ">
               N
             </span>
             <span>No</span>

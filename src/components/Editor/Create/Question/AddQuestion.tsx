@@ -9,7 +9,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-import { QuestionTypeList } from "@/types/question";
+import { CreateQuestion, QuestionTypeList } from "@/types/question";
+import { useDataStore } from "@/store/store";
+import { generateUniqueId } from "@/lib/utils";
+import { useParams } from "next/navigation";
 
 const dropdown: QuestionTypeList[] = [
   {
@@ -30,8 +33,43 @@ const dropdown: QuestionTypeList[] = [
 ];
 
 export default function AddQuestion() {
+  const { quiz_id } = useParams<{ quiz_id: string }>();
+  const { quiz } = useDataStore();
+
   const handleAddQuestion = (item: QuestionTypeList) => {
-    console.log(item);
+    // if (!quiz) return;
+
+    const question: CreateQuestion = {
+      quizId: quiz_id,
+      question: "",
+      description: "",
+      type: item.type,
+      points: quiz?.setting.defaultPoint || 0,
+      answer: "",
+    };
+
+    if (item.type == "MULTIPLE_CHOICE") {
+      question.options = [
+        {
+          id: generateUniqueId(),
+          text: "",
+        },
+        {
+          id: generateUniqueId(),
+          text: "",
+        },
+        {
+          id: generateUniqueId(),
+          text: "",
+        },
+        {
+          id: generateUniqueId(),
+          text: "",
+        },
+      ];
+    }
+
+    console.log(question);
   };
 
   return (

@@ -52,9 +52,9 @@ export default function Profile() {
             {initials(user?.name!)}
           </div>
 
-          <div className="hidden md:flex flex-col ">
-            <h4 className="text-sm">{user?.name}</h4>
-            <span className="text-xs text-dark-300">{user?.email}</span>
+          <div className="hidden md:flex flex-col max-w-44">
+            <h4 className="text-sm truncate">{user?.name}</h4>
+            <div className=" text-xs text-dark-300 truncate">{user?.email}</div>
           </div>
         </div>
       </DropdownMenuTrigger>

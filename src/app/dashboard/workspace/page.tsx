@@ -15,8 +15,8 @@ export default function page() {
 
   useEffect(() => {
     if (workspaces?.length) {
-      const selectedWorkspace = workspace_id || workspaces[0]?._id;
-      router.replace(`/dashboard/workspace/${selectedWorkspace}`);
+      const selectedWorkspaceId = workspace_id || workspaces[0]?._id;
+      router.replace(`/dashboard/workspace/${selectedWorkspaceId}`);
     }
   }, []);
 

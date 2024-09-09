@@ -25,3 +25,5 @@ export type QuestionTypeList = {
   icon: string;
   type: QuestionType;
 };
+
+export type CreateQuestion = Partial<Omit<Question, "_id">>;

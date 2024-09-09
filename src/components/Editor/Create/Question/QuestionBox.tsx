@@ -28,10 +28,10 @@ export default function QuestionBox() {
   };
 
   return (
-    <div className="w-full h-[90%] border p-4 bg-white relative flex flex-col gap-4">
+    <div className=" w-full h-[90%] border p-4 bg-white relative flex flex-col gap-4">
       {selectedQuestion && (
         <>
-          <div className=" w-7 h-7 border border-secondary-dark text-secondary-dark flex items-center justify-center ">
+          <div className="absolute top-5 left-5 w-7 h-7 border border-secondary-dark text-secondary-dark flex items-center justify-center ">
             {selectedQuestion?.index}
           </div>
 
