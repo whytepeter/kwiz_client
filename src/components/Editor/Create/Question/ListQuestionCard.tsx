@@ -30,14 +30,9 @@ interface PropsType {
   index: number;
 }
 
-const getIcon = {
-  MULTIPLE_CHOICE: "/icons/multi_choice.svg",
-  "YES/NO": "/icons/yes_no.svg",
-  SHORT_ANSWER: "/icons/short_answer.svg",
-};
-
 export default function ListQuestionCard({ question, index }: PropsType) {
-  const { selectedQuestion, setSelectedQuestion } = useQuestion();
+  const { getIconByType, selectedQuestion, setSelectedQuestion } =
+    useQuestion();
   if (!question) return;
 
   const handleSelectQuestion = () => {
@@ -56,7 +51,7 @@ export default function ListQuestionCard({ question, index }: PropsType) {
       } group flex cursor-pointer text-xs items-center gap-2  p-2 pl-2.5 `}
     >
       <span className="flex-shrink-0">
-        <img src={getIcon[question.type]} alt="" />
+        <img src={getIconByType(question.type)} alt="" />
       </span>
       <span className="text-secondary-dark ">{index}</span>
 

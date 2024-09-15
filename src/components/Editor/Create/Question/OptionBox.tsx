@@ -1,11 +1,11 @@
 import { Button } from "@/components/ui/button";
+import { OPTION_IDS } from "@/constant";
 import useQuestion from "@/hooks/useQuestion";
 import { generateUniqueId } from "@/lib/utils";
 import { QuestionOptions } from "@/types/question";
 import React, { useEffect, useRef, useState } from "react";
 
-const optionIds = ["A", "B", "C", "D", "E"];
-const optionLength = optionIds.length;
+const optionLength = OPTION_IDS.length;
 
 export default function OptionBox() {
   const { selectedQuestion, addOptions, removeOption, updateOption } =
@@ -43,7 +43,7 @@ export default function OptionBox() {
   };
 
   const handleUpdateOption = (option: QuestionOptions, text: string) => {
-    if (!text || !option) return;
+    if (!option) return;
     const updatedOption = { ...option, text };
     updateOption(updatedOption);
   };
@@ -58,9 +58,11 @@ export default function OptionBox() {
               className="relative group p-1.5 capitalize  rounded-md border border-secondary-dark flex items-center gap-2 w-[250px] text-secondary-dark"
             >
               <span className="uppercase w-6 h-6 border border-secondary-dark flex items-center justify-center rounded bg-white ">
-                {optionIds[index]}
+                {OPTION_IDS[index]}
               </span>
               <input
+                type="text"
+                name="option"
                 ref={(el) => {
                   if (el) inputRefs.current[index] = el!;
                 }}
@@ -69,7 +71,7 @@ export default function OptionBox() {
                   handleUpdateOption(option, e.target.value);
                 }}
                 placeholder="choice"
-                className="appearance-none focus:outline-none capitalize"
+                className="w-full  appearance-none focus:outline-none capitalize"
               />
 
               <span

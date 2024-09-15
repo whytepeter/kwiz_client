@@ -1,8 +1,9 @@
-import { QUESTIONS } from "@/constant";
-import { QuizDisplay, Workspace } from "@/types";
+import { DEFAULT_THEMES, QUESTIONS } from "@/constant";
+import { QuizDisplay } from "@/types";
 import { Question } from "@/types/question";
-import { Quiz } from "@/types/quiz";
+import { Quiz, Theme } from "@/types/quiz";
 import { User } from "@/types/user";
+import { Workspace } from "@/types/workspace";
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 
@@ -22,6 +23,8 @@ type State = {
   quiz: Quiz | null;
   questions: Question[];
   selectedQuestionId: string;
+
+  themes: Theme[];
 };
 
 type Actions = {
@@ -45,6 +48,8 @@ const initialState: State = {
   quiz: null,
   questions: [...QUESTIONS],
   selectedQuestionId: "",
+
+  themes: [...DEFAULT_THEMES],
 };
 
 export const useDataStore = create<State & Actions>()(

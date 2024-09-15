@@ -6,6 +6,12 @@ type SelectedQuestion = Question & {
   index: number;
 };
 
+const ICON = {
+  MULTIPLE_CHOICE: "/icons/multi_choice.svg",
+  "YES/NO": "/icons/yes_no.svg",
+  SHORT_ANSWER: "/icons/short_answer.svg",
+};
+
 export default function useQuestion() {
   const { selectedQuestionId, questions } = useDataStore();
 
@@ -20,6 +26,10 @@ export default function useQuestion() {
 
     return undefined;
   }, [selectedQuestionId, questions]);
+
+  const getIconByType = (type: Question["type"]): string => {
+    return ICON[type];
+  };
 
   const setSelectedQuestion = (arg: Question) => {
     useDataStore.setState({
@@ -75,6 +85,7 @@ export default function useQuestion() {
     selectedQuestion,
     setSelectedQuestion,
     updateSelectedQuestion,
+    getIconByType,
     questions,
     addOptions,
     removeOption,

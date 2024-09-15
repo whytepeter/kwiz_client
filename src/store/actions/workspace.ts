@@ -1,4 +1,4 @@
-import { CreateWorkspace, UpdateWorkspace, Workspace } from "@/types";
+import { CreateWorkspace, UpdateWorkspace, Workspace } from "@/types/workspace";
 import { useDataStore } from "../store";
 import http from "@/lib/http";
 

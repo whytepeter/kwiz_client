@@ -87,7 +87,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       block ? "max-w-full min-w-full w-full" : "",
       loading ? "pointer-events-none" : "",
       props.disabled ? "opacity-60" : "hover:opacity-90",
-      "relative text-sm overflow-hidden active:opacity-90 text-center rounded-lg flex items-center justify-center gap-2",
+      "relative text-sm overflow-hidden active:opacity-90  text-center rounded-lg flex items-center justify-center gap-2",
       props.fab ? "w-12 h-12 rounded-full" : "",
       className
     );
@@ -99,7 +99,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ) : (
           <div>
             <span className="opacity-0">{props.children}</span>
-            <div className="absolute  top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ">
+            <div className="absolute focus:outline-none top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ">
               <Spinner color={loaderColor} />
             </div>
           </div>

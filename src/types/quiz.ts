@@ -14,6 +14,7 @@ export type Theme = {
   };
 
   createdBy?: string;
+  _id: string;
 };
 
 export type QuizSettings = {

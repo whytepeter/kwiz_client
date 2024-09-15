@@ -7,7 +7,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Workspace } from "@/types";
+import { Workspace } from "@/types/workspace";
 import { useDataStore } from "@/store/store";
 import WorkspaceForm from "../Workspace/WorkspaceForm";
 import useWorkspace from "@/hooks/useWorkspace";

@@ -14,23 +14,9 @@ import { useDataStore } from "@/store/store";
 import { generateUniqueId } from "@/lib/utils";
 import { useParams } from "next/navigation";
 
-const dropdown: QuestionTypeList[] = [
-  {
-    label: "Multiple Choice",
-    type: "MULTIPLE_CHOICE",
-    icon: "/icons/multi_choice.svg",
-  },
-  {
-    label: "Short Answer",
-    type: "SHORT_ANSWER",
-    icon: "/icons/short_answer.svg",
-  },
-  {
-    label: "Yes/No",
-    type: "YES/NO",
-    icon: "/icons/yes_no.svg",
-  },
-];
+import { QUESTION_TYPE_OPTIONS } from "@/constant";
+
+const dropdown = [...QUESTION_TYPE_OPTIONS];
 
 export default function AddQuestion() {
   const { quiz_id } = useParams<{ quiz_id: string }>();

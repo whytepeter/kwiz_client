@@ -1,6 +1,6 @@
 "use client";
 import { useDataStore } from "@/store/store";
-import { Workspace } from "@/types";
+import { Workspace } from "@/types/workspace";
 import { useParams, useRouter } from "next/navigation";
 
 import React, { useMemo } from "react";
