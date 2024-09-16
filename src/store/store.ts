@@ -1,4 +1,4 @@
-import { DEFAULT_THEMES, QUESTIONS } from "@/constant";
+import { DEFAULT_THEMES, QUESTIONS, QUIZ } from "@/constant";
 import { QuizDisplay } from "@/types";
 import { Question } from "@/types/question";
 import { Quiz, Theme } from "@/types/quiz";
@@ -45,7 +45,7 @@ const initialState: State = {
 
   quizzes: [],
 
-  quiz: null,
+  quiz: QUIZ,
   questions: [...QUESTIONS],
   selectedQuestionId: "",
 

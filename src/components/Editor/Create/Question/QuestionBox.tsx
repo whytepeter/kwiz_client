@@ -4,9 +4,11 @@ import React, { useEffect, useRef, useState } from "react";
 import OptionBox from "./OptionBox";
 
 export default function QuestionBox() {
+  const { quiz } = useDataStore();
+  const colors = quiz?.theme?.colors;
+
   const { selectedQuestionId } = useDataStore();
-  const { selectedQuestion, setSelectedQuestion, updateSelectedQuestion } =
-    useQuestion();
+  const { selectedQuestion, updateSelectedQuestion } = useQuestion();
   const questionRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -28,10 +30,22 @@ export default function QuestionBox() {
   };
 
   return (
-    <div className=" w-full h-[90%] border p-4 bg-white relative flex flex-col gap-4">
+    <div
+      style={{
+        background: quiz?.theme?.image
+          ? `url(${quiz?.theme.image}) no-repeat center/cover, ${
+              colors?.background || "#fff"
+            }`
+          : colors?.background || "#fff",
+      }}
+      className="overflow-hidden w-full h-[90%] border p-4  relative flex flex-col gap-4"
+    >
       {selectedQuestion && (
         <>
-          <div className="absolute top-5 left-5 w-7 h-7 border border-secondary-dark text-secondary-dark flex items-center justify-center ">
+          <div
+            style={{ borderColor: colors?.option, color: colors?.option }}
+            className="absolute top-5 left-5 w-7 h-7 border border-secondary-dark text-secondary-dark flex items-center justify-center "
+          >
             {selectedQuestion?.index}
           </div>
 
@@ -45,7 +59,8 @@ export default function QuestionBox() {
                 type="text"
                 name="question"
                 placeholder="Your question here"
-                className="appearance-none text-xl text-dark-300 focus:outline-none caret-secondary"
+                style={{ color: colors?.heading, caretColor: colors?.option }}
+                className="appearance-none bg-transparent text-xl  focus:outline-none "
               />
               <input
                 onChange={(e) => handleDescriptionChange(e.target.value)}
@@ -53,7 +68,8 @@ export default function QuestionBox() {
                 type="text"
                 name="description"
                 placeholder="Description (optional)"
-                className="appearance-none focus:outline-none text-xs italic font-light text-dark-200"
+                style={{ color: colors?.heading }}
+                className="appearance-none opacity-90 bg-transparent focus:outline-none text-xs italic font-light "
               />
             </div>
 

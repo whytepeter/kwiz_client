@@ -18,6 +18,7 @@ export type Theme = {
 };
 
 export type QuizSettings = {
+  _id: string;
   timeInSeconds?: number;
   startDate?: Date;
   endDate?: Date;
@@ -26,20 +27,20 @@ export type QuizSettings = {
   fields: Record<string, string>;
   audienceOnly: boolean;
   audience: string[];
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type Quiz = {
   _id: string;
   title: string;
   description?: string;
-  workspace: string;
+  workspaceId: string;
   theme: Theme;
   setting: QuizSettings;
   published: boolean;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type CreateQuizType = {

@@ -11,6 +11,7 @@ export default function Create() {
       className="flex text-sm text-dark overflow-hidden   items-center justify-between gap-4 pt-12 md:pt-4"
     >
       <div className="h-full  w-full max-w-[220px] hidden lg:flex">
+        {/* <RightSidebar /> */}
         <LeftSidebar />
       </div>
 
@@ -22,6 +23,7 @@ export default function Create() {
       </div>
 
       <div className="h-full w-full max-w-[220px] hidden lg:flex">
+        {/* <LeftSidebar /> */}
         <RightSidebar />
       </div>
     </div>

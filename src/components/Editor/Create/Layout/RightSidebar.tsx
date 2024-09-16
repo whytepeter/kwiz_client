@@ -11,6 +11,7 @@ export default function RightSidebar() {
       <div className="bg-accent p-4 grid grid-cols-2 gap-2">
         {tabItems.map((item) => (
           <span
+            key={item}
             onClick={() => setTab(item)}
             className={`${
               tab === item ? "text-secondary" : ""

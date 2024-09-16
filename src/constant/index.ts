@@ -1,5 +1,5 @@
 import { Question, QuestionTypeList } from "@/types/question";
-import { Theme } from "@/types/quiz";
+import { Quiz, QuizSettings, Theme } from "@/types/quiz";
 
 export const QUESTIONS: Question[] = [
   {
@@ -154,7 +154,7 @@ export const DEFAULT_THEMES: Theme[] = [
     title: "Art Splash",
     isPremium: true,
     font: "",
-    image: "",
+    image: "/img/art_splash.jpeg",
     colors: {
       background: "#FBF8F1",
       heading: "#2B2B2C",
@@ -169,7 +169,7 @@ export const DEFAULT_THEMES: Theme[] = [
     title: "Barceloneta",
     isPremium: true,
     font: "",
-    image: "",
+    image: "/img/barceloneta.png",
     colors: {
       background: "#E3DCCA",
       heading: "#2B2B2C",
@@ -180,4 +180,60 @@ export const DEFAULT_THEMES: Theme[] = [
     createdBy: "",
     _id: "7",
   },
+  {
+    title: "Eixample",
+    isPremium: true,
+    font: "",
+    image: "/img/eixample.png",
+    colors: {
+      background: "#F1ECE3",
+      heading: "#2B2B2C",
+      option: "#427E93",
+      buttonContainer: "#427E93",
+      buttonText: "#FFFFFF",
+    },
+    createdBy: "",
+    _id: "8",
+  },
+  {
+    title: "Orbital",
+    isPremium: true,
+    font: "",
+    image: "/img/orbital.png",
+    colors: {
+      background: "#EEEFF1",
+      heading: "#2B2B2C",
+      option: "#37404A",
+      buttonContainer: "#37404A",
+      buttonText: "#EEEFF1",
+    },
+    createdBy: "",
+    _id: "9",
+  },
 ];
+
+export const QUIZ_SETTINGS: QuizSettings = {
+  _id: "66999c564c3af5eb58dbed1c",
+  defaultPoint: 0,
+  requireAuth: false,
+  fields: {
+    email: "string",
+    name: "string",
+  },
+  audienceOnly: false,
+  audience: [],
+  createdAt: "2024-07-18T22:51:02.405Z",
+  updatedAt: "2024-07-18T22:51:02.405Z",
+};
+
+export const QUIZ: Quiz = {
+  _id: "66999c564c3af5eb58dbed1e",
+  title: "Default",
+  description: "",
+  workspaceId: "6699292dec1492e13384b9d0",
+  theme: DEFAULT_THEMES[0],
+  setting: QUIZ_SETTINGS,
+  published: false,
+  createdAt: "2024-07-18T22:51:02.405Z",
+  updatedAt: "2024-07-18T22:51:02.405Z",
+};
