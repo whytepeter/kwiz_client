@@ -10,11 +10,13 @@ import QuizLoadingState from "./QuizLoadingState";
 import QuizCard from "./QuizCard";
 import { useParams, useRouter } from "next/navigation";
 import useWorkspace from "@/hooks/useWorkspace";
+import AddQuiz from "./AddQuiz";
 
 export default function ListQuiz() {
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const { quizzes, quizDisplay } = useDataStore();
   const { selectedWorkspace } = useWorkspace();
@@ -35,12 +37,6 @@ export default function ListQuiz() {
   useEffect(() => {
     fetchQuizzes();
   }, [selectedWorkspace]);
-
-  const createNewQuiz = () => {
-    //create new quiz
-    const newQuizID = "123456";
-    router.push(`${selectedWorkspace?._id}/quiz/${newQuizID}?tab=create`);
-  };
 
   if (loading) return <QuizLoadingState />;
 
@@ -64,12 +60,14 @@ export default function ListQuiz() {
         </div>
       ) : (
         <EmptyState title="There’s not a quiz in sight" description="">
-          <Button onClick={createNewQuiz}>
+          <Button onClick={() => setOpen(true)}>
             <i className="pi pi-plus" />
             Create a new quiz
           </Button>
         </EmptyState>
       )}
+
+      <AddQuiz open={open} setOpen={setOpen} />
     </>
   );
 }

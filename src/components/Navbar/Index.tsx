@@ -2,19 +2,26 @@
 import React, { useState } from "react";
 import Profile from "./Profile";
 import { Button } from "../ui/button";
-import { usePathname } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import Notification from "../Notification/Index";
 import EditorTabs from "./EditorTabs";
 import WorkspaceList from "./WorkspaceList";
+import useQuiz from "@/hooks/useQuiz";
 
 export default function Navbar() {
   const pathname = usePathname();
   const showTabs = pathname.includes("/quiz/");
 
+  const { selectedQuiz } = useQuiz();
+
   return (
     <nav className="fixed z-10 left-0 top-0  w-full text-sm bg-white/30 backdrop-blur-md">
       <div className="container flex items-center justify-between gap-4 px-3 py-2.5">
-        <WorkspaceList />
+        <div className="flex items-center gap-1">
+          <WorkspaceList />
+
+          <span className="text-sm">{selectedQuiz?.title}</span>
+        </div>
 
         {showTabs && (
           <div className="hidden md:flex">

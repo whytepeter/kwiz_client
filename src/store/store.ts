@@ -29,6 +29,7 @@ type State = {
 
 type Actions = {
   reset: () => void;
+  setState: (state: Partial<State>) => void;
 };
 
 // define the initial state
@@ -59,6 +60,9 @@ export const useDataStore = create<State & Actions>()(
         ...initialState,
         reset: () => {
           set(initialState);
+        },
+        setState: (state: Partial<State>) => {
+          set((prev) => ({ ...prev, ...state }));
         },
       }),
       {

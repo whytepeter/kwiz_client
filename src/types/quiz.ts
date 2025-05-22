@@ -39,6 +39,7 @@ export type Quiz = {
   theme: Theme;
   setting: QuizSettings;
   published: boolean;
+  noOfTake: number;
   createdAt: string;
   updatedAt: string;
 };

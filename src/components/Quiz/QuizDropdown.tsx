@@ -42,7 +42,7 @@ const dropdown: ListType[] = [
 
 interface PropsType {
   children: React.ReactNode;
-  quiz?: Quiz;
+  quiz: Quiz;
 }
 
 export default function QuizDropdown({ children, quiz }: PropsType) {
@@ -52,7 +52,7 @@ export default function QuizDropdown({ children, quiz }: PropsType) {
   const handleClick = (item: ListType) => {
     switch (item.value) {
       case "open":
-        router.push(`${params.workspace_id}/quiz/123456`);
+        router.push(`${params.workspace_id}/quiz/${quiz._id}`);
         break;
       case "copy":
         copyText(item.value, "Link copied to clipboard");
