@@ -12,6 +12,7 @@ import {
 import { ListType } from "@/types";
 import { copyText } from "@/lib/utils";
 import { useParams, useRouter } from "next/navigation";
+import { ROUTES } from "@/types/routes";
 
 const dropdown: ListType[] = [
   {
@@ -46,13 +47,13 @@ interface PropsType {
 }
 
 export default function QuizDropdown({ children, quiz }: PropsType) {
-  const params = useParams<{ workspace_id: string }>();
+  const { workspace_id } = useParams<{ workspace_id: string }>();
   const router = useRouter();
 
   const handleClick = (item: ListType) => {
     switch (item.value) {
       case "open":
-        router.push(`${params.workspace_id}/quiz/${quiz._id}`);
+        router.push(`${ROUTES.Workspace}/${workspace_id}/quiz/${quiz._id}`);
         break;
       case "copy":
         copyText(item.value, "Link copied to clipboard");

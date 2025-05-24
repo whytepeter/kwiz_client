@@ -5,12 +5,14 @@ interface PropType {
   color?: string;
   size?: number;
   width?: number;
+  className?: string;
 }
 
 export default function Spinner({
   color = "#310A31",
   size = 20,
   width = 2.5,
+  className,
 }: PropType) {
   const sizeStyle = {
     height: size,
@@ -24,7 +26,7 @@ export default function Spinner({
 
   //
   return (
-    <div style={sizeStyle} className="relative ">
+    <div style={sizeStyle} className={cn("relative", className)}>
       <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
         <div
           style={{

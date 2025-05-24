@@ -3,7 +3,6 @@ import "./globals.css";
 import "primeicons/primeicons.css";
 import { Toaster } from "@/components/ui/sonner";
 import { Toaster as Toast } from "react-hot-toast";
-import Loader from "@/components/base/Loader";
 
 export const metadata: Metadata = {
   title: "Kwiz : The best online quiz editor",
@@ -32,7 +31,6 @@ export default function RootLayout({
       <body className="font-poppins bg-white">
         <main>{children}</main>
         <Toaster />
-        <Loader />
         <Toast
           toastOptions={{
             className: "",

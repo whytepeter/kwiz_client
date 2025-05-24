@@ -7,12 +7,11 @@ import Notification from "../Notification/Index";
 import EditorTabs from "./EditorTabs";
 import WorkspaceList from "./WorkspaceList";
 import useQuiz from "@/hooks/useQuiz";
+import QuizTitle from "../Quiz/QuizTitle";
 
 export default function Navbar() {
   const pathname = usePathname();
   const showTabs = pathname.includes("/quiz/");
-
-  const { selectedQuiz } = useQuiz();
 
   return (
     <nav className="fixed z-10 left-0 top-0  w-full text-sm bg-white/30 backdrop-blur-md">
@@ -20,7 +19,7 @@ export default function Navbar() {
         <div className="flex items-center gap-1">
           <WorkspaceList />
 
-          <span className="text-sm">{selectedQuiz?.title}</span>
+          <QuizTitle />
         </div>
 
         {showTabs && (

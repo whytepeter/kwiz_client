@@ -1,12 +1,12 @@
-import { Question, QuestionTypeList } from "@/types/question";
-import { Quiz, QuizSettings, Theme } from "@/types/quiz";
+import { Question, QuestionType, QuestionTypeList } from "@/types/question";
+import { Theme } from "@/types/quiz";
 
 export const QUESTIONS: Question[] = [
   {
     _id: "669a8db707372e5900ae7cf8",
     quizId: "66999c564c3af5eb58dbed1e",
     description: "",
-    type: "MULTIPLE_CHOICE",
+    type: QuestionType.MULTIPLE_CHOICE,
     options: [
       {
         id: "a",
@@ -31,7 +31,7 @@ export const QUESTIONS: Question[] = [
     quizId: "66999c564c3af5eb58dbed1e",
     question: "Javascript",
     description: "What is a function that calls it's self called?",
-    type: "SHORT_ANSWER",
+    type: QuestionType.SHORT_ANSWER,
     options: [],
     points: 5,
     answer: "ifi",
@@ -44,7 +44,7 @@ export const QUESTIONS: Question[] = [
     quizId: "66999c564c3af5eb58dbed1e",
     question: "Is javascript asynchronous?",
     description: "",
-    type: "YES/NO",
+    type: QuestionType.YES_NO,
     options: [],
     points: 5,
     answer: "YES",
@@ -57,17 +57,17 @@ export const QUESTIONS: Question[] = [
 export const QUESTION_TYPE_OPTIONS: QuestionTypeList[] = [
   {
     label: "Multiple Choice",
-    type: "MULTIPLE_CHOICE",
+    type: QuestionType.MULTIPLE_CHOICE,
     icon: "/icons/multi_choice.svg",
   },
   {
     label: "Short Answer",
-    type: "SHORT_ANSWER",
+    type: QuestionType.SHORT_ANSWER,
     icon: "/icons/short_answer.svg",
   },
   {
     label: "Yes/No",
-    type: "YES/NO",
+    type: QuestionType.YES_NO,
     icon: "/icons/yes_no.svg",
   },
 ];
@@ -212,28 +212,4 @@ export const DEFAULT_THEMES: Theme[] = [
   },
 ];
 
-export const QUIZ_SETTINGS: QuizSettings = {
-  _id: "66999c564c3af5eb58dbed1c",
-  defaultPoint: 0,
-  requireAuth: false,
-  fields: {
-    email: "string",
-    name: "string",
-  },
-  audienceOnly: false,
-  audience: [],
-  createdAt: "2024-07-18T22:51:02.405Z",
-  updatedAt: "2024-07-18T22:51:02.405Z",
-};
 
-export const QUIZ: Quiz = {
-  _id: "66999c564c3af5eb58dbed1e",
-  title: "Default",
-  description: "",
-  workspaceId: "6699292dec1492e13384b9d0",
-  theme: DEFAULT_THEMES[0],
-  setting: QUIZ_SETTINGS,
-  published: false,
-  createdAt: "2024-07-18T22:51:02.405Z",
-  updatedAt: "2024-07-18T22:51:02.405Z",
-};

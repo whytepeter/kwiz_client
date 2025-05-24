@@ -9,53 +9,62 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-import { CreateQuestion, QuestionTypeList } from "@/types/question";
-import { useDataStore } from "@/store/store";
+import {
+  CreateQuestion,
+  QuestionType,
+  QuestionTypeList,
+} from "@/types/question";
 import { generateUniqueId } from "@/lib/utils";
-import { useParams } from "next/navigation";
 
 import { QUESTION_TYPE_OPTIONS } from "@/constant";
+import useQuiz from "@/hooks/useQuiz";
+import useQuestion from "@/hooks/useQuestion";
 
 const dropdown = [...QUESTION_TYPE_OPTIONS];
 
 export default function AddQuestion() {
-  const { quiz_id } = useParams<{ quiz_id: string }>();
-  const { quiz } = useDataStore();
+  const { quiz } = useQuiz();
+  const { addQuestionHandler } = useQuestion();
 
   const handleAddQuestion = (item: QuestionTypeList) => {
-    // if (!quiz) return;
+    if (!quiz) return;
 
     const question: CreateQuestion = {
-      quizId: quiz_id,
-      question: "",
+      quizId: quiz._id,
+      question: "question",
       description: "",
       type: item.type,
-      points: quiz?.setting.defaultPoint || 0,
-      answer: "",
+      points: quiz.setting.defaultPoint || 0,
+      answer: "answer",
+      options: [],
     };
 
-    if (item.type == "MULTIPLE_CHOICE") {
+    if (item.type == QuestionType.MULTIPLE_CHOICE) {
       question.options = [
         {
           id: generateUniqueId(),
-          text: "",
+          text: "text",
         },
         {
           id: generateUniqueId(),
-          text: "",
+          text: "text",
         },
         {
           id: generateUniqueId(),
-          text: "",
+          text: "text",
         },
         {
           id: generateUniqueId(),
-          text: "",
+          text: "text",
         },
       ];
+
+      question.answer = question.options[0].id;
     }
 
-    console.log(question);
+    addQuestionHandler(question);
+
+    console.log("question", question);
   };
 
   return (

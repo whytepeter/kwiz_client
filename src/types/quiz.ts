@@ -48,3 +48,7 @@ export type CreateQuizType = {
   title: string;
   workspaceId: string;
 };
+
+export type UpdateQuiz = Partial<Pick<Quiz, 'title' | 'description' | 'published' | 'noOfTake'>> & {
+  quizId: string
+}

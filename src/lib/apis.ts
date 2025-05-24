@@ -12,7 +12,8 @@ export default {
 
   Quiz: "/quiz",
   WorkspaceQuiz: "/quiz/workspace", //:id = worspaceId
-  Question: "",
+  Question: "/question",
+  QuizQuestion: "/question/quiz", //:id = quizId
   Settings: "",
 };
 

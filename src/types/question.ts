@@ -1,4 +1,9 @@
-export type QuestionType = "MULTIPLE_CHOICE" | "YES/NO" | "SHORT_ANSWER";
+export enum QuestionType {
+  MULTIPLE_CHOICE = 'MULTIPLE_CHOICE',
+  YES_NO = 'YES/NO',
+  SHORT_ANSWER = 'SHORT_ANSWER',
+}
+
 
 export type QuestionOptions = {
   id: string;

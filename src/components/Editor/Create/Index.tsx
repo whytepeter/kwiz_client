@@ -1,10 +1,15 @@
+"use client";
 import React from "react";
 import LeftSidebar from "./Layout/LeftSidebar";
 import RightSidebar from "./Layout/RightSidebar";
 import TopNav from "./Layout/TopNav";
 import QuestionBox from "./Question/QuestionBox";
+import useQuiz from "@/hooks/useQuiz";
 
 export default function Create() {
+  const { quiz } = useQuiz();
+  console.log("quiz", quiz);
+
   return (
     <div
       style={{ height: "calc(100vh - 80px)" }}

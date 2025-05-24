@@ -1,16 +1,19 @@
 import { Button } from "@/components/ui/button";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
+import useQuiz from "@/hooks/useQuiz";
 
 import React from "react";
 
 export default function TopNav() {
   const breakpoint = useBreakpoint();
+  const { totalPoints, saving } = useQuiz();
 
   return (
     <div className="w-full  bg-accent px-3 py-2 rounded-xl flex items-center gap-4 justify-between">
       <div className="flex items-center gap-4">
         <h3 className="text-xs md:text-sm">
-          Total Points: <span className="text-secondary font-medium">15</span>{" "}
+          Total Points:{" "}
+          <span className="text-secondary font-medium">{totalPoints}</span>
         </h3>
 
         <div className="flex items-center gap-3">
@@ -31,7 +34,11 @@ export default function TopNav() {
           <i className="pi pi-eye" />
           <span className="hidden md:inline"> Preview</span>
         </Button>
-        <Button size="xsmall" className={`${breakpoint.sm && "w-9 h-9"}`}>
+        <Button
+          disabled={saving}
+          size="xsmall"
+          className={`${breakpoint.sm && "w-9 h-9"}`}
+        >
           <img src="/icons/publish.svg" alt="" />
           <span className="hidden md:inline">Publish</span>
         </Button>

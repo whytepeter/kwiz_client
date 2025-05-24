@@ -19,7 +19,7 @@ type State = {
   workspaces: Workspace[];
 
   quizzes: Quiz[];
-
+  saving: boolean
   quiz: Quiz | null;
   questions: Question[];
   selectedQuestionId: string;
@@ -30,6 +30,7 @@ type State = {
 type Actions = {
   reset: () => void;
   setState: (state: Partial<State>) => void;
+  updateSaving: (arg: boolean) => void
 };
 
 // define the initial state
@@ -47,6 +48,7 @@ const initialState: State = {
   quizzes: [],
 
   quiz: QUIZ,
+  saving: false,
   questions: [...QUESTIONS],
   selectedQuestionId: "",
 
@@ -64,6 +66,7 @@ export const useDataStore = create<State & Actions>()(
         setState: (state: Partial<State>) => {
           set((prev) => ({ ...prev, ...state }));
         },
+        updateSaving: (saving: boolean) => set(prev => ({ ...prev, saving }))
       }),
       {
         name: "dataStore",

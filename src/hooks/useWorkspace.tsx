@@ -1,5 +1,6 @@
 "use client";
 import { useDataStore } from "@/store/store";
+import { ROUTES } from "@/types/routes";
 import { Workspace } from "@/types/workspace";
 import { useParams, useRouter } from "next/navigation";
 
@@ -16,7 +17,7 @@ export default function useWorkspace() {
 
   const setSelectedWorkspace = (workspace: Workspace) => {
     if (workspace._id === selectedWorkspace?._id) return;
-    router.push(`/dashboard/workspace/${workspace._id}`);
+    router.push(`${ROUTES.Workspace}/${workspace._id}`);
   };
 
   return { workspaces, selectedWorkspace, setSelectedWorkspace };

@@ -2,14 +2,15 @@ import React, { useEffect } from "react";
 import AddQuestion from "../Question/AddQuestion";
 import ListQuestionCard from "../Question/ListQuestionCard";
 import useQuestion from "@/hooks/useQuestion";
+import { useParams } from "next/navigation";
+import Spinner from "@/components/base/Spinner";
 
 export default function LeftSidebar() {
-  const { selectedQuestion, setSelectedQuestion, questions } = useQuestion();
+  const { initializeQuestions, questions, loading } = useQuestion();
+  const { quiz_id } = useParams<{ quiz_id: string }>();
 
   useEffect(() => {
-    if (!selectedQuestion && questions?.length) {
-      setSelectedQuestion(questions[0]);
-    }
+    initializeQuestions(quiz_id);
   }, []);
 
   return (
@@ -17,6 +18,7 @@ export default function LeftSidebar() {
       <AddQuestion />
 
       <div className=" h-full  overflow-y-auto flex flex-col gap-4">
+        {loading && <Spinner className="mx-auto" />}
         {questions.map((quest, index) => (
           <ListQuestionCard
             key={quest._id}

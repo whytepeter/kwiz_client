@@ -5,3 +5,6 @@ export type ListType = {
   value: string;
   icon?: string;
 };
+
+
+export type LoadingStatus = "loading" | "updating" | "idle";

@@ -3,16 +3,25 @@ import { useDataStore } from "@/store/store";
 import { Quiz } from "@/types/quiz";
 import React from "react";
 import QuizDropdown from "./QuizDropdown";
+import { useParams, useRouter } from "next/navigation";
+import { ROUTES } from "@/types/routes";
 
 type PropType = {
   quiz: Quiz;
 };
 
 export default function QuizCard({ quiz }: PropType) {
+  const router = useRouter();
   const { quizDisplay } = useDataStore();
+  const { workspace_id } = useParams();
+
+  const openQuiz = () => {
+    if (!quiz) return;
+    router.push(`${ROUTES.Workspace}/${workspace_id}/quiz/${quiz._id}`);
+  };
 
   return (
-    <>
+    <div className="cursor-pointer" onClick={openQuiz}>
       {quizDisplay === "LIST" ? (
         <div className=" text-dark-300 text-sm border border-outline rounded-xl py-2 px-3 bg-background flex flex-col md:flex-row justify-between md:items-center gap-1 md:gap-4">
           <div className="flex items-center gap-3">
@@ -23,10 +32,10 @@ export default function QuizCard({ quiz }: PropType) {
           </div>
 
           <div className="flex justify-between md:grid grid-cols-3 items-center gap-2">
-            <div className="col-span-2  flex items-start gap-3 md:grid grid-cols-2">
+            <div className="col-span-2 text-center flex items-start gap-3 md:grid grid-cols-2">
               <div className=" ">{quiz?.noOfTake}</div>
               <span className="text-dark-100 font-thin md:hidden">|</span>
-              <div className="">{formatDate(new Date())}</div>
+              <div className="">{formatDate(quiz?.updatedAt)}</div>
             </div>
             <div className="flex items-center justify-end ">
               <QuizDropdown quiz={quiz}>
@@ -62,6 +71,6 @@ export default function QuizCard({ quiz }: PropType) {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }

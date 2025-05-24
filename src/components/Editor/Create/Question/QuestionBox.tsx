@@ -8,7 +8,8 @@ export default function QuestionBox() {
   const colors = quiz?.theme?.colors;
 
   const { selectedQuestionId } = useDataStore();
-  const { selectedQuestion, updateSelectedQuestion } = useQuestion();
+  const { selectedQuestion, updateSelectedQuestion, selectedQuestionIndex } =
+    useQuestion();
   const questionRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -19,14 +20,12 @@ export default function QuestionBox() {
 
   const handleQuestionChange = (text: string) => {
     if (!selectedQuestion) return;
-    const { index, ...rest } = selectedQuestion;
-    updateSelectedQuestion({ ...rest, question: text });
+    updateSelectedQuestion({ ...selectedQuestion, question: text });
   };
 
   const handleDescriptionChange = (text: string) => {
     if (!selectedQuestion) return;
-    const { index, ...rest } = selectedQuestion;
-    updateSelectedQuestion({ ...rest, description: text });
+    updateSelectedQuestion({ ...selectedQuestion, description: text });
   };
 
   return (
@@ -42,12 +41,14 @@ export default function QuestionBox() {
     >
       {selectedQuestion && (
         <>
-          <div
-            style={{ borderColor: colors?.option, color: colors?.option }}
-            className="absolute top-5 left-5 w-7 h-7 border border-secondary-dark text-secondary-dark flex items-center justify-center "
-          >
-            {selectedQuestion?.index}
-          </div>
+          {selectedQuestionIndex !== undefined && (
+            <div
+              style={{ borderColor: colors?.option, color: colors?.option }}
+              className="absolute top-5 left-5 w-7 h-7 border border-secondary-dark text-secondary-dark flex items-center justify-center "
+            >
+              {selectedQuestionIndex + 1}
+            </div>
+          )}
 
           <div className="flex-1 h-full flex flex-col justify-center px-6 md:px-16 gap-4">
             <div className="flex flex-col gap-1">
