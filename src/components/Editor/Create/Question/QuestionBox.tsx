@@ -8,7 +8,7 @@ export default function QuestionBox() {
   const { quiz } = useDataStore();
   const colors = quiz?.theme?.colors;
 
-  const { selectedQuestionId } = useDataStore();
+  const { activeQuestion } = useDataStore();
   const {
     selectedQuestion,
     updateSelectedQuestion,
@@ -21,7 +21,7 @@ export default function QuestionBox() {
     if (questionRef.current) {
       questionRef.current.focus();
     }
-  }, [selectedQuestionId]);
+  }, [activeQuestion]);
 
   const handleQuestionChange = (text: string) => {
     if (!selectedQuestion) return;

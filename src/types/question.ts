@@ -32,4 +32,8 @@ export type QuestionTypeList = {
   type: QuestionType;
 };
 
-export type CreateQuestion = Partial<Omit<Question, "_id">>;
+export type CreateQuestion = Partial<Omit<Question, "_id" | '__v'>>;
+
+export type UpdateQuestion = CreateQuestion & {
+  questionId: string
+}

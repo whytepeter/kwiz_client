@@ -1,14 +1,21 @@
 import { useDataStore } from "@/store/store";
-import { CreateQuestion, Question, QuestionOptions } from "@/types/question";
-import { useCallback, useMemo, useState } from "react";
+import {
+  CreateQuestion,
+  Question,
+  QuestionOptions,
+  UpdateQuestion,
+} from "@/types/question";
 import { LoadingStatus } from "@/types";
 import {
   createQuestion,
   deleteQuestion,
   getQuestionsByQuiz,
+  updateQuestion,
 } from "@/store/actions/questions";
 import toast from "react-hot-toast";
 import { generateUniqueId } from "@/lib/utils";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import debounce from "lodash/debounce";
 
 const ICON = {
   MULTIPLE_CHOICE: "/icons/multi_choice.svg",
@@ -17,18 +24,67 @@ const ICON = {
 };
 
 export default function useQuestion() {
+  // --- Local state ---
   const [status, setStatus] = useState<LoadingStatus>("idle");
+  const [errorModal, setErrorModal] = useState<{
+    show: boolean;
+    question: UpdateQuestion;
+  } | null>(null);
+
+  // --- Store state ---
   const { activeQuestion, questions, updateSaving } = useDataStore();
 
-  const selectedQuestion = useMemo(() => {
-    return questions?.find((el) => el._id === activeQuestion);
-  }, [activeQuestion, questions]);
+  // --- Selectors ---
+  const selectedQuestion = useMemo(
+    () => questions?.find((el) => el._id === activeQuestion),
+    [activeQuestion, questions]
+  );
 
   const selectedQuestionIndex = useMemo(() => {
     const index = questions.findIndex((el) => el._id == activeQuestion);
     return index !== -1 ? index : undefined;
   }, [activeQuestion, questions]);
 
+  // --- Debounced save ---
+  const debouncedSave = useCallback(
+    debounce(async (payload: UpdateQuestion, previos: Question) => {
+      try {
+        await updateQuestion(payload);
+      } catch (err: any) {
+        useDataStore.setState((state) => ({
+          questions: state.questions.map((q) =>
+            q._id === previos._id ? previos : q
+          ),
+        }));
+
+        toast.error(err?.message || "Error saving question");
+        setErrorModal({ show: true, question: payload });
+      }
+    }, 500),
+    []
+  );
+
+  useEffect(() => {
+    return () => {
+      debouncedSave.cancel();
+    };
+  }, [debouncedSave]);
+
+  const retrySave = useCallback(async () => {
+    if (!errorModal) return;
+    const { question } = errorModal;
+    setErrorModal(null);
+    setStatus("updating");
+    try {
+      await updateQuestion(question);
+    } catch (err: any) {
+      setErrorModal({ show: true, question });
+    } finally {
+      setStatus("idle");
+    }
+  }, [errorModal]);
+
+  // --- Initialization ---
   const initializeQuestions = useCallback(
     async (quiz_id: string) => {
       if (!quiz_id || status == "loading") return;
@@ -47,19 +103,16 @@ export default function useQuestion() {
     [getQuestionsByQuiz, status, selectedQuestion]
   );
 
+  // --- Question handlers ---
   const addQuestionHandler = useCallback(
     async (payload: CreateQuestion) => {
       if (!payload || status === "updating") return;
-
-      // 1. Create a temporary question with a fake ID
       const tempId = generateUniqueId();
       const tempQuestion: Question = {
         ...payload,
         _id: tempId,
         __v: 0,
       } as Question;
-
-      // 2. Optimistically insert into store & select it
       useDataStore.setState((state) => ({
         questions: [...(state.questions || []), tempQuestion],
         activeQuestion: tempId,
@@ -68,8 +121,6 @@ export default function useQuestion() {
       try {
         setStatus("updating");
         const realQuestion = await createQuestion(payload);
-
-        // 3. Replace temp with real one
         useDataStore.setState((state) => ({
           questions: state.questions!.map((q) =>
             q._id === tempId ? realQuestion : q
@@ -77,10 +128,9 @@ export default function useQuestion() {
           activeQuestion: realQuestion._id,
         }));
       } catch (error: any) {
-        // 4. Roll back on error
         useDataStore.setState((state) => ({
           questions: state.questions!.filter((q) => q._id !== tempId),
-          activeQuestion: state.questions?.[0]?._id || null,
+          activeQuestion: state.questions?.[0]?._id || undefined,
         }));
         toast.error(error?.message || "Error adding question");
       } finally {
@@ -93,19 +143,15 @@ export default function useQuestion() {
   const deleteQuestionHandler = useCallback(
     async (questionId: string) => {
       if (!questionId || status === "deleting") return;
-
-      // 1. Snapshot current list
       const oldList = questions || [];
       const oldActive = activeQuestion;
-
-      // 2. Remove immediately
       useDataStore.setState((state) => {
         const newList = state.questions!.filter((q) => q._id !== questionId);
         return {
           questions: newList,
           activeQuestion:
             state.activeQuestion === questionId
-              ? newList[0]?._id || null
+              ? newList[0]?._id
               : state.activeQuestion,
         };
       });
@@ -114,7 +160,6 @@ export default function useQuestion() {
         setStatus("deleting");
         await deleteQuestion(questionId);
       } catch (error: any) {
-        // 3. Roll back on error
         useDataStore.setState({
           questions: oldList,
           activeQuestion: oldActive,
@@ -126,78 +171,102 @@ export default function useQuestion() {
     },
     [status, questions, activeQuestion]
   );
-  ///////  Update Selection Question //////
 
-  const getIconByType = (type: Question["type"]): string => {
-    return ICON[type];
-  };
+  // --- Options handlers ---
+  const addOptions = useCallback(
+    (option: QuestionOptions) => {
+      const question = questions.find((q) => q._id === activeQuestion);
+      if (!question) return;
+      const updated = { ...question, options: [...question.options, option] };
+      updateSelectedQuestion(updated as Question);
+    },
+    [questions, activeQuestion]
+  );
 
-  const setActiveQuestion = (arg: Question) => {
-    console.log("selecting", arg.type);
-    useDataStore.setState({
-      activeQuestion: arg._id,
-    });
-  };
+  const removeOption = useCallback(
+    (optionId: string) => {
+      const question = questions.find((q) => q._id === activeQuestion);
+      if (!question) return;
+      const updated = {
+        ...question,
+        options: question.options.filter((opt) => opt.id !== optionId),
+      };
+      updateSelectedQuestion(updated as Question);
+    },
+    [questions, activeQuestion]
+  );
 
-  const updateSelectedQuestion = (arg: Question) => {
-    useDataStore.setState({
-      questions: [...questions].map((el) => (el._id === arg._id ? arg : el)),
-    });
-  };
+  const updateOption = useCallback(
+    (option: QuestionOptions) => {
+      const question = questions.find((q) => q._id === activeQuestion);
+      if (!question) return;
+      const updated = {
+        ...question,
+        options: question.options.map((opt) =>
+          opt.id === option.id ? option : opt
+        ),
+      };
+      updateSelectedQuestion(updated as Question);
+    },
+    [questions, activeQuestion]
+  );
 
-  const addOptions = (option: QuestionOptions) => {
-    useDataStore.setState({
-      questions: [...questions].map((el) =>
-        el._id === selectedQuestionId
-          ? { ...el, options: [...el.options, option] }
-          : el
-      ),
-    });
-  };
+  // --- Persistence handler ---
+  const updateSelectedQuestion = useCallback(
+    (updated: Question) => {
+      // 1) snapshot
+      const prev = useDataStore
+        .getState()
+        .questions.find((q) => q._id === updated._id);
 
-  const removeOption = (optionId: string) => {
-    useDataStore.setState({
-      questions: [...questions].map((el) =>
-        el._id === selectedQuestionId
-          ? {
-              ...el,
-              options: el.options.filter((option) => option.id !== optionId),
-            }
-          : el
-      ),
-    });
-  };
+      if (!prev) return;
 
-  const updateOption = (option: QuestionOptions) => {
-    useDataStore.setState({
-      questions: [...questions].map((el) =>
-        el._id === selectedQuestionId
-          ? {
-              ...el,
-              options: el.options.map((opt) =>
-                opt.id === option.id ? option : opt
-              ),
-            }
-          : el
-      ),
-    });
-  };
+      useDataStore.setState((state) => ({
+        questions: state.questions.map((q) =>
+          q._id === updated._id ? updated : q
+        ),
+      }));
 
+      const { _id, __v, ...rest } = updated;
+      const payload: UpdateQuestion = { ...rest, questionId: updated._id };
+      debouncedSave(payload, prev);
+    },
+    [debouncedSave]
+  );
+
+  // --- Utility ---
+  const getIconByType = (type: Question["type"]): string => ICON[type];
+
+  const setActiveQuestion = useCallback((arg: Question) => {
+    useDataStore.setState({ activeQuestion: arg._id });
+  }, []);
+
+  // --- Return ---
   return {
-    loading: status == "loading",
-    updating: status == "updating",
-    deleting: status == "deleting",
+    // status flags
+    loading: status === "loading",
+    updating: status === "updating",
+    deleting: status === "deleting",
+
+    // data
+    questions,
     selectedQuestion,
     selectedQuestionIndex,
-    questions,
+
+    // actions
     initializeQuestions,
     addQuestionHandler,
     deleteQuestionHandler,
-    setActiveQuestion,
     updateSelectedQuestion,
-    getIconByType,
     addOptions,
     removeOption,
     updateOption,
+    setActiveQuestion,
+    getIconByType,
+
+    // modal
+    errorModal,
+    retrySave,
+    closeErrorModal: () => setErrorModal(null),
   };
 }

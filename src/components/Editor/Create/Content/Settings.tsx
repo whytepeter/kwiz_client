@@ -13,11 +13,11 @@ export default function Settings() {
         value: selectedQuestion?.required,
         show: true,
       },
-      {
-        key: "maxCharacters",
-        value: selectedQuestion?.maxCharacters,
-        show: selectedQuestion?.type === "SHORT_ANSWER",
-      },
+      // {
+      //   key: "maxCharacters",
+      //   value: selectedQuestion?.maxCharacters,
+      //   show: selectedQuestion?.type === "SHORT_ANSWER",
+      // },
       {
         key: "randomize",
         value: selectedQuestion?.randomize,

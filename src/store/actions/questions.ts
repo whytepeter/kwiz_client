@@ -1,4 +1,4 @@
-import { CreateQuestion, Question } from "@/types/question";
+import { CreateQuestion, Question, UpdateQuestion } from "@/types/question";
 import { useDataStore } from "../store";
 import http from "@/lib/http";
 
@@ -20,7 +20,6 @@ export const getQuestionsByQuiz = async (quizId: string): Promise<Question[]> =>
     }
 };
 
-
 export const createQuestion = async (payload: CreateQuestion): Promise<Question> => {
     if (!payload) throw new Error('Question required')
     try {
@@ -32,6 +31,16 @@ export const createQuestion = async (payload: CreateQuestion): Promise<Question>
         throw error;
     }
 };
+
+export const updateQuestion = async (payload: UpdateQuestion) => {
+    if (!payload?.questionId) throw new Error('Questiong Id is required')
+    try {
+        await http("Question", "patch", payload);
+    } catch (error) {
+        throw error;
+    }
+};
+
 
 export const deleteQuestion = async (questionId: string, quizId?: string) => {
     if (!questionId) return;

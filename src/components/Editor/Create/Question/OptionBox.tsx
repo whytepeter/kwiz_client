@@ -93,14 +93,16 @@ export default function OptionBox() {
                 className="w-full bg-transparent appearance-none focus:outline-none capitalize"
               />
 
-              <span
-                onClick={() => {
-                  removeOption(option.id);
-                }}
-                className="hidden group-hover:flex rounded-full h-5 w-5 -right-3 bg-error-dark text-white absolute top-1/2 -translate-y-1/2  items-center justify-center  cursor-pointer text-xs"
-              >
-                <i className="pi pi-times " />
-              </span>
+              {selectedQuestion?.options?.length > 1 && (
+                <span
+                  onClick={() => {
+                    removeOption(option.id);
+                  }}
+                  className="hidden group-hover:flex rounded-full h-5 w-5 -right-3 bg-error-dark text-white absolute top-1/2 -translate-y-1/2  items-center justify-center  cursor-pointer text-xs"
+                >
+                  <i className="pi pi-times " />
+                </span>
+              )}
             </div>
           ))}
 
