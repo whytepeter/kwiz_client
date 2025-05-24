@@ -58,13 +58,9 @@ export default function AddQuestion() {
           text: "",
         },
       ];
-
-      question.answer = question.options[0].id;
     }
 
     addQuestionHandler(question);
-
-    console.log("question", question);
   };
 
   return (
