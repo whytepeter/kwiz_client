@@ -31,11 +31,11 @@ export default function AddQuestion() {
 
     const question: CreateQuestion = {
       quizId: quiz._id,
-      question: "question",
+      question: "",
       description: "",
       type: item.type,
       points: quiz.setting.defaultPoint || 0,
-      answer: "answer",
+      answer: "",
       options: [],
     };
 
@@ -43,19 +43,19 @@ export default function AddQuestion() {
       question.options = [
         {
           id: generateUniqueId(),
-          text: "text",
+          text: "",
         },
         {
           id: generateUniqueId(),
-          text: "text",
+          text: "",
         },
         {
           id: generateUniqueId(),
-          text: "text",
+          text: "",
         },
         {
           id: generateUniqueId(),
-          text: "text",
+          text: "",
         },
       ];
 
@@ -72,7 +72,8 @@ export default function AddQuestion() {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button block variant="outline" className="!bg-accent" size="xsmall">
-            <i className="pi pi-plus" /> Add Content
+            <i className="pi pi-plus" />
+            Add Content
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-44  bg-white/30 backdrop-blur-md">

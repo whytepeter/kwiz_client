@@ -1,4 +1,4 @@
-import { DEFAULT_THEMES, QUESTIONS, QUIZ } from "@/constant";
+import { DEFAULT_THEMES } from "@/constant";
 import { QuizDisplay } from "@/types";
 import { Question } from "@/types/question";
 import { Quiz, Theme } from "@/types/quiz";
@@ -22,7 +22,7 @@ type State = {
   saving: boolean
   quiz: Quiz | null;
   questions: Question[];
-  selectedQuestionId: string;
+  activeQuestion: string | null
 
   themes: Theme[];
 };
@@ -47,10 +47,10 @@ const initialState: State = {
 
   quizzes: [],
 
-  quiz: QUIZ,
+  quiz: null,
   saving: false,
-  questions: [...QUESTIONS],
-  selectedQuestionId: "",
+  questions: [],
+  activeQuestion: '',
 
   themes: [...DEFAULT_THEMES],
 };

@@ -24,9 +24,24 @@ export const getQuestionsByQuiz = async (quizId: string): Promise<Question[]> =>
 export const createQuestion = async (payload: CreateQuestion): Promise<Question> => {
     if (!payload) throw new Error('Question required')
     try {
-        const { data } = await http("Question", "post", payload);
-        getQuestionsByQuiz(payload.quizId!)
-        return data as Question;
+        const res = await http("Question", "post", payload);
+        // await getQuestionsByQuiz(payload.quizId!)
+
+        return res as Question;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const deleteQuestion = async (questionId: string, quizId?: string) => {
+    if (!questionId) return;
+
+    try {
+        await http("Question", "delete", null, {
+            suffix: questionId,
+        });
+
+        // await getQuestionsByQuiz(quizId);
     } catch (error) {
         throw error;
     }

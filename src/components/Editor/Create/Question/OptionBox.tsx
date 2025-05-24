@@ -117,7 +117,6 @@ export default function OptionBox() {
           )}
         </div>
       )}
-
       {selectedQuestion?.type === "YES/NO" && (
         <div className="flex flex-col gap-2">
           <div
@@ -152,7 +151,6 @@ export default function OptionBox() {
           </div>
         </div>
       )}
-
       {selectedQuestion?.type === "SHORT_ANSWER" && (
         <div>
           <input

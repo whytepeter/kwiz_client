@@ -11,6 +11,7 @@ export type QuestionOptions = {
 };
 
 export type Question = {
+  __v: any;
   _id: string;
   quizId: string;
   question: string;

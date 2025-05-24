@@ -2,8 +2,13 @@ import { useDataStore } from "@/store/store";
 import { CreateQuestion, Question, QuestionOptions } from "@/types/question";
 import { useCallback, useMemo, useState } from "react";
 import { LoadingStatus } from "@/types";
-import { createQuestion, getQuestionsByQuiz } from "@/store/actions/questions";
+import {
+  createQuestion,
+  deleteQuestion,
+  getQuestionsByQuiz,
+} from "@/store/actions/questions";
 import toast from "react-hot-toast";
+import { generateUniqueId } from "@/lib/utils";
 
 const ICON = {
   MULTIPLE_CHOICE: "/icons/multi_choice.svg",
@@ -13,17 +18,16 @@ const ICON = {
 
 export default function useQuestion() {
   const [status, setStatus] = useState<LoadingStatus>("idle");
-  const { selectedQuestionId, questions } = useDataStore();
-
-  const selectedQuestionIndex = useMemo(() => {
-    const index = questions.findIndex((el) => el._id == selectedQuestionId);
-    return index !== -1 ? index : undefined;
-  }, [selectedQuestionId]);
+  const { activeQuestion, questions, updateSaving } = useDataStore();
 
   const selectedQuestion = useMemo(() => {
-    if (selectedQuestionIndex == undefined) return;
-    return questions[selectedQuestionIndex];
-  }, [selectedQuestionIndex, questions]);
+    return questions?.find((el) => el._id === activeQuestion);
+  }, [activeQuestion, questions]);
+
+  const selectedQuestionIndex = useMemo(() => {
+    const index = questions.findIndex((el) => el._id == activeQuestion);
+    return index !== -1 ? index : undefined;
+  }, [activeQuestion, questions]);
 
   const initializeQuestions = useCallback(
     async (quiz_id: string) => {
@@ -32,7 +36,7 @@ export default function useQuestion() {
       try {
         const res = await getQuestionsByQuiz(quiz_id);
         if (!selectedQuestion && res?.length) {
-          setSelectedQuestion(res[0]);
+          setActiveQuestion(res[0]);
         }
       } catch (error: any) {
         toast.error(error?.message || "Error fetching questions");
@@ -43,28 +47,95 @@ export default function useQuestion() {
     [getQuestionsByQuiz, status, selectedQuestion]
   );
 
-  const addQuestionHandler = useCallback(async (payload: CreateQuestion) => {
-    if (!payload || status == "updating") return;
+  const addQuestionHandler = useCallback(
+    async (payload: CreateQuestion) => {
+      if (!payload || status === "updating") return;
 
-    try {
-      setStatus("updating");
-      await createQuestion(payload);
-    } catch (error: any) {
-      toast.error(error?.message || "Error adding question");
-    } finally {
-      setStatus("idle");
-    }
-  }, []);
+      // 1. Create a temporary question with a fake ID
+      const tempId = generateUniqueId();
+      const tempQuestion: Question = {
+        ...payload,
+        _id: tempId,
+        __v: 0,
+      } as Question;
 
+      // 2. Optimistically insert into store & select it
+      useDataStore.setState((state) => ({
+        questions: [...(state.questions || []), tempQuestion],
+        activeQuestion: tempId,
+      }));
+
+      try {
+        setStatus("updating");
+        const realQuestion = await createQuestion(payload);
+
+        // 3. Replace temp with real one
+        useDataStore.setState((state) => ({
+          questions: state.questions!.map((q) =>
+            q._id === tempId ? realQuestion : q
+          ),
+          activeQuestion: realQuestion._id,
+        }));
+      } catch (error: any) {
+        // 4. Roll back on error
+        useDataStore.setState((state) => ({
+          questions: state.questions!.filter((q) => q._id !== tempId),
+          activeQuestion: state.questions?.[0]?._id || null,
+        }));
+        toast.error(error?.message || "Error adding question");
+      } finally {
+        setStatus("idle");
+      }
+    },
+    [status]
+  );
+
+  const deleteQuestionHandler = useCallback(
+    async (questionId: string) => {
+      if (!questionId || status === "deleting") return;
+
+      // 1. Snapshot current list
+      const oldList = questions || [];
+      const oldActive = activeQuestion;
+
+      // 2. Remove immediately
+      useDataStore.setState((state) => {
+        const newList = state.questions!.filter((q) => q._id !== questionId);
+        return {
+          questions: newList,
+          activeQuestion:
+            state.activeQuestion === questionId
+              ? newList[0]?._id || null
+              : state.activeQuestion,
+        };
+      });
+
+      try {
+        setStatus("deleting");
+        await deleteQuestion(questionId);
+      } catch (error: any) {
+        // 3. Roll back on error
+        useDataStore.setState({
+          questions: oldList,
+          activeQuestion: oldActive,
+        });
+        toast.error(error?.message || "Error deleting question");
+      } finally {
+        setStatus("idle");
+      }
+    },
+    [status, questions, activeQuestion]
+  );
   ///////  Update Selection Question //////
 
   const getIconByType = (type: Question["type"]): string => {
     return ICON[type];
   };
 
-  const setSelectedQuestion = (arg: Question) => {
+  const setActiveQuestion = (arg: Question) => {
+    console.log("selecting", arg.type);
     useDataStore.setState({
-      selectedQuestionId: arg._id,
+      activeQuestion: arg._id,
     });
   };
 
@@ -115,12 +186,14 @@ export default function useQuestion() {
   return {
     loading: status == "loading",
     updating: status == "updating",
+    deleting: status == "deleting",
     selectedQuestion,
     selectedQuestionIndex,
     questions,
     initializeQuestions,
     addQuestionHandler,
-    setSelectedQuestion,
+    deleteQuestionHandler,
+    setActiveQuestion,
     updateSelectedQuestion,
     getIconByType,
     addOptions,

@@ -1,5 +1,4 @@
 import useQuestion from "@/hooks/useQuestion";
-import { useDataStore } from "@/store/store";
 import { Question } from "@/types/question";
 import React from "react";
 
@@ -11,6 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ListType } from "@/types";
+import Spinner from "@/components/base/Spinner";
 
 const dropdown: ListType[] = [
   {
@@ -31,15 +31,29 @@ interface PropsType {
 }
 
 export default function ListQuestionCard({ question, index }: PropsType) {
-  const { getIconByType, selectedQuestion, setSelectedQuestion } =
-    useQuestion();
+  const {
+    getIconByType,
+    selectedQuestion,
+    setActiveQuestion,
+    deleteQuestionHandler,
+    addQuestionHandler,
+  } = useQuestion();
   if (!question) return;
 
   const handleSelectQuestion = () => {
-    setSelectedQuestion(question);
+    setActiveQuestion(question);
   };
 
-  const handleClick = (item: ListType) => {};
+  const handleClick = (item: ListType) => {
+    if (item.value == "delete") {
+      return deleteQuestionHandler(question._id);
+    } else if (item.value == "duplicate") {
+      const { _id, __v, ...rest } = question;
+      const payload = { ...rest };
+
+      return addQuestionHandler(payload);
+    }
+  };
 
   return (
     <div
@@ -69,7 +83,10 @@ export default function ListQuestionCard({ question, index }: PropsType) {
           <DropdownMenuGroup className=" overflow-auto">
             {dropdown.map((item) => (
               <DropdownMenuItem
-                onClick={() => handleClick(item)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleClick(item);
+                }}
                 className={`${
                   item.value == "delete" ? "text-error-dark" : ""
                 } font-light gap-2 py-2`}

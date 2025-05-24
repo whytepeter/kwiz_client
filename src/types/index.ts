@@ -7,4 +7,4 @@ export type ListType = {
 };
 
 
-export type LoadingStatus = "loading" | "updating" | "idle";
+export type LoadingStatus = "loading" | "updating" | "deleting" | "idle";
