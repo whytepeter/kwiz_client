@@ -70,7 +70,7 @@ export default function AddQuiz({
           workspaceId: selectedWorkspace?._id!,
         };
         const res = await createQuiz(payload);
-        // router.push(`${selectedWorkspace?._id}/quiz/${res._id}?tab=create`);
+        router.push(`${selectedWorkspace?._id}/quiz/${res._id}?tab=create`);
       }
 
       handleClose();

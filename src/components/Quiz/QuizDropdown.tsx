@@ -82,7 +82,7 @@ export default function QuizDropdown({ children, quiz }: PropsType) {
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
-        <DropdownMenuContent className="w-28  bg-white/30 backdrop-blur-md">
+        <DropdownMenuContent className="w-28 mr-2 bg-white/30 backdrop-blur-md">
           <DropdownMenuGroup className=" overflow-auto">
             {dropdown.map((item) => (
               <DropdownMenuItem
