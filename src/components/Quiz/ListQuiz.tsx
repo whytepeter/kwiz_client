@@ -8,13 +8,10 @@ import QuizHeader from "./QuizHeader";
 import { Quiz } from "@/types/quiz";
 import QuizLoadingState from "./QuizLoadingState";
 import QuizCard from "./QuizCard";
-import { useParams, useRouter } from "next/navigation";
 import useWorkspace from "@/hooks/useWorkspace";
 import AddQuiz from "./AddQuiz";
 
 export default function ListQuiz() {
-  const router = useRouter();
-
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -38,7 +35,7 @@ export default function ListQuiz() {
     fetchQuizzes();
   }, [selectedWorkspace]);
 
-  if (loading) return <QuizLoadingState />;
+  if (loading && !quizzes?.length) return <QuizLoadingState />;
 
   return (
     <>

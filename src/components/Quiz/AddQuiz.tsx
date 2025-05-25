@@ -24,24 +24,27 @@ import toast from "react-hot-toast";
 import TextInput from "../base/TextInput";
 import { Button } from "../ui/button";
 import { workspaceSchema } from "@/types/schemas";
-import { useDataStore } from "@/store/store";
-import { createWorkspace, editWorkspace } from "@/store/actions/workspace";
 import useWorkspace from "@/hooks/useWorkspace";
-import { createQuiz } from "@/store/actions/quiz";
+import { createQuiz, updateQuiz } from "@/store/actions/quiz";
 import { useRouter } from "next/navigation";
-import useQuiz from "@/hooks/useQuiz";
+import { Quiz, UpdateQuiz } from "@/types/quiz";
 
 type PropType = {
   open: boolean;
   setOpen: (val: boolean) => void;
   edit?: boolean;
+  quiz?: Quiz;
 };
 
-export default function AddQuiz({ open, setOpen, edit = false }: PropType) {
+export default function AddQuiz({
+  open,
+  setOpen,
+  edit = false,
+  quiz,
+}: PropType) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const { selectedWorkspace } = useWorkspace();
-  const { setSelectedQuiz } = useQuiz();
 
   const form = useForm<z.infer<typeof workspaceSchema>>({
     resolver: zodResolver(workspaceSchema),
@@ -54,16 +57,20 @@ export default function AddQuiz({ open, setOpen, edit = false }: PropType) {
     try {
       setLoading(true);
 
-      const payload = {
-        title: values.title,
-        workspaceId: selectedWorkspace?._id!,
-      };
-
       if (edit) {
+        if (!quiz) return;
+        const payload: UpdateQuiz = {
+          quizId: quiz._id,
+          title: values.title,
+        };
+        await updateQuiz(payload);
       } else {
+        const payload = {
+          title: values.title,
+          workspaceId: selectedWorkspace?._id!,
+        };
         const res = await createQuiz(payload);
-        setSelectedQuiz(res);
-        router.push(`${selectedWorkspace?._id}/quiz/${res._id}?tab=create`);
+        // router.push(`${selectedWorkspace?._id}/quiz/${res._id}?tab=create`);
       }
 
       handleClose();
@@ -82,15 +89,16 @@ export default function AddQuiz({ open, setOpen, edit = false }: PropType) {
 
   useEffect(() => {
     if (edit) {
-      form.setValue("title", selectedWorkspace?.title || "");
+      form.setValue("title", quiz?.title || "");
     }
-  }, [open]);
+  }, [open, quiz]);
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent
         onInteractOutside={(e) => {
           e.preventDefault();
+          e.stopPropagation();
         }}
         className="sm:max-w-[425px]"
       >
@@ -110,6 +118,7 @@ export default function AddQuiz({ open, setOpen, edit = false }: PropType) {
                   <FormLabel>Quiz name</FormLabel>
                   <FormControl>
                     <TextInput
+                      disabled={loading}
                       id="title"
                       placeholder="Name of your quiz"
                       error={error ? String(error.message) : ""}

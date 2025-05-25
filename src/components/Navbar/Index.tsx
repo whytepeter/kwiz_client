@@ -14,14 +14,14 @@ export default function Navbar() {
 
   return (
     <nav className="fixed z-10 left-0 top-0  w-full text-sm bg-white/30 backdrop-blur-md">
-      <div className="container flex items-center justify-between gap-4 px-3 py-2.5">
+      <div className="container relative flex items-center justify-between gap-4 px-3 py-2.5">
         <div className="flex items-center gap-1">
           <WorkspaceList />
           {pathname?.includes("quiz") && <QuizTitle />}
         </div>
 
         {showTabs && (
-          <div className="hidden md:flex">
+          <div className="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
             <EditorTabs />
           </div>
         )}

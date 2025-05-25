@@ -21,7 +21,7 @@ export default function QuizCard({ quiz }: PropType) {
   };
 
   return (
-    <div className="cursor-pointer" onClick={openQuiz}>
+    <div>
       {quizDisplay === "LIST" ? (
         <div className=" text-dark-300 text-sm border border-outline rounded-xl py-2 px-3 bg-background flex flex-col md:flex-row justify-between md:items-center gap-1 md:gap-4">
           <div className="flex items-center gap-3">

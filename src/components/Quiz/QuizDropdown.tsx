@@ -1,5 +1,5 @@
 import { Quiz } from "@/types/quiz";
-import React from "react";
+import React, { useState } from "react";
 
 import {
   DropdownMenu,
@@ -13,6 +13,7 @@ import { ListType } from "@/types";
 import { copyText } from "@/lib/utils";
 import { useParams, useRouter } from "next/navigation";
 import { ROUTES } from "@/types/routes";
+import AddQuiz from "./AddQuiz";
 
 const dropdown: ListType[] = [
   {
@@ -32,8 +33,8 @@ const dropdown: ListType[] = [
     value: "result",
   },
   {
-    label: "Duplicate",
-    value: "duplicate",
+    label: "Rename",
+    value: "rename",
   },
   {
     label: "Delete",
@@ -45,8 +46,9 @@ interface PropsType {
   children: React.ReactNode;
   quiz: Quiz;
 }
-
+const BASE_URL = window.location.origin;
 export default function QuizDropdown({ children, quiz }: PropsType) {
+  const [open, setOpen] = useState(false);
   const { workspace_id } = useParams<{ workspace_id: string }>();
   const router = useRouter();
 
@@ -56,16 +58,19 @@ export default function QuizDropdown({ children, quiz }: PropsType) {
         router.push(`${ROUTES.Workspace}/${workspace_id}/quiz/${quiz._id}`);
         break;
       case "copy":
-        copyText(item.value, "Link copied to clipboard");
+        const link = `${BASE_URL}/quiz/${quiz._id}`;
+        copyText(link);
         break;
       case "share":
         console.log(item.value);
         break;
       case "result":
-        console.log(item.value);
+        router.push(
+          `${ROUTES.Workspace}/${workspace_id}/quiz/${quiz._id}?tab=result`
+        );
         break;
-      case "duplicate":
-        console.log(item.value);
+      case "rename":
+        setOpen(true);
         break;
       case "delete":
         console.log(item.value);
@@ -81,7 +86,10 @@ export default function QuizDropdown({ children, quiz }: PropsType) {
           <DropdownMenuGroup className=" overflow-auto">
             {dropdown.map((item) => (
               <DropdownMenuItem
-                onClick={() => handleClick(item)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleClick(item);
+                }}
                 className={`${
                   item.value == "delete" ? "text-error-dark" : ""
                 } font-light gap-2 py-2`}
@@ -93,6 +101,8 @@ export default function QuizDropdown({ children, quiz }: PropsType) {
           </DropdownMenuGroup>
         </DropdownMenuContent>
       </DropdownMenu>
+
+      {open && <AddQuiz edit quiz={quiz} open={open} setOpen={setOpen} />}
     </>
   );
 }

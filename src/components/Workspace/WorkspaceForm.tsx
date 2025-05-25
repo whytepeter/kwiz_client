@@ -108,6 +108,7 @@ export default function WorkspaceForm({
                   <FormLabel>Workspace name</FormLabel>
                   <FormControl>
                     <TextInput
+                      disabled={loading}
                       id="title"
                       placeholder="Name of your workspace"
                       error={error ? String(error.message) : ""}
