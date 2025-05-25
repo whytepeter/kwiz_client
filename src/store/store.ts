@@ -1,5 +1,5 @@
 import { DEFAULT_THEMES } from "@/constant";
-import { QuizDisplay } from "@/types";
+import { QuizDisplay, QuizLayout } from "@/types";
 import { Question } from "@/types/question";
 import { Quiz, Theme } from "@/types/quiz";
 import { User } from "@/types/user";
@@ -19,6 +19,7 @@ type State = {
   workspaces: Workspace[];
 
   quizzes: Quiz[];
+  quizLayout: QuizLayout
   saving: boolean
   quiz: Quiz | null;
   questions: Question[];
@@ -46,13 +47,13 @@ const initialState: State = {
   selectedWorkspace: null,
 
   quizzes: [],
-
+  quizLayout: QuizLayout.Desktop,
   quiz: null,
   saving: false,
   questions: [],
   activeQuestion: '',
 
-  themes: [...DEFAULT_THEMES],
+  themes: [],
 };
 
 export const useDataStore = create<State & Actions>()(

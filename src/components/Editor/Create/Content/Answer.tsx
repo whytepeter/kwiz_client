@@ -49,10 +49,10 @@ export default function Answer() {
   };
 
   const updatePoint = (points: string) => {
-    if (!selectedQuestion || !points) return;
+    if (!selectedQuestion) return;
     const newQuestion = {
       ...selectedQuestion,
-      points: +points,
+      points: !points ? 0 : +points,
     };
 
     updateSelectedQuestion(newQuestion);

@@ -1,7 +1,8 @@
 import moment from "moment";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { toast } from "sonner";
+import toast from "react-hot-toast";
+
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -76,7 +77,7 @@ export const validatePhone = (phone: string) => {
 
 export const copyText = async (text: string, message: string = "Copied") => {
   await navigator.clipboard.writeText(text);
-  toast(message);
+  toast.success(message);
 };
 
 export const moveCenter = (

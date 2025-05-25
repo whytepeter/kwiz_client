@@ -3,6 +3,7 @@ import {
   signUpAction,
   signOutAction,
 } from "@/store/actions/auth";
+import { getThemes } from "@/store/actions/theme";
 import { getWorkspace } from "@/store/actions/workspace";
 import { SignInRequest, SignUpRequest } from "@/types/user";
 import { useRouter } from "next/navigation";
@@ -14,6 +15,7 @@ export default function useAuth() {
     try {
       await signInAction(user);
       await getWorkspace();
+      getThemes();
 
       router.push("/dashboard");
     } catch (error) {

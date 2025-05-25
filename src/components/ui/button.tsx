@@ -2,6 +2,7 @@ import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cn } from "@/lib/utils";
 import Spinner from "../base/Spinner";
+import { Ripple } from "primereact/ripple";
 
 const colors = {
   primary: "#310A31",
@@ -104,6 +105,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             </div>
           </div>
         )}
+
+        <Ripple />
       </Comp>
     );
   }

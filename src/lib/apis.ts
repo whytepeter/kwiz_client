@@ -15,6 +15,7 @@ export default {
   Question: "/question",
   QuizQuestion: "/question/quiz", //:id = quizId
   Settings: "",
+  Theme: "/themes",
 };
 
 

@@ -250,6 +250,7 @@ export default function useQuestion() {
 
     // data
     questions,
+    activeQuestion,
     selectedQuestion,
     selectedQuestionIndex,
 

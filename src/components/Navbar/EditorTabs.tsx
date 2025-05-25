@@ -12,10 +12,10 @@ export default function EditorTabs() {
       label: "Create",
       value: "create",
     },
-    {
-      label: "Share",
-      value: "share",
-    },
+    // {
+    //   label: "Share",
+    //   value: "share",
+    // },
     {
       label: "Result",
       value: "result",

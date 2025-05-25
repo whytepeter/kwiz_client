@@ -1,12 +1,11 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import Profile from "./Profile";
 import { Button } from "../ui/button";
-import { useParams, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import Notification from "../Notification/Index";
 import EditorTabs from "./EditorTabs";
 import WorkspaceList from "./WorkspaceList";
-import useQuiz from "@/hooks/useQuiz";
 import QuizTitle from "../Quiz/QuizTitle";
 
 export default function Navbar() {
@@ -18,8 +17,7 @@ export default function Navbar() {
       <div className="container flex items-center justify-between gap-4 px-3 py-2.5">
         <div className="flex items-center gap-1">
           <WorkspaceList />
-
-          <QuizTitle />
+          {pathname?.includes("quiz") && <QuizTitle />}
         </div>
 
         {showTabs && (
@@ -29,9 +27,9 @@ export default function Navbar() {
         )}
 
         <div className="flex items-center gap-4">
-          <Button size="xsmall" className=" px-4">
+          {/* <Button size="xsmall" className=" px-4">
             View Plans
-          </Button>
+          </Button> */}
 
           <Notification />
 

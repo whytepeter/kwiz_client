@@ -21,8 +21,15 @@ const config = {
     fontFamily: {
       display: ["Poppins", "sans-serif"],
       body: ["Open Sans", "sans-serif"],
-      sans: ["Open Sans", "sans-serif"],
-      poppins: ["Poppins", "sans-serif"],
+      inter: ['var(--font-inter)', 'sans-serif'],
+      poppins: ['var(--font-poppins)', 'sans-serif'],
+      'roboto-slab': ['var(--font-roboto-slab)', 'serif'],
+      'open-sans': ['var(--font-open-sans)', 'sans-serif'],
+      playfair: ['var(--font-playfair)', 'serif'],
+      lora: ['var(--font-lora)', 'serif'],
+      montserrat: ['var(--font-montserrat)', 'sans-serif'],
+      orbitron: ['var(--font-orbitron)', 'sans-serif'],
+
     },
     extend: {
       colors: {

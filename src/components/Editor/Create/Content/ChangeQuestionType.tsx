@@ -7,11 +7,12 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { QuestionTypeList } from "@/types/question";
+import { QuestionType, QuestionTypeList } from "@/types/question";
 
 import { Button } from "@/components/ui/button";
 import useQuestion from "@/hooks/useQuestion";
 import { QUESTION_TYPE_OPTIONS } from "@/constant";
+import { generateUniqueId } from "@/lib/utils";
 
 const dropdown = [...QUESTION_TYPE_OPTIONS];
 
@@ -26,8 +27,34 @@ export default function ChangeQuestionType() {
   const handleSelectQuestionType = (item: QuestionTypeList) => {
     if (!item || item.type === selectedQuestion.type) return;
 
+    const { options, ...rest } = selectedQuestion;
+
+    const updatedOptions =
+      item.type == QuestionType.MULTIPLE_CHOICE
+        ? [
+            {
+              id: generateUniqueId(),
+              text: "",
+            },
+            {
+              id: generateUniqueId(),
+              text: "",
+            },
+            {
+              id: generateUniqueId(),
+              text: "",
+            },
+            {
+              id: generateUniqueId(),
+              text: "",
+            },
+          ]
+        : [];
+
     const updatedQuestion = {
-      ...selectedQuestion,
+      ...rest,
+      options: updatedOptions,
+      answer: "",
       type: item.type,
     };
 

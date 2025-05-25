@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import "primeicons/primeicons.css";
+import { PrimeReactProvider } from "primereact/api";
 import { Toaster } from "@/components/ui/sonner";
 import { Toaster as Toast } from "react-hot-toast";
+import { fonts } from "@/lib/font";
 
 export const metadata: Metadata = {
   title: "Kwiz : The best online quiz editor",
@@ -14,8 +16,24 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const PrimeConfig = {
+    ripple: true,
+  };
+
   return (
-    <html lang="en">
+    <html
+      lang="en"
+      className={`
+      ${fonts.Inter.variable}
+      ${fonts.Poppins.variable}
+      ${fonts["Roboto Slab"].variable}
+      ${fonts["Open Sans"].variable}
+      ${fonts["Playfair Display"].variable}
+      ${fonts.Lora.variable}
+      ${fonts.Montserrat.variable}
+      ${fonts.Orbitron.variable}
+    `}
+    >
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
@@ -29,16 +47,18 @@ export default function RootLayout({
         />
       </head>
       <body className="font-poppins bg-white">
-        <main>{children}</main>
-        <Toaster />
-        <Toast
-          toastOptions={{
-            className: "",
-            style: {
-              fontSize: 14,
-            },
-          }}
-        />
+        <PrimeReactProvider value={PrimeConfig}>
+          <main>{children}</main>
+          <Toaster />
+          <Toast
+            toastOptions={{
+              className: "",
+              style: {
+                fontSize: 14,
+              },
+            }}
+          />
+        </PrimeReactProvider>
       </body>
     </html>
   );

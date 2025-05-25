@@ -1,58 +1,7 @@
-import { Question, QuestionType, QuestionTypeList } from "@/types/question";
+import { QuestionType, QuestionTypeList } from "@/types/question";
 import { Theme } from "@/types/quiz";
 
-export const QUESTIONS: Question[] = [
-  {
-    _id: "669a8db707372e5900ae7cf8",
-    quizId: "66999c564c3af5eb58dbed1e",
-    description: "",
-    type: QuestionType.MULTIPLE_CHOICE,
-    options: [
-      {
-        id: "a",
-        text: "option a",
-      },
-      {
-        id: "b",
-        text: "option b",
-      },
-    ],
-    points: 5,
-    answer: "a",
-    question: "Javascript",
 
-    randomize: false,
-    required: false,
-    maxCharacters: false,
-  },
-
-  {
-    _id: "669a8e6622c2dc56f2a36c25",
-    quizId: "66999c564c3af5eb58dbed1e",
-    question: "Javascript",
-    description: "What is a function that calls it's self called?",
-    type: QuestionType.SHORT_ANSWER,
-    options: [],
-    points: 5,
-    answer: "ifi",
-    randomize: false,
-    required: false,
-    maxCharacters: false,
-  },
-  {
-    _id: "669a8e6622c26f2a36c25",
-    quizId: "66999c564c3af5eb58dbed1e",
-    question: "Is javascript asynchronous?",
-    description: "",
-    type: QuestionType.YES_NO,
-    options: [],
-    points: 5,
-    answer: "YES",
-    randomize: false,
-    required: false,
-    maxCharacters: false,
-  },
-];
 
 export const QUESTION_TYPE_OPTIONS: QuestionTypeList[] = [
   {

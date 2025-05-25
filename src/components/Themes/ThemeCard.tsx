@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import { useDataStore } from "@/store/store";
 import { Theme } from "@/types/quiz";
 import React from "react";
@@ -14,9 +15,11 @@ export default function ThemeCard({ theme, isActive, setActive }: Props) {
   return (
     <div
       onClick={() => setActive(theme)}
-      className={`${
-        isActive ? "border-[3px] border-secondary" : ""
-      } cursor-pointer relative flex-shrink-0 mx-auto w-full rounded-lg overflow-hidden`}
+      className={cn(
+        "cursor-pointer relative flex-shrink-0 mx-auto w-full rounded-lg overflow-hidden",
+        isActive ? "border-[3px] border-secondary" : "",
+        theme?.font
+      )}
     >
       {theme?.isPremium && (
         <div className=" absolute top-3 right-3">
@@ -34,7 +37,7 @@ export default function ThemeCard({ theme, isActive, setActive }: Props) {
         }}
         className="p-4  space-y-1"
       >
-        <div>
+        <div className="">
           <h2 style={{ color: colors?.heading }}>Question</h2>
           <span
             style={{ color: colors?.option }}

@@ -1,6 +1,4 @@
 {
-  "/_not-found/page": "app/_not-found/page.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js",
   "/dashboard/workspace/[workspace_id]/page": "app/dashboard/workspace/[workspace_id]/page.js",
   "/dashboard/workspace/[workspace_id]/quiz/[quiz_id]/page": "app/dashboard/workspace/[workspace_id]/quiz/[quiz_id]/page.js",
   "/auth/login/page": "app/auth/login/page.js"

@@ -51,4 +51,5 @@ export type CreateQuizType = {
 
 export type UpdateQuiz = Partial<Pick<Quiz, 'title' | 'description' | 'published' | 'noOfTake'>> & {
   quizId: string
+  theme?: string
 }

@@ -8,3 +8,9 @@ export type ListType = {
 
 
 export type LoadingStatus = "loading" | "updating" | "deleting" | "idle";
+
+
+export enum QuizLayout {
+  Mobile = "mobile",
+  Desktop = "desktop",
+}

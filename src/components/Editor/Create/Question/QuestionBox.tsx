@@ -3,17 +3,27 @@ import { useDataStore } from "@/store/store";
 import React, { useEffect, useRef, useState } from "react";
 import OptionBox from "./OptionBox";
 import EmptyState from "@/components/base/EmptyState";
+import { cn } from "@/lib/utils";
+import useQuiz from "@/hooks/useQuiz";
+import { QuizLayout } from "@/types";
+
+const MOBILE_SCREEN = {
+  width: 700,
+};
 
 export default function QuestionBox() {
-  const { quiz } = useDataStore();
+  const { quiz } = useQuiz();
   const colors = quiz?.theme?.colors;
 
-  const { activeQuestion } = useDataStore();
+  const { quizLayout } = useDataStore();
+  const isMobileLayout = quizLayout == QuizLayout.Mobile;
+
   const {
     selectedQuestion,
     updateSelectedQuestion,
     selectedQuestionIndex,
     questions,
+    activeQuestion,
   } = useQuestion();
   const questionRef = useRef<HTMLInputElement>(null);
 
@@ -43,7 +53,11 @@ export default function QuestionBox() {
               }`
             : colors?.background || "#fff",
         }}
-        className="overflow-hidden w-full h-[90%] border p-4  relative flex flex-col gap-4"
+        className={cn(
+          quiz?.theme?.font,
+          isMobileLayout ? "w-[350px]" : "w-full ",
+          "overflow-hidden h-[90%] border p-4  relative flex flex-col gap-4"
+        )}
       >
         {selectedQuestion && (
           <>
@@ -59,7 +73,12 @@ export default function QuestionBox() {
               </div>
             )}
 
-            <div className="flex-1 h-full flex flex-col justify-center px-6 md:px-16 gap-4">
+            <div
+              className={cn(
+                "flex-1 h-full flex flex-col justify-center px-6  gap-4",
+                !isMobileLayout && "md:px-16"
+              )}
+            >
               <div className="flex flex-col gap-1">
                 <input
                   onChange={(e) => handleQuestionChange(e.target.value)}
@@ -73,7 +92,10 @@ export default function QuestionBox() {
                     color: colors?.heading,
                     caretColor: colors?.option,
                   }}
-                  className="appearance-none bg-transparent text-xl  focus:outline-none "
+                  className={cn(
+                    "appearance-none bg-transparent  focus:outline-none ",
+                    isMobileLayout ? "text-base" : "text-xl "
+                  )}
                 />
                 <input
                   onChange={(e) => handleDescriptionChange(e.target.value)}

@@ -1,4 +1,5 @@
 import { getQuizById, updateQuiz } from "@/store/actions/quiz";
+import { getThemes } from "@/store/actions/theme";
 import { useDataStore } from "@/store/store";
 import { LoadingStatus } from "@/types";
 import { UpdateQuiz } from "@/types/quiz";
@@ -10,6 +11,11 @@ export default function useQuiz() {
   const [status, setStatus] = useState<LoadingStatus>("idle");
   const { quiz, questions, updateSaving, saving } = useDataStore();
   const { quiz_id } = useParams<{ quiz_id: string }>();
+
+  const shareLink = useMemo(() => {
+    const base = window.location.origin;
+    return `${base}/quiz/${quiz_id}`;
+  }, [quiz_id]);
 
   const selectedQuiz = useMemo(
     () => (quiz?._id == quiz_id ? quiz : null),
@@ -24,6 +30,7 @@ export default function useQuiz() {
 
     try {
       await getQuizById(quiz_id);
+      getThemes();
     } catch (error: any) {
       toast.error(error.message || "Error fetching quiz");
     } finally {
@@ -56,8 +63,10 @@ export default function useQuiz() {
     quiz: selectedQuiz,
     settings: selectedQuiz?.setting || null,
     totalPoints,
+    shareLink,
     loading: status == "loading",
     updating: status == "updating",
+    deleting: status == "deleting",
     saving,
     initializeQuiz,
     updateQuizHandler,

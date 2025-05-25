@@ -1,15 +1,21 @@
 import { Button } from "@/components/ui/button";
 import { OPTION_IDS } from "@/constant";
 import useQuestion from "@/hooks/useQuestion";
-import { generateUniqueId, hexToRgb } from "@/lib/utils";
+import useQuiz from "@/hooks/useQuiz";
+import { cn, generateUniqueId, hexToRgb } from "@/lib/utils";
 import { useDataStore } from "@/store/store";
+import { QuizLayout } from "@/types";
 import { QuestionOptions } from "@/types/question";
 import React, { useEffect, useRef, useState } from "react";
 
 const optionLength = OPTION_IDS.length;
 
 export default function OptionBox() {
-  const { quiz } = useDataStore();
+  const { quizLayout } = useDataStore();
+  const isMobileLayout = quizLayout == QuizLayout.Mobile;
+
+  const { quiz } = useQuiz();
+
   const colors = quiz?.theme?.colors;
 
   const { selectedQuestion, addOptions, removeOption, updateOption } =
@@ -63,7 +69,9 @@ export default function OptionBox() {
   return (
     <>
       {selectedQuestion?.type === "MULTIPLE_CHOICE" && (
-        <div className="flex flex-col gap-2">
+        <div
+          className={cn("flex flex-col gap-2 ", isMobileLayout && "text-xs")}
+        >
           {selectedQuestion?.options?.map((option, index) => (
             <div
               style={optionContainerStyle}
@@ -75,7 +83,10 @@ export default function OptionBox() {
                   borderColor: colors?.buttonContainer,
                   background: colors?.background,
                 }}
-                className="uppercase w-6 h-6 border  flex items-center justify-center rounded bg-white "
+                className={cn(
+                  "uppercase  border  flex items-center justify-center rounded bg-white ",
+                  isMobileLayout ? "size-5" : "size-6"
+                )}
               >
                 {OPTION_IDS[index]}
               </span>
@@ -98,7 +109,7 @@ export default function OptionBox() {
                   onClick={() => {
                     removeOption(option.id);
                   }}
-                  className="hidden group-hover:flex rounded-full h-5 w-5 -right-3 bg-error-dark text-white absolute top-1/2 -translate-y-1/2  items-center justify-center  cursor-pointer text-xs"
+                  className="hidden group-hover:flex rounded-full size-5 -right-3 bg-error-dark text-white absolute top-1/2 -translate-y-1/2  items-center justify-center  cursor-pointer text-xs"
                 >
                   <i className="pi pi-times " />
                 </span>
@@ -120,7 +131,9 @@ export default function OptionBox() {
         </div>
       )}
       {selectedQuestion?.type === "YES/NO" && (
-        <div className="flex flex-col gap-2">
+        <div
+          className={cn("flex flex-col gap-2 ", isMobileLayout && "text-xs")}
+        >
           <div
             style={optionContainerStyle}
             className="p-1.5 capitalize  rounded-md border  flex items-center gap-2 w-[250px] "
@@ -130,7 +143,10 @@ export default function OptionBox() {
                 borderColor: colors?.buttonContainer,
                 background: colors?.background,
               }}
-              className="uppercase w-6 h-6 border  flex items-center justify-center rounded bg-white "
+              className={cn(
+                "uppercase size-6 border  flex items-center justify-center rounded bg-white ",
+                isMobileLayout ? "size-5" : "size-6"
+              )}
             >
               Y
             </span>
@@ -159,7 +175,10 @@ export default function OptionBox() {
             style={{ color: colors?.heading }}
             type="text"
             placeholder="Type your answer here"
-            className="bg-transparent pointer-events-none appearance-none focus:outline-none text-xl italic border-b focus:border-secondary w-full py-2 "
+            className={cn(
+              "bg-transparent pointer-events-none appearance-none focus:outline-none  italic border-b focus:border-secondary w-full py-2 ",
+              isMobileLayout ? "text-sm" : "text-xl"
+            )}
           />
         </div>
       )}
