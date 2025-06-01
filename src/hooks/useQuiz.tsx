@@ -2,7 +2,7 @@ import { getQuizById, updateQuiz } from "@/store/actions/quiz";
 import { getThemes } from "@/store/actions/theme";
 import { useDataStore } from "@/store/store";
 import { LoadingStatus } from "@/types";
-import { UpdateQuiz } from "@/types/quiz";
+import { Quiz, UpdateQuiz } from "@/types/quiz";
 import { useParams } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
 import toast from "react-hot-toast";
@@ -22,21 +22,25 @@ export default function useQuiz() {
     [quiz_id, quiz]
   );
 
-  const initializeQuiz = useCallback(async () => {
-    if (!quiz_id || status == "loading") return;
-    setStatus("loading");
+  const initializeQuiz = useCallback(
+    async (onDone?: (quiz: Quiz | null) => void) => {
+      if (!quiz_id || status == "loading") return;
+      setStatus("loading");
 
-    updateSaving(false);
+      updateSaving(false);
 
-    try {
-      await getQuizById(quiz_id);
-      getThemes();
-    } catch (error: any) {
-      toast.error(error.message || "Error fetching quiz");
-    } finally {
-      setStatus("idle");
-    }
-  }, [quiz_id, getQuizById, status]);
+      try {
+        const res = await getQuizById(quiz_id);
+        onDone?.(res);
+        getThemes();
+      } catch (error: any) {
+        toast.error(error.message || "Error fetching quiz");
+      } finally {
+        setStatus("idle");
+      }
+    },
+    [quiz_id, getQuizById, status]
+  );
 
   const updateQuizHandler = useCallback(
     async (payload: UpdateQuiz) => {

@@ -1,6 +1,28 @@
 import { CreateQuizType, Quiz, UpdateQuiz } from "@/types/quiz";
 import { useDataStore } from "../store";
 import http from "@/lib/http";
+import { QueryObject } from "@/types";
+
+
+export const getAllQuizes = async (query: QueryObject = {}) => {
+  try {
+
+    const quizObject = {
+      ...query,
+      published: true
+    }
+
+    const res = await http("Quiz", "get", null, {
+      additionalParams: quizObject,
+    });
+
+    console.log("Quizzes", res);
+
+    return res
+  } catch (error) {
+    throw error;
+  }
+};
 
 
 export const getQuizzes = async (workspaceId: string) => {

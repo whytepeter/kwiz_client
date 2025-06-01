@@ -64,3 +64,14 @@ export const workspaceSchema = z.object({
     message: "Title must be at least 3 characters.",
   }),
 });
+
+export const QuizTakerSchema = z.object({
+  name: z.string().describe("Full name").min(3, {
+    message: "Name must be at least 3 characters.",
+  }),
+  email: z
+    .string()
+    .describe("Email")
+    .email({ message: "Invalid email address" }),
+
+});

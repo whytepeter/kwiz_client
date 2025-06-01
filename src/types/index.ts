@@ -14,3 +14,12 @@ export enum QuizLayout {
   Mobile = "mobile",
   Desktop = "desktop",
 }
+
+export type QueryObject = {
+  search?: string
+  page?: number
+  sort?: string;
+  limit?: number;
+  fields?: string
+  [key: string]: any
+}

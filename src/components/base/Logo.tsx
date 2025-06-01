@@ -9,7 +9,7 @@ type PropsType = {
 
 function Logo({ text = true, className, onClick }: PropsType) {
   const logoStyles = cn(
-    "flex-shrink-0 cursor-pointer w-14 rounded-xl text-xl font-light flex justify-center items-center",
+    "flex-shrink-0  w-14 rounded-xl text-xl font-light flex justify-center items-center",
     text ? "w-28" : "w-14 rounded-lg overflow-hidden",
     className
   );

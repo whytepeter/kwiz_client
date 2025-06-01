@@ -2,18 +2,26 @@ import { Button } from "@/components/ui/button";
 import { OPTION_IDS } from "@/constant";
 import useQuestion from "@/hooks/useQuestion";
 import useQuiz from "@/hooks/useQuiz";
+import useResult from "@/hooks/useResult";
 import { cn, generateUniqueId, hexToRgb } from "@/lib/utils";
 import { useDataStore } from "@/store/store";
 import { QuizLayout } from "@/types";
 import { QuestionOptions } from "@/types/question";
 import React, { useEffect, useRef, useState } from "react";
+import debounce from "lodash/debounce";
 
 const optionLength = OPTION_IDS.length;
 
-export default function OptionBox() {
+interface Props {
+  live?: boolean;
+}
+
+export default function OptionBox({ live }: Props) {
   const { quizLayout } = useDataStore();
   const isMobileLayout = quizLayout == QuizLayout.Mobile;
+  const [focus, setFocus] = useState(false);
 
+  const { usersAnswer, selectAnswer } = useResult();
   const { quiz } = useQuiz();
 
   const colors = quiz?.theme?.colors;
@@ -74,9 +82,12 @@ export default function OptionBox() {
         >
           {selectedQuestion?.options?.map((option, index) => (
             <div
+              onClick={() => selectAnswer(option.id)}
               style={optionContainerStyle}
               key={`option-${index}-${option?.id}`}
-              className="relative group p-1.5 capitalize  rounded-md border  flex items-center gap-2 w-[250px] "
+              className={cn(
+                "relative group p-1.5 capitalize  rounded-md border  flex items-center gap-2 w-[250px]"
+              )}
             >
               <span
                 style={{
@@ -93,6 +104,7 @@ export default function OptionBox() {
               <input
                 type="text"
                 name="option"
+                readOnly={live}
                 ref={(el) => {
                   if (el) inputRefs.current[index] = el!;
                 }}
@@ -101,10 +113,25 @@ export default function OptionBox() {
                   handleUpdateOption(option, e.target.value);
                 }}
                 placeholder="choice"
-                className="w-full bg-transparent appearance-none focus:outline-none capitalize"
+                className={cn(
+                  "w-full bg-transparent appearance-none focus:outline-none capitalize",
+                  live && "cursor-pointer"
+                )}
               />
 
-              {selectedQuestion?.options?.length > 1 && (
+              {live && usersAnswer == option.id && (
+                <div
+                  style={{
+                    background: colors?.buttonContainer,
+                    color: colors?.buttonText,
+                  }}
+                  className="flex !text-white rounded-full size-5 -right-3 absolute top-1/2 -translate-y-1/2  items-center justify-center  text-xs"
+                >
+                  <i className="pi pi-check text-xs" />
+                </div>
+              )}
+
+              {!live && selectedQuestion?.options?.length > 1 && (
                 <span
                   onClick={() => {
                     removeOption(option.id);
@@ -117,7 +144,7 @@ export default function OptionBox() {
             </div>
           ))}
 
-          {selectedQuestion?.options?.length < optionLength && (
+          {!live && selectedQuestion?.options?.length < optionLength && (
             <Button
               onClick={handleAddOption}
               variant="text"
@@ -135,8 +162,12 @@ export default function OptionBox() {
           className={cn("flex flex-col gap-2 ", isMobileLayout && "text-xs")}
         >
           <div
+            onClick={() => selectAnswer("YES")}
             style={optionContainerStyle}
-            className="p-1.5 capitalize  rounded-md border  flex items-center gap-2 w-[250px] "
+            className={cn(
+              "p-1.5 capitalize relative rounded-md border flex items-center gap-2 w-[250px] ",
+              live && "cursor-pointer"
+            )}
           >
             <span
               style={{
@@ -151,10 +182,26 @@ export default function OptionBox() {
               Y
             </span>
             <span>Yes</span>
+
+            {live && usersAnswer == "YES" && (
+              <div
+                style={{
+                  background: colors?.buttonContainer,
+                  color: colors?.buttonText,
+                }}
+                className="flex !text-white rounded-full size-5 -right-3 absolute top-1/2 -translate-y-1/2  items-center justify-center  text-xs"
+              >
+                <i className="pi pi-check text-xs" />
+              </div>
+            )}
           </div>
           <div
+            onClick={() => selectAnswer("NO")}
             style={optionContainerStyle}
-            className="p-1.5 capitalize  rounded-md border flex items-center gap-2 w-[250px] "
+            className={cn(
+              "p-1.5 capitalize relative rounded-md border flex items-center gap-2 w-[250px] ",
+              live && "cursor-pointer"
+            )}
           >
             <span
               style={{
@@ -166,18 +213,38 @@ export default function OptionBox() {
               N
             </span>
             <span>No</span>
+
+            {live && usersAnswer == "NO" && (
+              <div
+                style={{
+                  background: colors?.buttonContainer,
+                  color: colors?.buttonText,
+                }}
+                className="flex !text-white rounded-full size-5 -right-3 absolute top-1/2 -translate-y-1/2  items-center justify-center  text-xs"
+              >
+                <i className="pi pi-check text-xs" />
+              </div>
+            )}
           </div>
         </div>
       )}
       {selectedQuestion?.type === "SHORT_ANSWER" && (
         <div>
-          <input
-            style={{ color: colors?.heading }}
-            type="text"
+          <textarea
+            value={usersAnswer}
+            onChange={(e) => selectAnswer(e.target.value)}
+            readOnly={!live}
+            onFocus={() => setFocus(true)}
+            onBlur={() => setFocus(false)}
+            style={{
+              color: colors?.heading,
+              borderColor: focus ? colors?.buttonContainer : "",
+            }}
             placeholder="Type your answer here"
             className={cn(
-              "bg-transparent pointer-events-none appearance-none focus:outline-none  italic border-b focus:border-secondary w-full py-2 ",
-              isMobileLayout ? "text-sm" : "text-xl"
+              "bg-transparent max-h-[100px] appearance-none focus:outline-none  italic border-b  w-full py-2 ",
+              isMobileLayout ? "text-sm" : "text-xl",
+              live ? "" : "pointer-events-none"
             )}
           />
         </div>

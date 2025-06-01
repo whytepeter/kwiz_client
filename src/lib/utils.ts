@@ -2,6 +2,7 @@ import moment from "moment";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import toast from "react-hot-toast";
+import { Theme } from "@/types/quiz";
 
 
 export function cn(...inputs: ClassValue[]) {
@@ -126,4 +127,36 @@ export function hexToRgb(hex: string): string {
   let b = bigint & 255;
 
   return `${r}, ${g}, ${b}`; // Return as "r, g, b"
+}
+
+
+export function isLightShade(hex: string): boolean {
+  if (!hex) return false;
+  // Remove the hash if present
+  hex = hex.replace(/^#/, "");
+
+  // Parse the r, g, b values
+  const r = parseInt(hex.substring(0, 2), 16);
+  const g = parseInt(hex.substring(2, 4), 16);
+  const b = parseInt(hex.substring(4, 6), 16);
+
+  // Calculate luminance
+  const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+
+  // Return the shade
+  return luminance > 0.7 ? true : false;
+}
+
+export function quizTheme({ colors, font }: Theme) {
+  const color = colors?.buttonContainer
+  const background = colors?.buttonContainer
+    ? `rgba(${hexToRgb(colors.buttonContainer)}, 0.2")`
+    : "bg-white/80"
+
+  return {
+    color,
+    background,
+    borderColor: color,
+  }
+
 }

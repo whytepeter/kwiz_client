@@ -1,16 +1,13 @@
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
-import Link from "next/link";
+import SiteNav from "@/components/Layout/SiteNav";
+import AllQuizzes from "@/components/Quiz/AllQuizzes";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen gap-4  p-24">
-      <Link href="/auth/login">
-        <Button>Login</Button>
-      </Link>
-      <Link href="/dashboard">
-        <Button>Dashboard</Button>
-      </Link>
-    </main>
+    <div className="h-screen overflow-y-auto ">
+      <SiteNav />
+      <main className="px-4 py-6 container mx-auto">
+        <AllQuizzes />
+      </main>
+    </div>
   );
 }

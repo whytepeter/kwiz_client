@@ -26,6 +26,15 @@ type State = {
   activeQuestion: string | null
 
   themes: Theme[];
+
+  quizTaker: {
+    email: string;
+    name: string;
+  } | null
+  answeredQuestions: {
+    question: Question
+    answer: string
+  }[]
 };
 
 type Actions = {
@@ -54,6 +63,9 @@ const initialState: State = {
   activeQuestion: '',
 
   themes: [],
+
+  quizTaker: null,
+  answeredQuestions: []
 };
 
 export const useDataStore = create<State & Actions>()(

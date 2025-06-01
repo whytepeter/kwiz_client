@@ -7,11 +7,11 @@ import { cn } from "@/lib/utils";
 import useQuiz from "@/hooks/useQuiz";
 import { QuizLayout } from "@/types";
 
-const MOBILE_SCREEN = {
-  width: 700,
-};
+interface Props {
+  live?: boolean;
+}
 
-export default function QuestionBox() {
+export default function QuestionBox({ live = false }: Props) {
   const { quiz } = useQuiz();
   const colors = quiz?.theme?.colors;
 
@@ -46,17 +46,22 @@ export default function QuestionBox() {
   return (
     <>
       <div
-        style={{
-          background: quiz?.theme?.image
-            ? `url(${quiz?.theme.image}) no-repeat center/cover, ${
-                colors?.background || "#fff"
-              }`
-            : colors?.background || "#fff",
-        }}
+        style={
+          !live
+            ? {
+                background: quiz?.theme?.image
+                  ? `url(${quiz?.theme.image}) no-repeat center/cover, ${
+                      colors?.background || "#fff"
+                    }`
+                  : colors?.background || "#fff",
+              }
+            : {}
+        }
         className={cn(
           quiz?.theme?.font,
           isMobileLayout ? "w-[350px]" : "w-full ",
-          "overflow-hidden h-[90%] border p-4  relative flex flex-col gap-4"
+          live ? "" : "border p-4 ",
+          "overflow-hidden h-[90%]   relative flex flex-col gap-4"
         )}
       >
         {selectedQuestion && (
@@ -81,6 +86,7 @@ export default function QuestionBox() {
             >
               <div className="flex flex-col gap-1">
                 <input
+                  readOnly={live}
                   onChange={(e) => handleQuestionChange(e.target.value)}
                   ref={questionRef}
                   value={selectedQuestion.question}
@@ -97,23 +103,25 @@ export default function QuestionBox() {
                     isMobileLayout ? "text-base" : "text-xl "
                   )}
                 />
+
                 <input
+                  readOnly={live}
                   onChange={(e) => handleDescriptionChange(e.target.value)}
                   value={selectedQuestion.description}
                   type="text"
                   name="description"
-                  placeholder="Description (optional)"
+                  placeholder={!live ? "Description (optional)" : ""}
                   style={{ color: colors?.heading }}
-                  className="appearance-none opacity-90 bg-transparent focus:outline-none text-xs italic font-light "
+                  className="appearance-none opacity-90 bg-transparent focus:outline-none text-xs !italic font-light "
                 />
               </div>
 
-              <OptionBox />
+              <OptionBox live={live} />
             </div>
           </>
         )}
 
-        {!selectedQuestion && !questions?.length && (
+        {!selectedQuestion && !questions?.length && !live && (
           <div className="flex items-center justify-center h-full w-full">
             <EmptyState />
           </div>
