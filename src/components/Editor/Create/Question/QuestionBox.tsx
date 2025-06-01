@@ -54,14 +54,17 @@ export default function QuestionBox({ live = false }: Props) {
                       colors?.background || "#fff"
                     }`
                   : colors?.background || "#fff",
+                fontFamily: quiz?.theme?.fontName,
               }
-            : {}
+            : {
+                fontFamily: quiz?.theme?.fontName,
+              }
         }
         className={cn(
           quiz?.theme?.font,
           isMobileLayout ? "w-[350px]" : "w-full ",
           live ? "" : "border p-4 ",
-          "overflow-hidden h-[90%]   relative flex flex-col gap-4"
+          "overflow-hidden h-[90%]  relative flex flex-col gap-4"
         )}
       >
         {selectedQuestion && (

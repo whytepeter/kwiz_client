@@ -1,13 +1,18 @@
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import useQuestion from "./useQuestion";
 import { useDataStore } from "@/store/store";
 import useQuiz from "./useQuiz";
 import toast from "react-hot-toast";
+import { submitQuiz } from "@/store/actions/results";
+import { SubmitQuizPayload } from "@/types/result";
+import { useRouter } from "next/navigation";
 
 export default function useResult() {
+  const router = useRouter();
   const { quiz } = useQuiz();
   const { selectedQuestion } = useQuestion();
-  const { answeredQuestions, setState } = useDataStore();
+  const { answeredQuestions, setState, quizTaker } = useDataStore();
+  const [loading, setLoading] = useState(false);
 
   const usersAnswer = useMemo((): string => {
     const question = answeredQuestions?.find(
@@ -47,16 +52,18 @@ export default function useResult() {
     for (let i in answeredQuestions) {
       const question = answeredQuestions[i];
       const point = question.question.points;
-      const isCorrect = question.question.answer == question.answer;
+      const isCorrect = question.answer
+        ?.toLowerCase()
+        ?.includes(question.question.answer?.toLowerCase());
       if (isCorrect) {
         score += point;
       }
     }
 
+    setLoading(true);
     try {
       const payload = {
-        name: "",
-        email: "",
+        ...quizTaker,
         quizId: quiz._id,
         score,
         questions: answeredQuestions?.map((q) => ({
@@ -65,12 +72,18 @@ export default function useResult() {
         })),
 
         submitted, // indicate if the user submitted their sef or it was a timeout
-      };
+      } as SubmitQuizPayload;
+
+      await submitQuiz(payload);
+
+      const url = `/q/${quiz._id}/result`;
+      router.push(url);
 
       console.log("Payload", payload);
     } catch (error: any) {
       toast.error(error?.message || "Error submitting quiz");
     } finally {
+      setLoading(false);
     }
   }, []);
 
@@ -78,5 +91,6 @@ export default function useResult() {
     selectAnswer,
     usersAnswer,
     onSubmit,
+    loading,
   };
 }

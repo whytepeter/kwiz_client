@@ -9,12 +9,16 @@ import { initials } from "@/lib/utils";
 import debounce from "lodash/debounce";
 import { ProgressBar } from "primereact/progressbar";
 import { useRouter } from "next/navigation";
+import QuizLoadingState from "./QuizLoadingState";
+import QuizCard from "./QuizCard";
+import { useDataStore } from "@/store/store";
 
 export default function AllQuizzes() {
   const router = useRouter();
   const [quizzes, setQuizzes] = useState<Quiz[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(false);
+  const dataStore = useDataStore();
 
   //pagination
   const [page, setPage] = useState<number>(1);
@@ -66,7 +70,11 @@ export default function AllQuizzes() {
   }, [debouncedFetch]);
 
   const openQuiz = (quiz_id: string) => {
+    console.log("helo");
     if (!quiz_id) return;
+    dataStore.setState({
+      quizTaker: null,
+    });
     router.push(`/q/${quiz_id}`);
   };
 
@@ -94,28 +102,17 @@ export default function AllQuizzes() {
           </div>
         </div>
 
-        {loading && !quizzes?.length && (
-          <Spinner size={24} className="mx-auto py-6" />
-        )}
+        {loading && !quizzes?.length && <QuizLoadingState overridedDisplay />}
 
         <div className="flex items-center gap-4 mg:gap-5 ">
           {quizzes?.map((quiz) => (
-            <div
+            <QuizCard
+              overridedDisplay
+              hideEssentials
+              key={quiz._id}
               onClick={() => openQuiz(quiz._id)}
-              className="cursor-pointer aspect-[6/4] w-full max-w-[300px] text-dark-300  border border-outline rounded-xl overflow-hidden bg-background flex flex-col "
-            >
-              <div className="flex-shrink-0 text-2xl flex-1 w-full h-auto bg-accent text-secondary-dark  flex items-center justify-center font-medium">
-                {initials(quiz.title)}
-              </div>
-
-              <div className="flex items-center justify-between gap-2 py-3 px-4">
-                <div className="flex flex-col gap-0.5">
-                  <h3 className="line-clamp-2 text-sm lg:text-base">
-                    {quiz?.title}
-                  </h3>
-                </div>
-              </div>
-            </div>
+              quiz={quiz}
+            />
           ))}
         </div>
       </div>

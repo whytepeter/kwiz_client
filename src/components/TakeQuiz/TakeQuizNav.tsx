@@ -1,14 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "../ui/button";
 import useQuestion from "@/hooks/useQuestion";
 import useQuiz from "@/hooks/useQuiz";
-import { hexToRgb } from "@/lib/utils";
+import { hexToRgb, initials } from "@/lib/utils";
+import { useDataStore } from "@/store/store";
+import SubmitQuiz from "./SubmitQuiz";
 
 export default function TakeQuizNav() {
   const { questions, selectedQuestionIndex } = useQuestion();
-
+  const quizTaker = useDataStore((state) => state.quizTaker);
   const { quiz } = useQuiz();
   const colors = quiz?.theme?.colors;
+
+  const [open, setOpen] = useState(false);
 
   const optionContainerStyle = {
     borderColor: colors?.buttonContainer,
@@ -29,11 +33,11 @@ export default function TakeQuizNav() {
             }}
             className="size-9 md:size-10 flex-shrink-0 flex items-center justify-center rounded-full  text-white font-medium text-sm"
           >
-            JS
+            {initials(quiz?.title || "")}
           </div>
           <div className="">
             <h3 style={{ color: colors?.heading }} className="text-sm ">
-              Javascript
+              {quiz?.title || ""}
             </h3>
             <p className="text-xs font-light ">
               Questions{" "}
@@ -48,11 +52,15 @@ export default function TakeQuizNav() {
 
         <div className="flex items-center gap-2 sm:gap-4">
           <div className="flex items-center gap-3 md:gap-4 ">
-            <div className="flex items-center gap-2 ">
+            {/* <div className="flex items-center gap-2 ">
               <i className="pi pi-stopwatch  " />
               <span className="text-base">5:00</span>
-            </div>
-            <Button style={optionContainerStyle} size="small">
+            </div> */}
+            <Button
+              onClick={() => setOpen(true)}
+              style={optionContainerStyle}
+              size="small"
+            >
               Submit
             </Button>
           </div>
@@ -67,14 +75,16 @@ export default function TakeQuizNav() {
               }}
               className="size-9 md:size-10 flex-shrink-0 flex items-center justify-center rounded-full  font-medium text-sm"
             >
-              <i className="pi pi-user text-sm " />
+              {initials(quizTaker?.name || "")}
             </div>
             <h3 style={{ color: colors?.heading }} className=" text-sm ">
-              John Doe
+              {quizTaker?.name || ""}
             </h3>
           </div>
         </div>
       </div>
+
+      <SubmitQuiz open={open} onClose={() => setOpen(false)} />
     </nav>
   );
 }

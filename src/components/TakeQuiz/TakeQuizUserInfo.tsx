@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -24,22 +24,25 @@ import toast from "react-hot-toast";
 import TextInput from "../base/TextInput";
 import { Button } from "../ui/button";
 import { QuizTakerSchema } from "@/types/schemas";
-import useWorkspace from "@/hooks/useWorkspace";
-import { createQuiz } from "@/store/actions/quiz";
-import { useRouter } from "next/navigation";
 import { Quiz } from "@/types/quiz";
+import { useDataStore } from "@/store/store";
+import { confirmEmail } from "@/store/actions/results";
 
 type PropType = {
   open: boolean;
   onClose: () => void;
+  onDone?: () => void;
   quiz: Quiz;
 };
 
-export default function TakeQuizUserInfo({ open, onClose, quiz }: PropType) {
-  const router = useRouter();
+export default function TakeQuizUserInfo({
+  open,
+  onClose,
+  onDone,
+  quiz,
+}: PropType) {
+  const dataStore = useDataStore();
   const [loading, setLoading] = useState(false);
-  const { selectedWorkspace } = useWorkspace();
-
   const form = useForm<z.infer<typeof QuizTakerSchema>>({
     resolver: zodResolver(QuizTakerSchema),
     defaultValues: {
@@ -57,6 +60,17 @@ export default function TakeQuizUserInfo({ open, onClose, quiz }: PropType) {
         quizId: quiz._id,
       };
 
+      const res = await confirmEmail(payload);
+      if (res?.exist) {
+        throw new Error("This email has taken this quiz already");
+      }
+
+      dataStore.setState({
+        quizTaker: {
+          ...values,
+        },
+      });
+      onDone?.();
       handleClose();
       toast.success(`Quiz started successfully`);
     } catch (error: any) {
@@ -85,18 +99,38 @@ export default function TakeQuizUserInfo({ open, onClose, quiz }: PropType) {
         </DialogHeader>
 
         <Form {...form}>
-          <form className="w-full  mx-auto   text-dark-300 flex flex-col gap-3.5">
+          <form className="w-full  mx-auto   text-dark-300 flex flex-col gap-2">
             <FormField
               control={form.control}
-              name="title"
+              name="name"
               render={({ field, fieldState: { error } }) => (
                 <FormItem>
-                  <FormLabel>Quiz name</FormLabel>
+                  <FormLabel>Full Name</FormLabel>
                   <FormControl>
                     <TextInput
                       disabled={loading}
+                      id="name"
+                      placeholder="Enter name"
+                      error={error ? String(error.message) : ""}
+                      {...field}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field, fieldState: { error } }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <TextInput
+                      type="email"
+                      inputMode="email"
+                      disabled={loading}
                       id="title"
-                      placeholder="Name of your quiz"
+                      placeholder="Enter email"
                       error={error ? String(error.message) : ""}
                       {...field}
                     />

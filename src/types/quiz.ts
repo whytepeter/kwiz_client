@@ -3,6 +3,7 @@ export type Theme = {
   isPremium: boolean;
 
   font?: string;
+  fontName?: string;
   image?: string;
 
   colors: {

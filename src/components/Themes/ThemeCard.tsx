@@ -14,11 +14,13 @@ export default function ThemeCard({ theme, isActive, setActive }: Props) {
 
   return (
     <div
+      style={{
+        fontFamily: theme?.fontName,
+      }}
       onClick={() => setActive(theme)}
       className={cn(
         "cursor-pointer relative flex-shrink-0 mx-auto w-full rounded-lg overflow-hidden",
-        isActive ? "border-[3px] border-secondary" : "",
-        theme?.font
+        isActive ? "border-[3px] border-secondary" : ""
       )}
     >
       {theme?.isPremium && (

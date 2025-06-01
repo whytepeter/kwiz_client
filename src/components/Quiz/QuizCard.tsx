@@ -8,9 +8,17 @@ import { ROUTES } from "@/types/routes";
 
 type PropType = {
   quiz: Quiz;
+  onClick?: () => void;
+  overridedDisplay?: boolean;
+  hideEssentials?: boolean;
 };
 
-export default function QuizCard({ quiz }: PropType) {
+export default function QuizCard({
+  quiz,
+  onClick,
+  overridedDisplay = false,
+  hideEssentials = false,
+}: PropType) {
   const router = useRouter();
   const { quizDisplay } = useDataStore();
   const { workspace_id } = useParams();
@@ -21,9 +29,12 @@ export default function QuizCard({ quiz }: PropType) {
   };
 
   return (
-    <div>
-      {quizDisplay === "LIST" ? (
-        <div className=" text-dark-300 text-sm border border-outline rounded-xl py-2 px-3 bg-background flex flex-col md:flex-row justify-between md:items-center gap-1 md:gap-4">
+    <>
+      {quizDisplay === "LIST" && !overridedDisplay ? (
+        <div
+          onClick={onClick}
+          className=" text-dark-300 text-sm border border-outline rounded-xl py-2 px-3 bg-background flex flex-col md:flex-row justify-between md:items-center gap-1 md:gap-4"
+        >
           <div className="flex items-center gap-3">
             <div className="flex-shrink-0 h-9 w-9 bg-accent text-secondary-dark text-sm rounded-full flex items-center justify-center font-medium">
               {initials(quiz.title)}
@@ -47,30 +58,35 @@ export default function QuizCard({ quiz }: PropType) {
           </div>
         </div>
       ) : (
-        <div>
-          <div className="aspect-[6/4] mx-auto w-full max-w-[300px] text-dark-300  border border-outline rounded-xl overflow-hidden bg-background flex flex-col ">
-            <div className="flex-shrink-0 text-2xl flex-1 w-full h-auto bg-accent text-secondary-dark  flex items-center justify-center font-medium">
-              {initials(quiz.title)}
-            </div>
+        <div
+          onClick={onClick}
+          className="cursor-pointer aspect-[6/4] w-full max-w-[300px] text-dark-300  border border-outline rounded-xl overflow-hidden bg-background flex flex-col "
+        >
+          <div className="flex-shrink-0 text-2xl flex-1 w-full h-auto bg-accent text-secondary-dark  flex items-center justify-center font-medium">
+            {initials(quiz.title)}
+          </div>
 
-            <div className="flex items-center justify-between gap-2 py-3 px-4">
-              <div className="flex flex-col gap-0.5">
-                <h3 className="line-clamp-2 text-sm lg:text-base">
-                  {quiz?.title}
-                </h3>
+          <div className="flex items-center justify-between gap-2 py-3 px-4">
+            <div className="flex flex-col gap-0.5">
+              <h3 className="line-clamp-2 text-sm lg:text-base">
+                {quiz?.title}
+              </h3>
+              {!hideEssentials && (
                 <span className="text-xs font-light text-dark-200">
                   {quiz?.noOfTake || 0} no. of takes
                 </span>
-              </div>
+              )}
+            </div>
+            {!hideEssentials && (
               <QuizDropdown quiz={quiz}>
                 <span className="flex-shrink-0 hover:bg-accent w-8 h-8 cursor-pointer flex items-center justify-center rounded-full">
                   <img className="" src="/icons/ellipsis.svg" alt="" />
                 </span>
               </QuizDropdown>
-            </div>
+            )}
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 }

@@ -15,7 +15,7 @@ export const getThemes = async () => {
         throw error;
     }
 };
-export const seeTheme = async () => {
+export const seedTheme = async () => {
 
     try {
         await http("Theme", "post", {}, {

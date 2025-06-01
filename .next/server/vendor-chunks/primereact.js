@@ -142,6 +142,32 @@ const e13 = (0,next_dist_build_webpack_loaders_next_flight_loader_module_proxy__
 const e14 = (0,next_dist_build_webpack_loaders_next_flight_loader_module_proxy__WEBPACK_IMPORTED_MODULE_0__.createProxy)(String.raw`/Users/apple/Documents/code/kwiz/kwiz_client/node_modules/primereact/api/api.esm.js#updateLocaleOptions`);
 
 
+/***/ }),
+
+/***/ "(rsc)/./node_modules/primereact/ripple/ripple.esm.js":
+/*!******************************************************!*\
+  !*** ./node_modules/primereact/ripple/ripple.esm.js ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   Ripple: () => (/* binding */ e0)
+/* harmony export */ });
+/* harmony import */ var next_dist_build_webpack_loaders_next_flight_loader_module_proxy__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! next/dist/build/webpack/loaders/next-flight-loader/module-proxy */ "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-loader/module-proxy.js");
+
+const proxy = (0,next_dist_build_webpack_loaders_next_flight_loader_module_proxy__WEBPACK_IMPORTED_MODULE_0__.createProxy)(String.raw`/Users/apple/Documents/code/kwiz/kwiz_client/node_modules/primereact/ripple/ripple.esm.js`)
+
+// Accessing the __esModule property and exporting $$typeof are required here.
+// The __esModule getter forces the proxy target to create the default export
+// and the $$typeof value is for rendering logic to determine if the module
+// is a client boundary.
+const { __esModule, $$typeof } = proxy;
+const __default__ = proxy.default;
+
+const e0 = (0,next_dist_build_webpack_loaders_next_flight_loader_module_proxy__WEBPACK_IMPORTED_MODULE_0__.createProxy)(String.raw`/Users/apple/Documents/code/kwiz/kwiz_client/node_modules/primereact/ripple/ripple.esm.js#Ripple`);
+
+
 /***/ })
 
 };

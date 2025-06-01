@@ -50,7 +50,7 @@ export default function index({ className }: Props) {
               quiz?.theme?.colors?.background || "#fff"
             }`
           : quiz?.theme?.colors?.background || "#fff",
-
+        fontFamily: quiz?.theme?.fontName,
         color: quiz?.theme?.colors?.heading,
       }}
     >
@@ -88,6 +88,7 @@ export default function index({ className }: Props) {
             </main>
           </div>
           <TakeQuizUserInfo
+            onDone={() => setOpen(false)}
             open={open}
             onClose={() => {
               if (!quizTaker) return;
