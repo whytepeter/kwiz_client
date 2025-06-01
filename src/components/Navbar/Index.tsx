@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Profile from "./Profile";
 import { Button } from "../ui/button";
 import { usePathname } from "next/navigation";
@@ -7,10 +7,12 @@ import Notification from "../Notification/Index";
 import EditorTabs from "./EditorTabs";
 import WorkspaceList from "./WorkspaceList";
 import QuizTitle from "../Quiz/QuizTitle";
+import AddQuiz from "../Quiz/AddQuiz";
 
 export default function Navbar() {
   const pathname = usePathname();
   const showTabs = pathname.includes("/quiz/");
+  const [open, setOpen] = useState(false);
 
   return (
     <nav className="fixed z-10 left-0 top-0  w-full text-sm bg-white/30 backdrop-blur-md">
@@ -27,6 +29,16 @@ export default function Navbar() {
         )}
 
         <div className="flex items-center gap-4">
+          {!showTabs && (
+            <Button
+              onClick={() => setOpen(true)}
+              size="xsmall"
+              className=" px-4"
+            >
+              <i className="pi pi-plus" />
+              Create Quiz
+            </Button>
+          )}
           {/* <Button size="xsmall" className=" px-4">
             View Plans
           </Button> */}
@@ -42,6 +54,8 @@ export default function Navbar() {
           <EditorTabs />
         </div>
       )}
+
+      <AddQuiz open={open} setOpen={setOpen} />
     </nav>
   );
 }

@@ -45,47 +45,50 @@ export default function useResult() {
     [selectedQuestion, setState]
   );
 
-  const onSubmit = useCallback(async (submitted: boolean = false) => {
-    if (!quiz) return;
+  const onSubmit = useCallback(
+    async (submitted: boolean = false) => {
+      if (!quiz) return;
 
-    let score = 0;
-    for (let i in answeredQuestions) {
-      const question = answeredQuestions[i];
-      const point = question.question.points;
-      const isCorrect = question.answer
-        ?.toLowerCase()
-        ?.includes(question.question.answer?.toLowerCase());
-      if (isCorrect) {
-        score += point;
+      let score = 0;
+      for (let i in answeredQuestions) {
+        const question = answeredQuestions[i];
+        const point = question.question.points;
+        const isCorrect = question.answer
+          ?.toLowerCase()
+          ?.includes(question.question.answer?.toLowerCase());
+        if (isCorrect) {
+          score += point;
+        }
       }
-    }
 
-    setLoading(true);
-    try {
-      const payload = {
-        ...quizTaker,
-        quizId: quiz._id,
-        score,
-        questions: answeredQuestions?.map((q) => ({
-          question: q.question._id,
-          answer: q.answer,
-        })),
+      setLoading(true);
+      try {
+        const payload = {
+          ...quizTaker,
+          quizId: quiz._id,
+          score,
+          questions: answeredQuestions?.map((q) => ({
+            question: q.question._id,
+            answer: q.answer,
+          })),
 
-        submitted, // indicate if the user submitted their sef or it was a timeout
-      } as SubmitQuizPayload;
+          submitted, // indicate if the user submitted their sef or it was a timeout
+        } as SubmitQuizPayload;
 
-      await submitQuiz(payload);
+        await submitQuiz(payload);
 
-      const url = `/q/${quiz._id}/result`;
-      router.push(url);
+        const url = `/q/${quiz._id}/result`;
+        router.push(url);
 
-      console.log("Payload", payload);
-    } catch (error: any) {
-      toast.error(error?.message || "Error submitting quiz");
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+        console.log("Payload", payload);
+      } catch (error: any) {
+        toast.error(error?.message || "Error submitting quiz");
+      } finally {
+        setLoading(false);
+      }
+    },
+    [quizTaker, answeredQuestions]
+  );
 
   return {
     selectAnswer,

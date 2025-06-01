@@ -74,6 +74,7 @@ export default function AllQuizzes() {
     if (!quiz_id) return;
     dataStore.setState({
       quizTaker: null,
+      activeQuestion: null,
     });
     router.push(`/q/${quiz_id}`);
   };

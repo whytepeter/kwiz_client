@@ -3,6 +3,7 @@
   "/q/[quiz_id]/page": "app/q/[quiz_id]/page.js",
   "/page": "app/page.js",
   "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/q/[quiz_id]/result/page": "app/q/[quiz_id]/result/page.js",
   "/dashboard/workspace/[workspace_id]/quiz/[quiz_id]/page": "app/dashboard/workspace/[workspace_id]/quiz/[quiz_id]/page.js",
   "/auth/login/page": "app/auth/login/page.js",
   "/dashboard/workspace/[workspace_id]/page": "app/dashboard/workspace/[workspace_id]/page.js"
