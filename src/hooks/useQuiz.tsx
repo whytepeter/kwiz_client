@@ -1,3 +1,4 @@
+"use client";
 import { getQuizById, updateQuiz } from "@/store/actions/quiz";
 import { getThemes } from "@/store/actions/theme";
 import { useDataStore } from "@/store/store";
@@ -12,10 +13,14 @@ export default function useQuiz() {
   const { quiz, questions, updateSaving, saving } = useDataStore();
   const { quiz_id } = useParams<{ quiz_id: string }>();
 
+  const BASE_URL = useMemo(() => {
+    if (typeof window === "undefined") return "";
+    return window.location.origin;
+  }, []);
+
   const shareLink = useMemo(() => {
-    const base = window.location.origin;
-    return `${base}/quiz/${quiz_id}`;
-  }, [quiz_id]);
+    return `${BASE_URL}/quiz/${quiz_id}`;
+  }, [quiz_id, BASE_URL]);
 
   const selectedQuiz = useMemo(
     () => (quiz?._id == quiz_id ? quiz : null),

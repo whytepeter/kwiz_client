@@ -1,5 +1,6 @@
+"use client";
 import { Quiz } from "@/types/quiz";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 
 import {
   DropdownMenu,
@@ -46,11 +47,16 @@ interface PropsType {
   children: React.ReactNode;
   quiz: Quiz;
 }
-const BASE_URL = window.location.origin;
+
 export default function QuizDropdown({ children, quiz }: PropsType) {
   const [open, setOpen] = useState(false);
   const { workspace_id } = useParams<{ workspace_id: string }>();
   const router = useRouter();
+
+  const BASE_URL = useMemo(() => {
+    if (typeof window === "undefined") return "";
+    return window.location.origin;
+  }, []);
 
   const handleClick = (item: ListType) => {
     switch (item.value) {
