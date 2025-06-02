@@ -44,7 +44,7 @@ export default function QuizCard({
                 color: colors?.option,
                 background: colors.background,
               }}
-              className="flex-shrink-0 h-9 w-9 bg-accent border-[0.5px] text-secondary-dark text-sm rounded-full flex items-center justify-center font-medium"
+              className="flex-shrink-0 h-9 w-9  border-[0.5px] text-secondary-dark text-sm rounded-full flex items-center justify-center font-medium"
             >
               {initials(quiz.title)}
             </div>
@@ -86,7 +86,7 @@ export default function QuizCard({
 
               color: colors.heading,
             }}
-            className="flex-shrink-0 text-2xl flex-1 w-full h-auto bg-accent  flex items-center justify-center font-medium"
+            className="flex-shrink-0 text-2xl flex-1 w-full h-auto  flex items-center justify-center font-medium"
           >
             {initials(quiz.title)}
           </div>
@@ -109,7 +109,7 @@ export default function QuizCard({
             </div>
             {!hideEssentials && (
               <QuizDropdown quiz={quiz}>
-                <span className="flex-shrink-0 hover:bg-accent w-8 h-8 cursor-pointer flex items-center justify-center rounded-full">
+                <span className="flex-shrink-0  w-8 h-8 cursor-pointer flex items-center justify-center rounded-full">
                   <img className="" src="/icons/ellipsis.svg" alt="" />
                 </span>
               </QuizDropdown>

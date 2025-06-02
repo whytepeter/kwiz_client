@@ -86,7 +86,7 @@ export default function OptionBox({ live }: Props) {
               style={optionContainerStyle}
               key={`option-${index}-${option?.id}`}
               className={cn(
-                "relative group p-1.5 capitalize  rounded-md border  flex items-center gap-2 w-[250px]"
+                "relative group p-1.5 capitalize  rounded-md border  flex items-center gap-2 min-w-[250px] w-fit"
               )}
             >
               <span
@@ -101,23 +101,28 @@ export default function OptionBox({ live }: Props) {
               >
                 {OPTION_IDS[index]}
               </span>
-              <input
-                type="text"
-                name="option"
-                readOnly={live}
-                ref={(el) => {
-                  if (el) inputRefs.current[index] = el!;
-                }}
-                value={option.text}
-                onChange={(e) => {
-                  handleUpdateOption(option, e.target.value);
-                }}
-                placeholder="choice"
-                className={cn(
-                  "w-full bg-transparent appearance-none focus:outline-none capitalize",
-                  live && "cursor-pointer"
-                )}
-              />
+
+              {live ? (
+                <p className=" pr-3">{option.text} </p>
+              ) : (
+                <input
+                  type="text"
+                  name="option"
+                  readOnly={live}
+                  ref={(el) => {
+                    if (el) inputRefs.current[index] = el!;
+                  }}
+                  value={option.text}
+                  onChange={(e) => {
+                    handleUpdateOption(option, e.target.value);
+                  }}
+                  placeholder="choice"
+                  className={cn(
+                    "w-full bg-transparent appearance-none focus:outline-none capitalize",
+                    live && "cursor-pointer"
+                  )}
+                />
+              )}
 
               {live && usersAnswer == option.id && (
                 <div

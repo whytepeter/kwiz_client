@@ -87,37 +87,48 @@ export default function QuestionBox({ live = false }: Props) {
                 !isMobileLayout && "md:px-16"
               )}
             >
-              <div className="flex flex-col gap-1">
-                <input
-                  readOnly={live}
-                  onChange={(e) => handleQuestionChange(e.target.value)}
-                  ref={questionRef}
-                  value={selectedQuestion.question}
-                  autoFocus
-                  type="text"
-                  name="question"
-                  placeholder="Your question here"
-                  style={{
-                    color: colors?.heading,
-                    caretColor: colors?.option,
-                  }}
-                  className={cn(
-                    "appearance-none bg-transparent  focus:outline-none ",
-                    isMobileLayout ? "text-base" : "text-xl "
-                  )}
-                />
+              {live ? (
+                <div className="flex flex-col gap-1">
+                  <h1 className="textbase md:text-xl xl:text-2xl">
+                    {selectedQuestion.question}
+                  </h1>
+                  <p className="text-xs !italic font-light">
+                    {selectedQuestion.description}
+                  </p>
+                </div>
+              ) : (
+                <div className="flex flex-col gap-1">
+                  <input
+                    readOnly={live}
+                    onChange={(e) => handleQuestionChange(e.target.value)}
+                    ref={questionRef}
+                    value={selectedQuestion.question}
+                    autoFocus
+                    type="text"
+                    name="question"
+                    placeholder="Your question here"
+                    style={{
+                      color: colors?.heading,
+                      caretColor: colors?.option,
+                    }}
+                    className={cn(
+                      "appearance-none bg-transparent  focus:outline-none ",
+                      isMobileLayout ? "text-base" : "text-xl "
+                    )}
+                  />
 
-                <input
-                  readOnly={live}
-                  onChange={(e) => handleDescriptionChange(e.target.value)}
-                  value={selectedQuestion.description}
-                  type="text"
-                  name="description"
-                  placeholder={!live ? "Description (optional)" : ""}
-                  style={{ color: colors?.heading }}
-                  className="appearance-none opacity-90 bg-transparent focus:outline-none text-xs !italic font-light "
-                />
-              </div>
+                  <input
+                    readOnly={live}
+                    onChange={(e) => handleDescriptionChange(e.target.value)}
+                    value={selectedQuestion.description}
+                    type="text"
+                    name="description"
+                    placeholder={!live ? "Description (optional)" : ""}
+                    style={{ color: colors?.heading }}
+                    className="appearance-none opacity-90 bg-transparent focus:outline-none text-xs !italic font-light "
+                  />
+                </div>
+              )}
 
               <OptionBox live={live} />
             </div>
