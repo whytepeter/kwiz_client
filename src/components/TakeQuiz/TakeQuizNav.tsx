@@ -57,8 +57,11 @@ export default function TakeQuizNav() {
               <span className="text-base">5:00</span>
             </div> */}
             <Button
+              style={{
+                background: colors?.buttonContainer,
+                color: colors?.buttonText,
+              }}
               onClick={() => setOpen(true)}
-              style={optionContainerStyle}
               size="small"
             >
               Submit

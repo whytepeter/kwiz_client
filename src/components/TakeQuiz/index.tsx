@@ -81,7 +81,7 @@ export default function index({ className }: Props) {
                 <QuestionBox live />
               </div>
 
-              <div className="space-y-2">
+              <div className="space-y-4 ">
                 <TakeQuizNavigation />
                 <QuestionNumbering />
               </div>

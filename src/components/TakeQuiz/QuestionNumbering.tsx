@@ -23,7 +23,7 @@ export default function QuestionNumbering() {
   };
 
   return (
-    <div className="flex items-center gap-2 md:gap-3 flex-wrap">
+    <div className="flex items-center justify-center sm:justify-start gap-2 md:gap-3 flex-wrap">
       {questions?.map((q, index) => (
         <div
           key={index}

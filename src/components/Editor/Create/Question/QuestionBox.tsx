@@ -63,7 +63,7 @@ export default function QuestionBox({ live = false }: Props) {
         className={cn(
           quiz?.theme?.font,
           isMobileLayout ? "w-[350px]" : "w-full ",
-          live ? "" : "border p-4 ",
+          !live && "border p-4 ",
           "overflow-hidden h-[90%]  relative flex flex-col gap-4"
         )}
       >
@@ -83,7 +83,8 @@ export default function QuestionBox({ live = false }: Props) {
 
             <div
               className={cn(
-                "flex-1 h-full flex flex-col justify-center px-6  gap-4",
+                "flex-1 h-full flex flex-col justify-center  gap-4",
+                !live && "px-6",
                 !isMobileLayout && "md:px-16"
               )}
             >

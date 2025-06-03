@@ -41,7 +41,7 @@ export default function TakeQuizNavigation() {
   };
 
   return (
-    <div className="flex items-center justify-end">
+    <div className="flex items-center justify-center sm:justify-end">
       <Button
         disabled={selectedQuestionIndex == 0}
         onClick={handlePrev}
