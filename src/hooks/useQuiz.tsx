@@ -19,7 +19,7 @@ export default function useQuiz() {
   }, []);
 
   const shareLink = useMemo(() => {
-    return `${BASE_URL}/quiz/${quiz_id}`;
+    return `${BASE_URL}/q/${quiz_id}`;
   }, [quiz_id, BASE_URL]);
 
   const selectedQuiz = useMemo(
