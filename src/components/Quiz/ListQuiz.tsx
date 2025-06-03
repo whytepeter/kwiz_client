@@ -47,7 +47,7 @@ export default function ListQuiz() {
             className={`${
               quizDisplay === "LIST"
                 ? "flex-col flex"
-                : "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+                : "grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
             } gap-4 w-full`}
           >
             {quizzes.map((quiz: Quiz) => (
