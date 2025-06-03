@@ -69,7 +69,6 @@ export default function TakeQuizUserInfo({
         quizTaker: {
           ...values,
         },
-        answeredQuestions: [],
       });
       onDone?.();
       handleClose();

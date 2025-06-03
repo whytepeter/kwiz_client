@@ -69,7 +69,7 @@ export default function QuestionBox({ live = false }: Props) {
       >
         {selectedQuestion && (
           <>
-            {selectedQuestionIndex !== undefined && (
+            {!live && selectedQuestionIndex !== undefined && (
               <div
                 style={{
                   borderColor: colors?.option,

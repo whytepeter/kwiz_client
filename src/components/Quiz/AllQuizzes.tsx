@@ -75,6 +75,7 @@ export default function AllQuizzes() {
     dataStore.setState({
       quizTaker: null,
       activeQuestion: null,
+      answeredQuestions: [],
     });
     router.push(`/q/${quiz_id}`);
   };
