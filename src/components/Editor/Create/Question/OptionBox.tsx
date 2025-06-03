@@ -249,7 +249,7 @@ export default function OptionBox({ live }: Props) {
             className={cn(
               "bg-transparent max-h-[100px] appearance-none focus:outline-none  italic border-b  w-full py-2 ",
               isMobileLayout ? "text-sm" : "text-xl",
-              live ? "" : "pointer-events-none"
+              !live && "pointer-events-none"
             )}
           />
         </div>
