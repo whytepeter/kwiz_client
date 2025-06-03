@@ -105,7 +105,7 @@ export default function AllQuizzes() {
 
         {loading && !quizzes?.length && <QuizLoadingState overridedDisplay />}
 
-        <div className="flex items-center gap-4 mg:gap-5 ">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {quizzes?.map((quiz) => (
             <QuizCard
               overridedDisplay

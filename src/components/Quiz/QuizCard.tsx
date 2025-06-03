@@ -74,7 +74,7 @@ export default function QuizCard({
             fontFamily: quiz?.theme?.fontName,
           }}
           onClick={onClick}
-          className="cursor-pointer aspect-[6/4] w-full max-w-[300px]  rounded-xl overflow-hidden flex flex-col "
+          className="cursor-pointer aspect-[5/4] sm:aspect-[6/4] w-full sm:max-w-[300px]  rounded-xl overflow-hidden flex flex-col "
         >
           <div
             style={{
